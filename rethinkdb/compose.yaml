@@ -6,8 +6,8 @@ services:
     container_name: rethinkdb
     restart: unless-stopped
     volumes:
-     - ./rethinkdb.conf:/etc/rethinkdb/default.conf
-     - rethinkdb_data:/data
+      - ./rethinkdb.conf:/etc/rethinkdb/default.conf
+      - rethinkdb_data:/data
     command: rethinkdb --config-file /etc/rethinkdb/default.conf
     networks:
       - default
@@ -19,7 +19,7 @@ services:
         tag: "{{.Name}}"
 
 volumes:
-  rethinkdb_data:
+  rethinkdb_data: null
 
 networks:
   default:
