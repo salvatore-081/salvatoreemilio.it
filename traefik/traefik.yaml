@@ -1,0 +1,42 @@
+log:
+  level: DEBUG
+
+certificatesResolvers:
+  myresolver:
+    acme:
+      caserver: https://acme-staging-v02.api.letsencrypt.org/directory
+      email: info@salvatoreemilio.it
+      storage: /letsencrypt/acme.json
+      dnsChallenge:
+        provider: ovh
+        # delayBeforeCheck: 10
+
+http:
+  routers:
+    blog:
+      rule: "Host(`salvatoreemilio.com`)"
+      tls:
+        certResolver: myresolver
+        domains:
+          - main: "salvatoreemilio.it"
+            sans:
+              - "auth.salvatoreemilio.it"
+              - "grafana.salvatoreemilio.it"
+              - "portainer.salvatoreemilio.it"
+              - "api.salvatoreemilio.it"
+              - "dev.salvatoreemilio.it"
+
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+  websecure:
+    address: ":443"
+
+providers:
+  docker:
+    exposedByDefault: false

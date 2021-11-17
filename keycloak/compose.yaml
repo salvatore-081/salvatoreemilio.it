@@ -1,0 +1,64 @@
+version: "3.8"
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak
+    command: ["-Djboss.http.port=12000"]
+    restart: unless-stopped
+    environment:
+      DB_PORT: 13010
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_SCHEMA: public
+      KEYCLOAK_USER: ${KEYCLOAK_USER}
+      KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
+      PROXY_ADDRESS_FORWARDING: 'true'
+    networks:
+      - default
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
+        max-file: "3"
+        tag: "{{.Name}}"
+    depends_on:
+      - postgres
+    labels:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.keycloak.loadbalancer.server.port=12000"
+      - "traefik.http.routers.keycloak.rule=Host(`iam.salvatoreemilio.it`) || Host(`www.iam.salvatoreemilio.it`)"
+      - "traefik.http.routers.keycloak.tls.certresolver=myresolver"
+      - "traefik.http.routers.keycloak.entrypoints=websecure"
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    command: ["-p 13010"]
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - default
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
+        max-file: "3"
+        tag: "{{.Name}}"
+
+volumes:
+  postgres_data:
+
+networks:
+  default:
+    external: true
+    name: se_default

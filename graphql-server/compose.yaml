@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  graphql-server:
+    build: ./
+    container_name: graphql-server
+    restart: unless-stopped
+    environment:
+      - PORT=14010
+      - LOG_LEVEL=DEBUG
+      - DB_HOST=rethinkdb
+      - DB_PORT=13020
+      - DB_DATABASE=salvatoreemilio
+    networks:
+      - default
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
+        max-file: "3"
+        tag: "{{.Name}}"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.graphql-server.loadbalancer.server.port=14010"
+      - "traefik.http.routers.graphql-server.rule=Host(`dev.salvatoreemilio.it`) || Host(`www.dev.salvatoreemilio.it`)"
+      - "traefik.http.routers.graphql-server.tls.certresolver=myresolver"
+      - "traefik.http.routers.graphql-server.entrypoints=websecure"
+
+networks:
+ default:
+   external: true
+   name: se_default
