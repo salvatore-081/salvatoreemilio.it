@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/99designs/gqlgen/graphql/handler"
-	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/httplog"
 
@@ -72,9 +71,9 @@ func main() {
 	router := chi.NewRouter()
 	router.Use(httplog.RequestLogger(log.Logger))
 
-	router.Handle("/graphql", playground.Handler("GraphQL Playground", "/"))
-	log.Info().Msg("graphql-server listening on port " + port)
+	// router.Handle("/graphql", playground.Handler("GraphQL Playground", "/"))
 
+	log.Info().Msg("graphql-server listening on port " + port)
 	router.Handle("/", srv)
 
 	log.Fatal().Err(http.ListenAndServe(":"+port, router)).Msg("")
