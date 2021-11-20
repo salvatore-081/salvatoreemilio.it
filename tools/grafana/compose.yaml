@@ -21,7 +21,8 @@ services:
       - GF_AUTH_GENERIC_OAUTH_AUTH_URL=https://iam.salvatoreemilio.it/auth/realms/se/protocol/openid-connect/auth
       - GF_AUTH_GENERIC_OAUTH_TOKEN_URL=https://iam.salvatoreemilio.it/auth/realms/se/protocol/openid-connect/token
       - GF_AUTH_GENERIC_OAUTH_API_URL=https://iam.salvatoreemilio.it/auth/realms/se/protocol/openid-connect/userinfo
-      - GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH=contains(roles[*], 'admin') && 'Admin' || contains(roles[*], 'editor') && 'Editor' || 'Viewer'
+      - GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH=contains(roles[*], 'admin') &&
+        'Admin' || contains(roles[*], 'editor') && 'Editor' || 'Viewer'
       - GF_SERVER_ROOT_URL=https://grafana.salvatoreemilio.it
       - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=data/dashboard.json
     networks:
@@ -35,50 +36,13 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.grafana.loadbalancer.server.port=11000"
-      - "traefik.http.routers.grafana.rule=Host(`grafana.salvatoreemilio.it`) || Host(`www.grafana.salvatoreemilio.it`)"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.salvatoreemilio.it`) ||
+        Host(`www.grafana.salvatoreemilio.it`)"
       - "traefik.http.routers.grafana.tls.certresolver=myresolver"
       - "traefik.http.routers.grafana.entrypoints=websecure"
 
-  loki:
-    container_name: loki
-    image: grafana/loki:2.3.0
-    command: -config.file=/etc/loki/loki-config.yaml
-    restart: unless-stopped
-    volumes:
-      - ./loki/config.yaml:/etc/loki/loki-config.yaml
-      - loki_data:/data/loki
-    networks:
-      - default
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1024m"
-        max-file: "3"
-        tag: "{{.Name}}"
-    depends_on:
-      - promtail
-
-  promtail:
-    container_name: promtail
-    image: grafana/promtail:2.3.0
-    restart: unless-stopped
-    command: -config.file=/etc/promtail/promtail-config.yaml
-    volumes:
-      - /var/lib/docker/containers:/var/lib/docker/containers:ro
-      - /var/log/auth.log:/var/log/auth_host.log
-      - ./promtail/config.yaml:/etc/promtail/promtail-config.yaml
-    networks:
-      - default
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1024m"
-        max-file: "3"
-        tag: "{{.Name}}"
-
 volumes:
-  grafana_data:
-  loki_data:
+  grafana_data: null
 
 networks:
   default:

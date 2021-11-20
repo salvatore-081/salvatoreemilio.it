@@ -4,7 +4,7 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:latest
     container_name: keycloak
-    command: ["-Djboss.http.port=12000"]
+    command: [ "-Djboss.http.port=12000" ]
     restart: unless-stopped
     environment:
       DB_PORT: 13010
@@ -28,17 +28,17 @@ services:
     depends_on:
       - postgres
     labels:
-    labels:
       - "traefik.enable=true"
       - "traefik.http.services.keycloak.loadbalancer.server.port=12000"
-      - "traefik.http.routers.keycloak.rule=Host(`iam.salvatoreemilio.it`) || Host(`www.iam.salvatoreemilio.it`)"
+      - "traefik.http.routers.keycloak.rule=Host(`iam.salvatoreemilio.it`) ||
+        Host(`www.iam.salvatoreemilio.it`)"
       - "traefik.http.routers.keycloak.tls.certresolver=myresolver"
       - "traefik.http.routers.keycloak.entrypoints=websecure"
 
   postgres:
     image: postgres:latest
     container_name: postgres
-    command: ["-p 13010"]
+    command: [ "-p 13010" ]
     restart: unless-stopped
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -58,6 +58,7 @@ services:
 volumes:
   postgres_data:
 
+    null
 networks:
   default:
     external: true

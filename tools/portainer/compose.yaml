@@ -4,7 +4,7 @@ services:
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
-    command: ["--bind=:11990", "--bind-https=:11991"]
+    command: [ "--bind=:11990", "--bind-https=:11991" ]
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -20,12 +20,14 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.portainer.loadbalancer.server.port=11990"
-      - "traefik.http.routers.portainer.rule=Host(`portainer.salvatoreemilio.it`) || Host(`www.portainer.salvatoreemilio.it`)"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.salvatoreemilio.it\
+        `) || Host(`www.portainer.salvatoreemilio.it`)"
       - "traefik.http.routers.portainer.tls.certresolver=myresolver"
       - "traefik.http.routers.portainer.entrypoints=websecure"
 volumes:
   portainer_data:
 
+    null
 networks:
   default:
     external: true
