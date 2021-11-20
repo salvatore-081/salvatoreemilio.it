@@ -4,8 +4,8 @@ WORKDIR /app
 
 COPY . ./
 
-RUN pip install pipenv
+RUN pip3 install pipenv
 
 RUN pipenv install --deploy --system 
 
-CMD ["python3 main.py"]
+CMD ["python3", "main.py"]
