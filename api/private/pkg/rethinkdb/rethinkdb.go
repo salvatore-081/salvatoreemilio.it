@@ -20,7 +20,7 @@ func (rdb *RethinkDB) NewSession() (e error) {
 	r.SetTags("json")
 
 	a := os.Getenv("DB_HOST") + ":" + os.Getenv("DB_PORT")
-	log.Info().Msg(fmt.Sprintf("connect database at %s", a))
+	log.Info().Msg(fmt.Sprintf("establishing database connection at %s", a))
 
 	db := os.Getenv("DB_DATABASE")
 	if db == "" {

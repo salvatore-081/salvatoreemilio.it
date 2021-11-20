@@ -73,7 +73,7 @@ func main() {
 
 	// router.Handle("/graphql", playground.Handler("GraphQL Playground", "/"))
 
-	log.Info().Msg("graphql-server listening on port " + port)
+	log.Info().Msg("GraphQL private API server is listening on port " + port)
 	router.Handle("/", srv)
 
 	log.Fatal().Err(http.ListenAndServe(":"+port, router)).Msg("")

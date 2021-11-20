@@ -5,5 +5,4 @@ router = APIRouter()
 
 @router.get("/")
 def read_items():
-    return "ok"
-
+    return "Hello World!"

@@ -8,7 +8,7 @@ from fastapi import FastAPI
 # from rest.v1.api import api_router
 
 api_router = APIRouter()
-api_router.include_router(items.router, prefix="/items", tags=["items"])
+api_router.include_router(items.router, prefix="/test", tags=["test"])
 
 app = FastAPI(
     title="salvatoreemilio", openapi_url="/openapi.json"
@@ -25,4 +25,3 @@ app = FastAPI(
 
 
 app.include_router(api_router, prefix="")
-

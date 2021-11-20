@@ -1,9 +1,9 @@
 version: "3.8"
 
 services:
-  graphql-server:
+  private-api:
     build: ./
-    container_name: graphql-server
+    container_name: private-api
     restart: unless-stopped
     environment:
       - PORT=14010

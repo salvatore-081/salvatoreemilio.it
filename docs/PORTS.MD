@@ -13,7 +13,8 @@
 - RETHINKDB_DRIVER: 13020 ```./rethinkdb/rethinkdb.conf```
 - RETHINKDB_CLUSTER: 13021  ```./rethinkdb/rethinkdb.conf```
 ## API
-- GRAPHQL_SERVER: 14010 ```./.env```
+- PRIVATE: 14010 ```./.env```
+- PUBLIC: 14020 
 ## WEBSERVER
 - NGINX: 15000  ```./.env ./nginx/conf.d/default.conf```
 
