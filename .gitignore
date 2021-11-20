@@ -1,2 +1,7 @@
 **/*.env
 /traefik/letsencrypt
+
+
+__pycache__/
+*.py[cod]
+*$py.class
