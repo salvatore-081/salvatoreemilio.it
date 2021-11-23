@@ -7,6 +7,6 @@ def getUserRouter(gqlClient: GQLClient):
 
     @router.get("/{email}")
     async def get_user(email: str):
-        return gqlClient.get_user(email=email)
+        return await gqlClient.get_user(email=email)
 
     return router
