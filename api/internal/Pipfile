@@ -4,17 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-fastapi = "==0.70.0"
-gql = "==3.0.0b1"
 
 [dev-packages]
 
 [requires]
 python_version = "3.9"
-
-[pipenv]
-allow_prereleases = true
-
-[packages.uvicorn]
-extras = [ "standard",]
-version = "==0.15.0"

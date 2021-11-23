@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.9-alpine
 
 WORKDIR /app
 
@@ -6,6 +6,6 @@ COPY . ./
 
 RUN pip3 install pipenv
 
-RUN pipenv install --deploy --system 
+RUN pipenv install --deploy --system
 
 CMD ["python3", "main.py"]

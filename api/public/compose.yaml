@@ -6,6 +6,8 @@ services:
     container_name: public-api
     restart: unless-stopped
     environment:
+      - INTERNAL_API_HOST=internal-api
+      - INTERNAL_API_PORT=14010
       - PORT=14020
     networks:
       - default

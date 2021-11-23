@@ -3,7 +3,7 @@ version: "3.8"
 services:
   private-api:
     build: ./
-    container_name: private-api
+    container_name: internal-api
     restart: unless-stopped
     environment:
       - PORT=14010
