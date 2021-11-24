@@ -23,6 +23,9 @@ class GQLClient():
             url=host), fetch_schema_from_transport=True)
 
     async def get_user(self, email: str):
-        res = await self.client.execute_async(
-            GET_USER, variable_values={"email": email})
-        return res
+        try:
+            res = await self.client.execute_async(
+                GET_USER, variable_values={"email": email})
+            return res
+        except Exception as e:
+            raise e
