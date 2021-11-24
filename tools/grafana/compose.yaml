@@ -42,7 +42,8 @@ services:
       - "traefik.http.routers.grafana.entrypoints=websecure"
 
 volumes:
-  grafana_data: null
+  grafana_data:
+    external: true
 
 networks:
   default:

@@ -39,7 +39,8 @@ services:
         tag: "{{.Name}}"
 
 volumes:
-  loki_data: null
+  loki_data:
+    external: true
 
 networks:
   default:

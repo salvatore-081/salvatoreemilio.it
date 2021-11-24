@@ -19,7 +19,8 @@ services:
         tag: "{{.Name}}"
 
 volumes:
-  rethinkdb_data: null
+  rethinkdb_data:
+    external: true
 
 networks:
   default:

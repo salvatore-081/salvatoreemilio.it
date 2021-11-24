@@ -77,8 +77,7 @@ services:
 
 volumes:
   prometheus_data:
-
-    null
+    external: true
 networks:
   default:
     external: true
