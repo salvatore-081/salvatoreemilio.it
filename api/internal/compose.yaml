@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  private-api:
+  internal-api:
     build: ./
     container_name: internal-api
     restart: unless-stopped

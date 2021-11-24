@@ -6,7 +6,7 @@ COPY . ./
 
 RUN go mod download
 
-RUN go build -o /graphql-server
+RUN go build -o /internal-api
 
-CMD ["/graphql-server"]
+CMD ["/internal-api"]
 
