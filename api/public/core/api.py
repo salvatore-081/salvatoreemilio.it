@@ -5,7 +5,7 @@ from .routers.users import getUserRouter
 
 
 gqlClient = GQLClient(
-    f"{getenv('INTERNAL_API_HOST', 'internal-api')}:{getenv('INTERNAL_API_PORT', '14010')}")
+    f"http://{getenv('INTERNAL_API_HOST', 'internal-api')}:{getenv('INTERNAL_API_PORT', '14010')}/")
 
 api_router = APIRouter()
 users_router = getUserRouter(gqlClient)
