@@ -2,6 +2,9 @@ from os import getenv
 from fastapi import FastAPI, APIRouter
 from deps.gql import GQLClient
 from .routers.users import getUserRouter
+from ariadne import ObjectType, QueryType, gql, make_executable_schema
+from ariadne.asgi import GraphQL
+from .graphql.query import getQuery
 
 
 gqlClient = GQLClient(
@@ -26,3 +29,6 @@ app = FastAPI(
 #     )
 
 app.include_router(api_router, prefix="")
+
+gqlApp = GraphQL(make_executable_schema(gqlClient.get_schema(), getQuery()))
+app.mount("/graphql/", gqlApp)
