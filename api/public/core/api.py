@@ -1,23 +1,30 @@
 from os import getenv
 from fastapi import FastAPI, APIRouter
-from deps.gql import GQLClient
-from .routers.users import getUserRouter
-from ariadne import ObjectType, QueryType, gql, make_executable_schema
+from .routers.users import getUsersRouter
+from ariadne import ObjectType, QueryType, make_executable_schema
 from ariadne.asgi import GraphQL
 from .graphql.query import getQuery
+from state.appState import AppState
 
 
-gqlClient = GQLClient(
-    f"http://{getenv('INTERNAL_API_HOST', 'internal-api')}:{getenv('INTERNAL_API_PORT', '14010')}/")
+appState = AppState()
 
 api_router = APIRouter()
-users_router = getUserRouter(gqlClient)
+
+users_router = getUsersRouter(appState)
 
 api_router.include_router(users_router, prefix="/users", tags=["users"])
 
 app = FastAPI(
     title="salvatoreemilio.it", openapi_url="/openapi.json"
 )
+
+app.include_router(api_router, prefix="")
+
+gqlApp = GraphQL(make_executable_schema(
+    appState.select_gqlClient().get_schema(), getQuery()))
+
+app.mount("/graphql/", gqlApp)
 
 # # Set all CORS enabled origins
 # app.add_middleware(
@@ -27,8 +34,3 @@ app = FastAPI(
 #         allow_methods=["*"],
 #         allow_headers=["*"],
 #     )
-
-app.include_router(api_router, prefix="")
-
-gqlApp = GraphQL(make_executable_schema(gqlClient.get_schema(), getQuery()))
-app.mount("/graphql/", gqlApp)

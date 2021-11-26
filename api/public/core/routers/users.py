@@ -1,14 +1,16 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from fastapi.params import Depends
 from starlette.responses import JSONResponse
+from state.appState import AppState
 from deps.gql import GQLClient
 from models.user import User
 
 
-def getUserRouter(gqlClient: GQLClient):
+def getUsersRouter(appState: AppState):
     router = APIRouter()
 
     @router.get("/{email}", response_model=User)
-    async def get_user(email: str):
+    async def get_user(email: str, gqlClient: GQLClient = Depends(appState.select_gqlClient)):
         try:
             r = await gqlClient.get_user(email=email)
             if not r['getUser']:
