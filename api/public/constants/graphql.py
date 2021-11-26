@@ -1,2 +1,40 @@
-INTROSPECTION_QUERY = {
-    "query": "query IntrospectionQuery { __schema { queryType { name } mutationType { name } subscriptionType { name } types { ...FullType } directives { name description args { ...InputValue } onOperation onFragment onField } } } fragment FullType on __Type { kind name description fields(includeDeprecated: true) { name description args { ...InputValue } type { ...TypeRef } isDeprecated deprecationReason } inputFields { ...InputValue } interfaces { ...TypeRef } enumValues(includeDeprecated: true) { name description isDeprecated deprecationReason } possibleTypes { ...TypeRef } } fragment InputValue on __InputValue { name description type { ...TypeRef } defaultValue } fragment TypeRef on __Type { kind name ofType { kind name ofType { kind name ofType { kind name } } } }}}}}"}
+SCHEMA = """type Query {
+  getUser(email: String!): User
+}
+
+type Mutation {
+  createUser(input: CreateUserInput!): User
+  updateUser(input: UpdateUserInput!): User
+}
+
+type Subscription {
+  watchUser(email: String!): User
+}
+
+input CreateUserInput {
+  email: String!
+  name: String
+  surname: String
+  phoneNumber: String
+  currentLocation: String
+}
+
+input UpdateUserInput {
+  email: String!
+  set: UpdateUserInputSet!
+}
+
+input UpdateUserInputSet {
+  name: String
+  surname: String
+  phoneNumber: String
+  currentLocation: String
+}
+
+type User {
+  email: String!
+  name: String
+  surname: String
+  phoneNumber: String
+  currentLocation: String
+}"""

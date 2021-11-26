@@ -1,10 +1,10 @@
-from os import getenv
 from fastapi import FastAPI, APIRouter
-from .routers.users import getUsersRouter
-from ariadne import ObjectType, QueryType, make_executable_schema
+from ariadne import make_executable_schema
 from ariadne.asgi import GraphQL
-from .graphql.query import getQuery
 from state.appState import AppState
+from constants.graphql import SCHEMA
+from .routers.users import getUsersRouter
+from .graphql.query import getQuery
 
 
 appState = AppState()
@@ -22,9 +22,9 @@ app = FastAPI(
 app.include_router(api_router, prefix="")
 
 gqlApp = GraphQL(make_executable_schema(
-    appState.select_gqlClient().get_schema(), getQuery()))
+    SCHEMA, getQuery(appState)), keepalive=30)
 
-app.mount("/graphql/", gqlApp)
+app.mount("/graphql", gqlApp)
 
 # # Set all CORS enabled origins
 # app.add_middleware(
