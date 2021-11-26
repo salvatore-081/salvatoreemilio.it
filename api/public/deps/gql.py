@@ -33,7 +33,7 @@ class GQLClient():
             res = requests.post(
                 self.url, json={"query": get_introspection_query()}, headers={"Content-Type": "application/json"})
             s = json.loads(res.text)
-            return linesep.join([s for s in print_schema(build_client_schema(s["data"])).replace("#", "", -1).splitlines() if s])
+            return "".join([s for s in print_schema(build_client_schema(s["data"])).replace("#", "").strip().splitlines(True) if s.strip()]).replace("}", "}\n")
         except Exception as e:
             raise e
 
