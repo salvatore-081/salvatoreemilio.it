@@ -45,7 +45,7 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	Mutation struct {
-		CreateUser func(childComplexity int, input models.CreateUserInput) int
+		AddUser    func(childComplexity int, input models.AddUserInput) int
 		UpdateUser func(childComplexity int, input models.UpdateUserInput) int
 	}
 
@@ -67,7 +67,7 @@ type ComplexityRoot struct {
 }
 
 type MutationResolver interface {
-	CreateUser(ctx context.Context, input models.CreateUserInput) (*models.User, error)
+	AddUser(ctx context.Context, input models.AddUserInput) (*models.User, error)
 	UpdateUser(ctx context.Context, input models.UpdateUserInput) (*models.User, error)
 }
 type QueryResolver interface {
@@ -92,17 +92,17 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 	_ = ec
 	switch typeName + "." + field {
 
-	case "Mutation.createUser":
-		if e.complexity.Mutation.CreateUser == nil {
+	case "Mutation.addUser":
+		if e.complexity.Mutation.AddUser == nil {
 			break
 		}
 
-		args, err := ec.field_Mutation_createUser_args(context.TODO(), rawArgs)
+		args, err := ec.field_Mutation_addUser_args(context.TODO(), rawArgs)
 		if err != nil {
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateUser(childComplexity, args["input"].(models.CreateUserInput)), true
+		return e.complexity.Mutation.AddUser(childComplexity, args["input"].(models.AddUserInput)), true
 
 	case "Mutation.updateUser":
 		if e.complexity.Mutation.UpdateUser == nil {
@@ -261,7 +261,7 @@ var sources = []*ast.Source{
 }
 
 type Mutation {
-  createUser(input: CreateUserInput!): User
+  addUser(input: AddUserInput!): User
   updateUser(input: UpdateUserInput!): User
 }
 
@@ -269,7 +269,7 @@ type Subscription {
   watchUser(email: String!): User
 }
 
-input CreateUserInput {
+input AddUserInput {
   email: String!
   name: String
   surname: String
@@ -303,13 +303,13 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 
 // region    ***************************** args.gotpl *****************************
 
-func (ec *executionContext) field_Mutation_createUser_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Mutation_addUser_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 models.CreateUserInput
+	var arg0 models.AddUserInput
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNCreateUserInput2githubᚗcomᚋsalvatoreᚗ081ᚋsalvatoreemilioᚑitᚑgraphqlᚑserverᚋmodelsᚐCreateUserInput(ctx, tmp)
+		arg0, err = ec.unmarshalNAddUserInput2githubᚗcomᚋsalvatoreᚗ081ᚋsalvatoreemilioᚑitᚑgraphqlᚑserverᚋmodelsᚐAddUserInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -416,7 +416,7 @@ func (ec *executionContext) field___Type_fields_args(ctx context.Context, rawArg
 
 // region    **************************** field.gotpl *****************************
 
-func (ec *executionContext) _Mutation_createUser(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+func (ec *executionContext) _Mutation_addUser(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -433,7 +433,7 @@ func (ec *executionContext) _Mutation_createUser(ctx context.Context, field grap
 
 	ctx = graphql.WithFieldContext(ctx, fc)
 	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_createUser_args(ctx, rawArgs)
+	args, err := ec.field_Mutation_addUser_args(ctx, rawArgs)
 	if err != nil {
 		ec.Error(ctx, err)
 		return graphql.Null
@@ -441,7 +441,7 @@ func (ec *executionContext) _Mutation_createUser(ctx context.Context, field grap
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateUser(rctx, args["input"].(models.CreateUserInput))
+		return ec.resolvers.Mutation().AddUser(rctx, args["input"].(models.AddUserInput))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1938,8 +1938,8 @@ func (ec *executionContext) ___Type_ofType(ctx context.Context, field graphql.Co
 
 // region    **************************** input.gotpl *****************************
 
-func (ec *executionContext) unmarshalInputCreateUserInput(ctx context.Context, obj interface{}) (models.CreateUserInput, error) {
-	var it models.CreateUserInput
+func (ec *executionContext) unmarshalInputAddUserInput(ctx context.Context, obj interface{}) (models.AddUserInput, error) {
+	var it models.AddUserInput
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -2094,8 +2094,8 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Mutation")
-		case "createUser":
-			out.Values[i] = ec._Mutation_createUser(ctx, field)
+		case "addUser":
+			out.Values[i] = ec._Mutation_addUser(ctx, field)
 		case "updateUser":
 			out.Values[i] = ec._Mutation_updateUser(ctx, field)
 		default:
@@ -2455,6 +2455,11 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 
 // region    ***************************** type.gotpl *****************************
 
+func (ec *executionContext) unmarshalNAddUserInput2githubᚗcomᚋsalvatoreᚗ081ᚋsalvatoreemilioᚑitᚑgraphqlᚑserverᚋmodelsᚐAddUserInput(ctx context.Context, v interface{}) (models.AddUserInput, error) {
+	res, err := ec.unmarshalInputAddUserInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNBoolean2bool(ctx context.Context, v interface{}) (bool, error) {
 	res, err := graphql.UnmarshalBoolean(v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -2468,11 +2473,6 @@ func (ec *executionContext) marshalNBoolean2bool(ctx context.Context, sel ast.Se
 		}
 	}
 	return res
-}
-
-func (ec *executionContext) unmarshalNCreateUserInput2githubᚗcomᚋsalvatoreᚗ081ᚋsalvatoreemilioᚑitᚑgraphqlᚑserverᚋmodelsᚐCreateUserInput(ctx context.Context, v interface{}) (models.CreateUserInput, error) {
-	res, err := ec.unmarshalInputCreateUserInput(ctx, v)
-	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNString2string(ctx context.Context, v interface{}) (string, error) {

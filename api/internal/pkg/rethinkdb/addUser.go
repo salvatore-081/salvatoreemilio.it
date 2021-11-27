@@ -10,7 +10,7 @@ import (
 	"github.com/salvatore.081/salvatoreemilio-it-graphql-server/models"
 )
 
-func (rdb *RethinkDB) CreateUser(ctx context.Context, input models.CreateUserInput) (*models.User, error) {
+func (rdb *RethinkDB) AddUser(ctx context.Context, input models.AddUserInput) (*models.User, error) {
 	wr, e := r.Table(defaultTable).Insert(input, r.InsertOpts{
 		ReturnChanges: true,
 	}).RunWrite(rdb.session)
@@ -19,7 +19,7 @@ func (rdb *RethinkDB) CreateUser(ctx context.Context, input models.CreateUserInp
 	}
 
 	if len(wr.Changes) == 0 {
-		return nil, errors.New("createUser unexpected error")
+		return nil, errors.New("addUser unexpected error")
 	}
 
 	d, e := json.Marshal(wr.Changes[0].NewValue)

@@ -1,6 +1,6 @@
 package models
 
-type CreateUserInput struct {
+type AddUserInput struct {
 	Email           string  `json:"email,omitempty"`
 	Name            *string `json:"name,omitempty"`
 	Surname         *string `json:"surname,omitempty"`

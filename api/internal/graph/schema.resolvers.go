@@ -10,8 +10,8 @@ import (
 	"github.com/salvatore.081/salvatoreemilio-it-graphql-server/models"
 )
 
-func (r *mutationResolver) CreateUser(ctx context.Context, input models.CreateUserInput) (*models.User, error) {
-	return r.DB.CreateUser(ctx, input)
+func (r *mutationResolver) AddUser(ctx context.Context, input models.AddUserInput) (*models.User, error) {
+	return r.DB.AddUser(ctx, input)
 }
 
 func (r *mutationResolver) UpdateUser(ctx context.Context, input models.UpdateUserInput) (*models.User, error) {
