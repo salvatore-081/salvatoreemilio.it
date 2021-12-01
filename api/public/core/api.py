@@ -17,7 +17,7 @@ try:
     auth_router = auth.getAuthRouter(appState)
 
     api_router.include_router(users_router, prefix="/users", tags=["users"])
-    # api_router.include_router(auth_router, prefix=("/auth"), tags=["auth"])
+    api_router.include_router(auth_router, prefix=("/auth"), tags=["auth"])
 
     app = FastAPI(
         title="salvatoreemilio.it", openapi_url="/openapi.json"

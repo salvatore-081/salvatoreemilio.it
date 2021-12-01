@@ -1,25 +1,10 @@
-from logging import exception
-from typing import Optional
 from fastapi import APIRouter, Depends
 from fastapi.params import Depends
-from pydantic.main import BaseModel
 from starlette.responses import JSONResponse
 from state.appState import AppState
 from deps.gql import GQLClient
 from models.user import User
-
-
-class InternalServerError(BaseModel):
-    message: str
-    debug: Optional[str]
-
-
-class NotFound(BaseModel):
-    message: str
-
-
-class Conflict(BaseModel):
-    message: str
+from models.fastapi_responses import *
 
 
 def getUsersRouter(appState: AppState):
@@ -32,14 +17,14 @@ def getUsersRouter(appState: AppState):
             if not r['getUser']:
                 return JSONResponse(
                     status_code=404,
-                    content={"message": f"{email} not found"}
+                    content=NotFound(detail=f"{email} not found").dict()
                 )
             else:
                 return r['getUser']
         except Exception as e:
             return JSONResponse(
                 status_code=500,
-                content={"message": "unexpected error", "debug": str(e)}
+                content=InternalServerError(debug=str(e)).dict()
             )
 
     @router.post("", response_model=User, status_code=201, responses={500: {"model": InternalServerError}, 409: {"model": Conflict}}, response_model_exclude_unset=True, response_model_exclude_none=True)
@@ -49,7 +34,8 @@ def getUsersRouter(appState: AppState):
             if check['getUser']:
                 return JSONResponse(
                     status_code=409,
-                    content={"message": f"{user.email} already exists"}
+                    content=Conflict(
+                        detail=f"{user.email} already exists").dict()
                 )
             r = await gqlClient.add_user(user=user)
 
@@ -57,7 +43,7 @@ def getUsersRouter(appState: AppState):
         except Exception as e:
             return JSONResponse(
                 status_code=500,
-                content={"message": "unexpected error", "debug": str(e)}
+                content=InternalServerError(debug=str(e)).dict()
             )
 
     return router
