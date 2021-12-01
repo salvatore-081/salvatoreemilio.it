@@ -18,7 +18,7 @@ class Keycloak:
                 raise
 
             service_account_client_secret_key = getenv(
-                "KEYCLOAK_SERCICE_ACCOUNT_CLIENT_SECRET_KEY")
+                "KEYCLOAK_SERVICE_ACCOUNT_CLIENT_SECRET_KEY")
             if service_account_client_secret_key is None:
                 raise
 
