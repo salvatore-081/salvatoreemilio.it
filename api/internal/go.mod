@@ -1,4 +1,4 @@
-module github.com/salvatore.081/salvatoreemilio-it-graphql-server
+module github.com/salvatore.081/salvatoreemilio-it-internal-api
 
 go 1.17
 

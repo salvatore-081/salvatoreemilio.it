@@ -1,7 +1,7 @@
 package graph
 
 import (
-	"github.com/salvatore.081/salvatoreemilio-it-graphql-server/pkg/rethinkdb"
+	"github.com/salvatore.081/salvatoreemilio-it-internal-api/pkg/rethinkdb"
 )
 
 // This file will not be regenerated automatically.

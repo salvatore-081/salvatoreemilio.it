@@ -5,7 +5,7 @@ import (
 
 	r "gopkg.in/rethinkdb/rethinkdb-go.v6"
 
-	"github.com/salvatore.081/salvatoreemilio-it-graphql-server/models"
+	"github.com/salvatore.081/salvatoreemilio-it-internal-api/models"
 )
 
 func (rdb *RethinkDB) GetUser(ctx context.Context, email string) (*models.User, error) {

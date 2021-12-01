@@ -12,10 +12,10 @@ import (
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	"github.com/salvatore.081/salvatoreemilio-it-graphql-server/graph"
-	"github.com/salvatore.081/salvatoreemilio-it-graphql-server/pkg/rethinkdb"
+	"github.com/salvatore.081/salvatoreemilio-it-internal-api/graph"
+	"github.com/salvatore.081/salvatoreemilio-it-internal-api/pkg/rethinkdb"
 
-	"github.com/salvatore.081/salvatoreemilio-it-graphql-server/graph/generated"
+	"github.com/salvatore.081/salvatoreemilio-it-internal-api/graph/generated"
 )
 
 func main() {
@@ -73,7 +73,7 @@ func main() {
 
 	// router.Handle("/graphql", playground.Handler("GraphQL Playground", "/"))
 
-	log.Info().Msg("GraphQL private API server is listening on port " + port)
+	log.Info().Msg("salvatoreemilio.it internal API listening on port " + port)
 	router.Handle("/", srv)
 
 	log.Fatal().Err(http.ListenAndServe(":"+port, router)).Msg("")

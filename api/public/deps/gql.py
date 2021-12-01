@@ -8,10 +8,12 @@ from constants.graphql import *
 
 class GQLClient():
     def __init__(self) -> None:
-        self.url = f"http://{getenv('INTERNAL_API_HOST', 'internal-api')}:{getenv('INTERNAL_API_PORT', '14010')}/"
-        # self.url = "http://localhost:14010/"
-        self.session = Client(transport=AIOHTTPTransport(
-            url=self.url), fetch_schema_from_transport=True)
+        try:
+            self.url = f"http://{getenv('INTERNAL_API_HOST', 'internal-api')}:{getenv('INTERNAL_API_PORT', '14010')}/"
+            self.session = Client(transport=AIOHTTPTransport(
+                url=self.url), fetch_schema_from_transport=True)
+        except Exception as e:
+            raise e
 
     async def get_user(self, email: str):
         try:

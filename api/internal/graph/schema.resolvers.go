@@ -6,8 +6,8 @@ package graph
 import (
 	"context"
 
-	"github.com/salvatore.081/salvatoreemilio-it-graphql-server/graph/generated"
-	"github.com/salvatore.081/salvatoreemilio-it-graphql-server/models"
+	"github.com/salvatore.081/salvatoreemilio-it-internal-api/graph/generated"
+	"github.com/salvatore.081/salvatoreemilio-it-internal-api/models"
 )
 
 func (r *mutationResolver) AddUser(ctx context.Context, input models.AddUserInput) (*models.User, error) {

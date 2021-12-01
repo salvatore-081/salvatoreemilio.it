@@ -3,7 +3,7 @@ package rethinkdb
 import (
 	"context"
 
-	"github.com/salvatore.081/salvatoreemilio-it-graphql-server/models"
+	"github.com/salvatore.081/salvatoreemilio-it-internal-api/models"
 	r "gopkg.in/rethinkdb/rethinkdb-go.v6"
 )
 
