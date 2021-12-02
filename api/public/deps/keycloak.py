@@ -15,12 +15,14 @@ class Keycloak:
 
             client_secret_key = getenv("KEYCLOAK_CLIENT_SECRET_KEY")
             if client_secret_key is None:
-                raise
+                raise Exception(
+                    "Error reading KEYCLOAK_CLIENT_SECRET_KEY environment variable")
 
             service_account_client_secret_key = getenv(
                 "KEYCLOAK_SERVICE_ACCOUNT_CLIENT_SECRET_KEY")
             if service_account_client_secret_key is None:
-                raise
+                raise Exception(
+                    "Error reading KEYCLOAK_SERVICE_ACCOUNT_CLIENT_SECRET_KEY environment variable")
 
             self.keycloak_openid = KeycloakOpenID(
                 server_url=server_url,
