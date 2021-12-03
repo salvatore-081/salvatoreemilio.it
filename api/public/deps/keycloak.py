@@ -47,6 +47,12 @@ class Keycloak:
         except Exception as e:
             raise e
 
+    def logout(self, refresh_token: str):
+        try:
+            return self.keycloak_openid.logout(refresh_token)
+        except Exception as e:
+            raise e
+
     async def refresh_keycloak_service_account_token(self, server_url, service_account_client_id, realm_name, service_account_client_secret_key):
         wait_time = 60 * 60 * 24 * 179  # 180 days in seconds minus 1 day for leniency
         await asyncio.sleep(wait_time)

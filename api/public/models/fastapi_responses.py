@@ -17,3 +17,7 @@ class Conflict(BaseModel):
 
 class Unauthorized(BaseModel):
     detail: str = "Invalid credentials"
+
+
+class BadRequest(BaseModel):
+    detail: str

@@ -8,6 +8,10 @@ class LoginInput(BaseModel):
     totp: Optional[str]
 
 
+class LogoutInput(BaseModel):
+    refresh_token: str
+
+
 class LoginResponse(BaseModel):
     access_token: str
     expires_in: int
@@ -16,3 +20,7 @@ class LoginResponse(BaseModel):
     token_type: str
     session_state: str
     scope: str
+
+
+class LogoutResponse(BaseModel):
+    pass
