@@ -14,8 +14,6 @@ services:
       DB_DATABASE: keycloak
       DB_USER: keycloak
       DB_SCHEMA: public
-      # KEYCLOAK_USER: ${KEYCLOAK_USER}
-      # KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
       PROXY_ADDRESS_FORWARDING: 'true'
     networks:
       - default
@@ -30,8 +28,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.keycloak.loadbalancer.server.port=12000"
-      - "traefik.http.routers.keycloak.rule=Host(`iam.salvatoreemilio.it`) ||
-        Host(`www.iam.salvatoreemilio.it`)"
+      - "traefik.http.routers.keycloak.rule=Host(`login.salvatoreemilio.it`) ||
+        Host(`www.login.salvatoreemilio.it`)"
       - "traefik.http.routers.keycloak.tls.certresolver=myresolver"
       - "traefik.http.routers.keycloak.entrypoints=websecure"
 

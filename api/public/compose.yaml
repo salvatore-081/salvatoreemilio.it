@@ -9,7 +9,7 @@ services:
       - INTERNAL_API_HOST=internal-api
       - INTERNAL_API_PORT=14010
       - KEYCLOAK_REALM_NAME=se
-      - KEYCLOAK_URL=https://iam.salvatoreemilio.it/auth/
+      - KEYCLOAK_URL=https://login.salvatoreemilio.it/auth/
       - KEYCLOAK_CLIENT_ID=api-auth
       - KEYCLOAK_CLIENT_SECRET_KEY=${KEYCLOAK_CLIENT_SECRET_KEY}
       - KEYCLOAK_SERVICE_ACCOUNT_CLIENT_ID=api-service-account
