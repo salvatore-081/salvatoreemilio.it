@@ -10,6 +10,7 @@ allow_prereleases = true
 fastapi = "==0.70.0"
 ariadne = "==0.14.0"
 python-keycloak = "==0.25.0"
+grpcio = "*"
 
 [dev-packages]
 
