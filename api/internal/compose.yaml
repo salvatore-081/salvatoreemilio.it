@@ -19,13 +19,6 @@ services:
         max-size: "1024m"
         max-file: "3"
         tag: "{{.Name}}"
-    # labels:
-    #   - "traefik.enable=true"
-    #   - "traefik.http.services.graphql-server.loadbalancer.server.port=14010"
-    #   - "traefik.http.routers.graphql-server.rule=Host(`dev.salvatoreemilio.it`)
-    #     || Host(`www.dev.salvatoreemilio.it`)"
-    #   - "traefik.http.routers.graphql-server.tls.certresolver=myresolver"
-    #   - "traefik.http.routers.graphql-server.entrypoints=websecure"
 
 networks:
   default:

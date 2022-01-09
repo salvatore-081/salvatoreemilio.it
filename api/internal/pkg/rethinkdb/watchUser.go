@@ -3,18 +3,29 @@ package rethinkdb
 import (
 	"context"
 
-	"github.com/salvatore.081/salvatoreemilio-it-internal-api/models"
+	"github.com/salvatore.081/salvatoreemilio-it/proto"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
 	r "gopkg.in/rethinkdb/rethinkdb-go.v6"
 )
 
-func (rdb *RethinkDB) WatchUser(ctx context.Context, email string) (<-chan *models.User, error) {
-	ch := make(chan *models.User)
+type watchUserFeed struct {
+	NewVal *proto.User `json:"new_val,omitempty"`
+	OldVal *proto.User `json:"old_val,omitempty"`
+}
 
-	c, e := r.Table(defaultTable).Get(email).Changes(r.ChangesOpts{
+func (rdb *RethinkDB) WatchUser(ctx context.Context, in *proto.WatchUserInput) (<-chan *proto.User, error) {
+	ch := make(chan *proto.User)
+
+	if in == nil || len(in.Email) < 1 {
+		return ch, grpc.Errorf(codes.InvalidArgument, "argument 'email' is required")
+	}
+
+	c, e := r.Table(defaultTable).Get(in.Email).Changes(r.ChangesOpts{
 		IncludeInitial: true,
 	}).Run(rdb.session)
 	if e != nil {
-		return nil, e
+		return ch, grpc.Errorf(codes.Internal, e.Error())
 	}
 
 	go func(ctx context.Context) {
@@ -22,7 +33,7 @@ func (rdb *RethinkDB) WatchUser(ctx context.Context, email string) (<-chan *mode
 		c.Close()
 	}(ctx)
 
-	feed := models.WatchUserFeed{}
+	feed := watchUserFeed{}
 
 	go func() {
 		for c.Next(&feed) {

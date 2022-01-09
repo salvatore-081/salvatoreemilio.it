@@ -5,33 +5,38 @@ import (
 	"encoding/json"
 	"errors"
 
-	"github.com/salvatore.081/salvatoreemilio-it-internal-api/models"
+	"github.com/salvatore.081/salvatoreemilio-it/proto"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
 	r "gopkg.in/rethinkdb/rethinkdb-go.v6"
 )
 
-func (rdb *RethinkDB) UpdateUser(ctx context.Context, input models.UpdateUserInput) (*models.User, error) {
-	wr, e := r.Table(defaultTable).Get(input.Email).Update(input.Set, r.UpdateOpts{
+func (rdb *RethinkDB) UpdateUser(ctx context.Context, in *proto.UpdateUserInput) (*proto.User, error) {
+	if in == nil || len(in.Email) < 1 {
+		return new(proto.User), grpc.Errorf(codes.InvalidArgument, "argument 'email' is required")
+	}
+
+	wr, e := r.Table(defaultTable).Get(in.Email).Update(in.Set, r.UpdateOpts{
 		ReturnChanges: true,
 	}).RunWrite(rdb.session)
 	if e != nil {
-		return nil, e
+		return new(proto.User), grpc.Errorf(codes.Internal, e.Error())
 	}
 
-	u := models.User{}
+	u := proto.User{}
 
 	if len(wr.Changes) == 0 {
-		return nil, errors.New("updateUser unexpected error")
+		return new(proto.User), errors.New("update error")
 	}
 
 	d, e := json.Marshal(wr.Changes[0].NewValue)
 	if e != nil {
-		return nil, e
+		return new(proto.User), grpc.Errorf(codes.Internal, e.Error())
 	}
 
 	e = json.Unmarshal(d, &u)
-
 	if e != nil {
-		return nil, e
+		return new(proto.User), grpc.Errorf(codes.Internal, e.Error())
 	}
 
 	return &u, nil

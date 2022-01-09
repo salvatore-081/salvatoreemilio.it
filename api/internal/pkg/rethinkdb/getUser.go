@@ -2,27 +2,33 @@ package rethinkdb
 
 import (
 	"context"
+	"fmt"
 
+	"github.com/salvatore.081/salvatoreemilio-it/proto"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
 	r "gopkg.in/rethinkdb/rethinkdb-go.v6"
-
-	"github.com/salvatore.081/salvatoreemilio-it-internal-api/models"
 )
 
-func (rdb *RethinkDB) GetUser(ctx context.Context, email string) (*models.User, error) {
-	c, e := r.Table(defaultTable).Get(email).Run(rdb.session)
-	if e != nil {
-		return nil, e
+func (rdb *RethinkDB) GetUser(ctx context.Context, in *proto.GetUserInput) (*proto.User, error) {
+	if in == nil || len(in.Email) < 1 {
+		return new(proto.User), grpc.Errorf(codes.InvalidArgument, "missing 'email' argument")
 	}
 
-	users := []*models.User{}
+	c, e := r.Table(defaultTable).Get(in.Email).Run(rdb.session)
+	if e != nil {
+		return new(proto.User), grpc.Errorf(codes.Internal, e.Error())
+	}
+
+	users := []*proto.User{}
 
 	e = c.All(&users)
 	if e != nil {
-		return nil, e
+		return new(proto.User), grpc.Errorf(codes.Internal, e.Error())
 	}
 
-	if len(users) == 0 {
-		return nil, nil
+	if len(users) < 1 {
+		return new(proto.User), grpc.Errorf(codes.NotFound, fmt.Sprintf("no user found with email '%s'", in.Email))
 	}
 
 	return users[0], nil
