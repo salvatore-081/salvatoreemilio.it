@@ -20,16 +20,16 @@ func (rdb *RethinkDB) GetUser(ctx context.Context, in *proto.GetUserInput) (*pro
 		return new(proto.User), grpc.Errorf(codes.Internal, e.Error())
 	}
 
-	users := []*proto.User{}
+	if c.IsNil() {
+		return new(proto.User), grpc.Errorf(codes.NotFound, fmt.Sprintf("no user found with email '%s'", in.Email))
+	}
 
-	e = c.All(&users)
+	user := proto.User{}
+
+	e = c.One(&user)
 	if e != nil {
 		return new(proto.User), grpc.Errorf(codes.Internal, e.Error())
 	}
 
-	if len(users) < 1 {
-		return new(proto.User), grpc.Errorf(codes.NotFound, fmt.Sprintf("no user found with email '%s'", in.Email))
-	}
-
-	return users[0], nil
+	return &user, nil
 }
