@@ -5,6 +5,8 @@ from state.appState import AppState
 from deps.gPRCClient import GPRCClient
 from models.user import User
 from models.fastapi_responses import *
+from google.protobuf.json_format import MessageToDict
+from grpc import RpcError, StatusCode
 
 
 def getUsersRouter(appState: AppState):
@@ -14,13 +16,19 @@ def getUsersRouter(appState: AppState):
     async def get_user(email: str, gPRCClient: GPRCClient = Depends(appState.select_gPRCClient)):
         try:
             r = await gPRCClient.get_user(email=email)
-            if not r['getUser']:
-                return JSONResponse(
-                    status_code=404,
-                    content=NotFound(detail=f"{email} not found").dict()
-                )
-            else:
-                return r['getUser']
+            return MessageToDict(r)
+        except RpcError as e:
+            match e.code():
+                case StatusCode.NOT_FOUND:
+                    return JSONResponse(
+                        status_code=404,
+                        content=NotFound(detail=e.details()).dict()
+                    )
+                case _:
+                    return JSONResponse(
+                        status_code=500,
+                        content=InternalServerError(details=e.details(), debug=e.code()).dict()
+                    )
         except Exception as e:
             return JSONResponse(
                 status_code=500,

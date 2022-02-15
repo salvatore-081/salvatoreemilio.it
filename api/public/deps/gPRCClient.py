@@ -1,7 +1,7 @@
 from os import getenv
 from grpc.aio import insecure_channel
-from ..internal_pb2_grpc import InternalStub
-from ..internal_pb2 import GetUserInput
+from internal_pb2_grpc import InternalStub
+from internal_pb2 import GetUserInput
 
 
 class GPRCClient():
@@ -16,8 +16,7 @@ class GPRCClient():
             async with insecure_channel(self.url) as ch:
                 st = InternalStub(ch)
                 getUser = await st.GetUser(GetUserInput(email=email))
-                print("getUser", getUser)
-                raise Exception("lel")
+                return getUser
         except Exception as e:
             raise e
 

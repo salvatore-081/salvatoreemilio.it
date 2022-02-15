@@ -5,14 +5,6 @@ import grpc
 import internal_pb2_grpc
 import internal_pb2
 
-channel = grpc.insecure_channel('localhost:8080')
-stub = internal_pb2_grpc.InternalStub(channel)
-
-feature = stub.GetUser(internal_pb2.GetUserInput(
-    email="info@salvatoreemilio.it"))
-print("feature", feature)
-
-
 app = FastAPI(
     title="salvatoreemilio.it", openapi_url="/openapi.json"
 )
