@@ -32,4 +32,4 @@ jobs:
           context: api/internal
           file: api/internal/dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/salvatoreemilio-it/internal-api:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/internal-api:latest
