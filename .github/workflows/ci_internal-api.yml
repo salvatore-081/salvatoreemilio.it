@@ -4,7 +4,7 @@ on:
   push:
     branches: [ dev ]
   paths:
-      - "internal/api/**"
+    - "internal/api/**"
   workflow_dispatch:
 
 jobs:
