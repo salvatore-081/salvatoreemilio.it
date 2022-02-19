@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY . ./
 
+RUN apt install go -y
+
 RUN go mod download
 
 RUN go build -o /internal-api
