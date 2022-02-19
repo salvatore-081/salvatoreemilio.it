@@ -26,7 +26,7 @@ services:
         tag: "{{.Name}}"
 
   nextcloud:
-    image: nextcloud:fpm
+    image: nextcloud:fpm-alpine
     container_name: nextcloud
     restart: always
     volumes:
@@ -75,6 +75,24 @@ services:
         it`) || Host(`www.cloud.salvatoreemilio.it`)"
       - "traefik.http.routers.nextcloud_nginx.tls.certresolver=myresolver"
       - "traefik.http.routers.nextcloud_nginx.entrypoints=websecure"
+
+  nextcloud_cron:
+    image: nextcloud:fpm-alpine
+    container_name: nextcloud_cron
+    restart: always
+    volumes:
+      - nextcloud_data:/var/www/html
+    entrypoint: /cron.sh
+    depends_on:
+      - mariadb
+    networks:
+      - default
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
+        max-file: "3"
+        tag: "{{.Name}}"
 
 volumes:
   mariadb_data:
