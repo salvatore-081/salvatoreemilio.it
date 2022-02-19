@@ -6,6 +6,7 @@ COPY . ./
 
 RUN go mod download
 
+RUN ls
 RUN go build -o /internal-api
 
 CMD ["/internal-api"]
