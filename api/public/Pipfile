@@ -1,0 +1,27 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[pipenv]
+allow_prereleases = true
+
+[packages]
+fastapi = "==0.70.0"
+ariadne = "==0.14.0"
+python-keycloak = "==0.25.0"
+grpcio = "*"
+protobuf = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
+
+[packages.uvicorn]
+extras = [ "standard",]
+version = "==0.15.0"
+
+[packages.gql]
+extras = [ "all",]
+version = "==3.0.0b1"

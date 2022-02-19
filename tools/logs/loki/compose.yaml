@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  loki:
+    container_name: loki
+    image: grafana/loki:2.3.0
+    command: -config.file=/etc/loki/loki-config.yaml
+    restart: unless-stopped
+    volumes:
+      - ./loki-config.yaml:/etc/loki/loki-config.yaml
+      - loki_data:/data/loki
+    networks:
+      - default
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
+        max-file: "3"
+        tag: "{{.Name}}"
+    depends_on:
+      - promtail
+
+  promtail:
+    container_name: promtail
+    image: grafana/promtail:2.3.0
+    restart: unless-stopped
+    command: -config.file=/etc/promtail/promtail-config.yaml
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/log/auth.log:/var/log/auth_host.log
+      - ./promtail-config.yaml:/etc/promtail/promtail-config.yaml
+    networks:
+      - default
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
+        max-file: "3"
+        tag: "{{.Name}}"
+
+volumes:
+  loki_data:
+    external: true
+
+networks:
+  default:
+    external: true
+    name: se_default

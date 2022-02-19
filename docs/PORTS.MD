@@ -1,19 +1,20 @@
 ## METRICS AND LOGS
-- PORTAINER: 11990, 11991  ```./.env```
-- GRAFANA: 11000 ```./.env```
-- LOKI: 11010  ```./grafana/loki/config.yaml ./grafana/promtail/config.yaml ```
-- PROMTAIL: 11020  ```./grafana/promtail/config.yaml```
-- NODE-EXPORTER: 11030  ```./.env ./prometheus/config.yaml```
-- PROMETHEUS: 11040  ```./.env```
-- CADVISOR: 11050  ```./.env ./prometheus/config.yaml```
+- PORTAINER: 11990, 11991
+- GRAFANA: 11000
+- LOKI: 11010 
+- PROMTAIL: 11020
+- NODE-EXPORTER: 11030
+- PROMETHEUS: 11040
+- CADVISOR: 11050
 ## AUTHENTICATION
-- KEYCLOAK: 12000  ```./.env```
+- KEYCLOAK: 12000 
 ## DATABASE
-- POSTGRES: 13010 ```./.env```
-- RETHINKDB_DRIVER: 13020 ```./rethinkdb/rethinkdb.conf```
-- RETHINKDB_CLUSTER: 13021  ```./rethinkdb/rethinkdb.conf```
+- POSTGRES: 13010
+- RETHINKDB: 13020, 13021
+- MARIADB: 13030, 13031
 ## API
-- GRAPHQL_SERVER: 14010 ```./.env```
+- PRIVATE: 14010
+- PUBLIC: 14020 
 ## WEBSERVER
-- NGINX: 15000  ```./.env ./nginx/conf.d/default.conf```
-
+- NGINX: 15000  
+- NEXTCLOUD_NGINX: 15010, 15011

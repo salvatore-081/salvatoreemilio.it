@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  public-api:
+    build: ./
+    container_name: public-api
+    restart: unless-stopped
+    environment:
+      - INTERNAL_API_HOST=internal-api
+      - INTERNAL_API_PORT=14010
+      - KEYCLOAK_REALM_NAME=se
+      - KEYCLOAK_URL=https://login.salvatoreemilio.it/auth/
+      - KEYCLOAK_CLIENT_ID=api-auth
+      - KEYCLOAK_CLIENT_SECRET_KEY=${KEYCLOAK_CLIENT_SECRET_KEY}
+      - KEYCLOAK_SERVICE_ACCOUNT_CLIENT_ID=api-service-account
+      - KEYCLOAK_SERVICE_ACCOUNT_CLIENT_SECRET_KEY=${KEYCLOAK_SERVICE_ACCOUNT_CLIENT_SECRET_KEY}
+      - PORT=14020
+    networks:
+      - default
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
+        max-file: "3"
+        tag: "{{.Name}}"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.private-api.loadbalancer.server.port=14020"
+      - "traefik.http.routers.private-api.rule=Host(`api.salvatoreemilio.it`) ||
+        Host(`www.api.salvatoreemilio.it`)"
+      - "traefik.http.routers.private-api.tls.certresolver=myresolver"
+      - "traefik.http.routers.private-api.entrypoints=websecure"
+
+networks:
+  default:
+    external: true
+    name: se_default

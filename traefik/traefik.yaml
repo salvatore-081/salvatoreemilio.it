@@ -4,7 +4,8 @@ log:
 certificatesResolvers:
   myresolver:
     acme:
-      caserver: https://acme-staging-v02.api.letsencrypt.org/directory
+      caserver: https://acme-v02.api.letsencrypt.org/directory
+      # caserver: https://acme-staging-v02.api.letsencrypt.org/directory
       email: info@salvatoreemilio.it
       storage: /letsencrypt/acme.json
       dnsChallenge:

@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  internal-api:
+    build: ./
+    container_name: internal-api
+    restart: unless-stopped
+    environment:
+      - PORT=14010
+      - LOG_LEVEL=DEBUG
+      - DB_HOST=rethinkdb
+      - DB_PORT=13020
+      - DB_DATABASE=salvatoreemilio
+    networks:
+      - default
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
+        max-file: "3"
+        tag: "{{.Name}}"
+
+networks:
+  default:
+    external: true
+    name: se_default

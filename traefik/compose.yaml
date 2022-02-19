@@ -17,7 +17,7 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "./traefik.yaml:/etc/traefik/traefik.yaml"
-      - "./letsencrypt:/letsencrypt"
+      - "letsencrypt_data:/letsencrypt"
     logging:
       driver: "json-file"
       options:
@@ -25,6 +25,9 @@ services:
         max-file: "3"
         tag: "{{.Name}}"
 
+volumes:
+  letsencrypt_data:
+    external: true
 networks:
   default:
     external: true
