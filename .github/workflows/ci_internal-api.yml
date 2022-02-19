@@ -1,10 +1,10 @@
-name: CI:internal-api
+name: CI internal-api
 
 on:
   push:
     branches: [ dev ]
-  paths:
-    - "internal/api/**"
+    paths:
+      - "internal/api/**"
   workflow_dispatch:
 
 jobs:
