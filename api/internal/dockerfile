@@ -4,6 +4,7 @@ WORKDIR /app
 
 COPY . ./
 
+RUN ls
 RUN go mod download
 
 RUN ls
