@@ -23,14 +23,13 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v1
 
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          path: api/internal
           context: api/internal
-          file: dockerfile
+          file: api/internal/dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/salvatoreemilio.it/internal-api:latest
