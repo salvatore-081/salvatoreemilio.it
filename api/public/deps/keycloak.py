@@ -64,3 +64,10 @@ class Keycloak:
                 client_secret_key=service_account_client_secret_key
             )
             await asyncio.sleep(wait_time)
+
+    def verify_token(self, token: str) -> bool:
+        try:
+            r =  self.keycloak_openid.introspect(token=token)
+            return "active" in r and r["active"]
+        except Exception as e:
+            raise e

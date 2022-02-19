@@ -3,18 +3,26 @@ from fastapi.params import Depends
 from starlette.responses import JSONResponse
 from state.appState import AppState
 from deps.gPRCClient import GPRCClient
+from deps.keycloak import Keycloak
 from models.user import User
 from models.fastapi_responses import *
 from google.protobuf.json_format import MessageToDict
 from grpc import RpcError, StatusCode
+from fastapi.security import HTTPBearer
 
 
 def getUsersRouter(appState: AppState):
     router = APIRouter()
+    token_auth_scheme = HTTPBearer()
 
-    @router.get("/{email}", response_model=User, responses={404: {"model": NotFound}, 500: {"model": InternalServerError}},  response_model_exclude_none=True)
-    async def get_user(email: str, gPRCClient: GPRCClient = Depends(appState.select_gPRCClient)):
+    @router.get("/{email}", response_model=User, responses={401: {"model": Unauthorized}, 403: {"model": Forbidden}, 404: {"model": NotFound}, 500: {"model": InternalServerError}},  response_model_exclude_none=True)
+    async def get_user(email: str, gPRCClient: GPRCClient = Depends(appState.select_gPRCClient), auth: Keycloak = Depends(appState.select_keycloak), token: str = Depends(token_auth_scheme)):
         try:
+            if not auth.verify_token(token.credentials):
+                return JSONResponse(
+                    status_code=401,
+                    content=Unauthorized().dict()
+                )
             r = await gPRCClient.get_user(email=email)
             return MessageToDict(r)
         except RpcError as e:
@@ -27,7 +35,7 @@ def getUsersRouter(appState: AppState):
                 case _:
                     return JSONResponse(
                         status_code=500,
-                        content=InternalServerError(details=e.details(), debug=e.code()).dict()
+                        content=InternalServerError(detail=e.details(), debug=e.code()).dict()
                     )
         except Exception as e:
             return JSONResponse(
