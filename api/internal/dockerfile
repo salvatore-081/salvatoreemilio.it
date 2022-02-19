@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . ./
 
-RUN apt install go -y
+RUN apt install golang -y
 
 RUN go mod download
 
