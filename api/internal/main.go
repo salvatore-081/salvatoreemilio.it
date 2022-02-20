@@ -85,7 +85,7 @@ func main() {
 
 	reflection.Register(s)
 
-	log.Info().Msg(fmt.Sprintf("Server listening at lel %v", l.Addr()))
+	log.Info().Msg(fmt.Sprintf("Server listening at %v", l.Addr()))
 
 	if e = s.Serve(l); e != nil {
 		log.Fatal().Err(e).Msg("Failed to serve")

@@ -31,14 +31,13 @@ jobs:
           context: api/internal
           file: api/internal/dockerfile
           push: true
-          tags: salvatoreemilio/salvatoreemilio.it_internal-api:latest,salvatoreemilio/salvatoreemilio.it_internal-api:0.0.2
+          tags: salvatoreemilio/salvatoreemilio.it_internal-api:latest,salvatoreemilio/salvatoreemilio.it_internal-api:0.0.3
   deploy:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
       - name: SSH setup 
         run: |
-          echo "hello world"
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
@@ -46,12 +45,12 @@ jobs:
 
       - name: Deploy
         run: |
-          echo "hello deploy"
           ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
             cd salvatoreemilio.it/api/internal;
             docker-compose pull;
             docker-compose down;
             docker-compose up -d;
+            docker image prune -a -f;
           "
       - name: Cleanup
         run: rm -rf ~/.ssh/id_rsa
