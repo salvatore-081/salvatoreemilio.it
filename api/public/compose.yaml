@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   public-api:
-    build: ./
+    image: salvatoreemilio/salvatoreemilio.it_public-api:latest
     container_name: public-api
     restart: unless-stopped
     environment:
