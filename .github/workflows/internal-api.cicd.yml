@@ -49,8 +49,9 @@ jobs:
         run: |
           echo "hello deploy"
           ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
-            docker-compose down;
+            cd salvatoreemilio.it/api/internal;
             docker-compose pull;
+            docker-compose down;
             docker-compose up -d;
           "
       - name: Cleanup
