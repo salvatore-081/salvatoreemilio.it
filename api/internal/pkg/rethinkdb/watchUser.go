@@ -2,6 +2,7 @@ package rethinkdb
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/salvatore.081/salvatoreemilio-it/proto"
 	"google.golang.org/grpc"
@@ -16,6 +17,7 @@ type watchUserFeed struct {
 
 func (rdb *RethinkDB) WatchUser(ctx context.Context, in *proto.WatchUserInput) (<-chan *proto.User, error) {
 	ch := make(chan *proto.User)
+	eCh := make(chan error, 1)
 
 	if in == nil || len(in.Email) < 1 {
 		return ch, grpc.Errorf(codes.InvalidArgument, "argument 'email' is required")
@@ -37,11 +39,16 @@ func (rdb *RethinkDB) WatchUser(ctx context.Context, in *proto.WatchUserInput) (
 
 	go func() {
 		for c.Next(&feed) {
+			if feed.OldVal == nil && feed.NewVal == nil {
+				eCh <- grpc.Errorf(codes.NotFound, fmt.Sprintf("no user found with email '%s'", in.Email))
+			} else {
+				eCh <- nil
+			}
 			if feed.NewVal != nil {
 				ch <- feed.NewVal
 			}
 		}
 	}()
 
-	return ch, nil
+	return ch, <-eCh
 }

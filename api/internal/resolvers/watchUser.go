@@ -18,5 +18,5 @@ func (s *Server) WatchUser(in *proto.WatchUserInput, stream proto.Internal_Watch
 		}
 	}
 
-	return nil
+	return e
 }

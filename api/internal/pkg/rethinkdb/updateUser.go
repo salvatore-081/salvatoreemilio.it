@@ -3,7 +3,7 @@ package rethinkdb
 import (
 	"context"
 	"encoding/json"
-	"errors"
+	"fmt"
 
 	"github.com/salvatore.081/salvatoreemilio-it/proto"
 	"google.golang.org/grpc"
@@ -13,7 +13,7 @@ import (
 
 func (rdb *RethinkDB) UpdateUser(ctx context.Context, in *proto.UpdateUserInput) (*proto.User, error) {
 	if in == nil || len(in.Email) < 1 {
-		return new(proto.User), grpc.Errorf(codes.InvalidArgument, "argument 'email' is required")
+		return new(proto.User), grpc.Errorf(codes.InvalidArgument, "'email' is missing")
 	}
 
 	wr, e := r.Table(defaultTable).Get(in.Email).Update(in.Set, r.UpdateOpts{
@@ -26,7 +26,7 @@ func (rdb *RethinkDB) UpdateUser(ctx context.Context, in *proto.UpdateUserInput)
 	u := proto.User{}
 
 	if len(wr.Changes) == 0 {
-		return new(proto.User), errors.New("update error")
+		return new(proto.User), grpc.Errorf(codes.NotFound, fmt.Sprintf("no user found with email '%s'", in.Email))
 	}
 
 	d, e := json.Marshal(wr.Changes[0].NewValue)
