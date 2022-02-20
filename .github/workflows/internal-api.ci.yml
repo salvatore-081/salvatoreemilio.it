@@ -27,7 +27,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: |
-            salvatoreemilio/salvatoreemilio.it
+            salvatoreemilio/salvatoreemilio.it_internal-api
           tags: |
             type=schedule
             type=ref,event=branch
@@ -46,4 +46,5 @@ jobs:
           context: api/internal
           file: api/internal/dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/salvatoreemilio.it:latest
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
