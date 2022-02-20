@@ -36,19 +36,11 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
-      - name: SSH setup 
-        run: |
-          mkdir -p ~/.ssh/
-          echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan "${{secrets.SSH_HOST}}" >> ~/.ssh/known_hosts
-
-      - name: Deploy
-        run: |
-          ssh ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{secrets.SSH_PORT}} "
-            docker-compose down;
-            docker-compose pull;
-            docker-compose up -d;
-          "
-      - name: Cleanup
-        run: rm -rf ~/.ssh/id_rsa
+     - name: executing remote ssh commands using ssh key
+       uses: appleboy/ssh-action@master
+       with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: sh salvatoreemilio.it/api/internal/cd.sh
