@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: api/internal
+        working-directory: api/public
     steps:
       - name: Checkout 
         uses: actions/checkout@v2
@@ -28,8 +28,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: api/internal
-          file: api/internal/dockerfile
+          context: api/public
+          file: api/public/dockerfile
           push: true
           tags: salvatoreemilio/salvatoreemilio.it_public-api:latest,salvatoreemilio/salvatoreemilio.it_public-api:0.0.1
   deploy:
