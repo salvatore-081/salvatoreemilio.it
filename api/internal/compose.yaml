@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   internal-api:
-    build: ./
+    image: salvatoreemilio/salvatoreemilio.it_internal-api:latest
     container_name: internal-api
     restart: unless-stopped
     environment:
