@@ -46,6 +46,7 @@ jobs:
 
       - name: Deploy
         run: |
+          echo "hello deploy"
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_PORT }} "
             docker-compose down;
             docker-compose pull;
