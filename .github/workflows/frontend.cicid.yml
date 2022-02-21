@@ -1,17 +1,17 @@
-name: CI/CD public-api
+name: CI/CD frontend
 
 on:
   push:
     branches: [dev]
     paths:
-      - "api/public/**"
+      - "frontend/**"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: api/public
+        working-directory: frontend
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -28,10 +28,10 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: api/public
-          file: api/public/Dockerfile
+          context: frontend
+          file: frontend/Dockerfile
           push: true
-          tags: salvatoreemilio/salvatoreemilio.it_public-api:latest,salvatoreemilio/salvatoreemilio.it_public-api:0.0.1
+          tags: salvatoreemilio/salvatoreemilio.it_frontend:latest,salvatoreemilio/salvatoreemilio.it_frontend:0.0.1
   deploy:
     needs: [build]
     runs-on: ubuntu-latest
@@ -48,7 +48,7 @@ jobs:
           ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
             cd salvatoreemilio.it/;
             git pull;
-            cd api/public/;
+            cd frontend/;
             docker-compose pull;
             docker-compose down;
             docker-compose up -d;

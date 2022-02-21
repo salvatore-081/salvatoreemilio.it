@@ -46,7 +46,9 @@ jobs:
       - name: Deploy
         run: |
           ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
-            cd salvatoreemilio.it/api/internal;
+            cd salvatoreemilio.it/;
+            git pull;
+            cd api/internal/;
             docker-compose pull;
             docker-compose down;
             docker-compose up -d;
