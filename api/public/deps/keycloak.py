@@ -67,7 +67,7 @@ class Keycloak:
 
     def verify_token(self, token: str) -> bool:
         try:
-            r =  self.keycloak_openid.introspect(token=token)
+            r = self.keycloak_openid.introspect(token=token)
             return "active" in r and r["active"]
         except Exception as e:
             raise e

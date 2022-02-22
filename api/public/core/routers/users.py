@@ -26,17 +26,16 @@ def getUsersRouter(appState: AppState):
             r = await gPRCClient.get_user(email=email)
             return MessageToDict(r)
         except RpcError as e:
-            match e.code():
-                case StatusCode.NOT_FOUND:
-                    return JSONResponse(
-                        status_code=404,
-                        content=NotFound(detail=e.details()).dict()
-                    )
-                case _:
-                    return JSONResponse(
-                        status_code=500,
-                        content=InternalServerError(detail=e.details(), debug=e.code()).dict()
-                    )
+            if e.code() == StatusCode.NOT_FOUND:
+                return JSONResponse(
+                    status_code=404,
+                    content=NotFound(detail=e.details()).dict()
+                )
+            return JSONResponse(
+                status_code=500,
+                content=InternalServerError(
+                    detail=e.details(), debug=e.code()).dict()
+            )
         except Exception as e:
             return JSONResponse(
                 status_code=500,

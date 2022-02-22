@@ -7,11 +7,12 @@ name = "pypi"
 allow_prereleases = true
 
 [packages]
-fastapi = "==0.70.0"
-ariadne = "==0.14.0"
-python-keycloak = "==0.25.0"
+fastapi = "~=0.74.1"
+ariadne = "~=0.14.1"
+python-keycloak = "~=0.27.0"
 grpcio = "*"
 protobuf = "*"
+gql = "==v3.0.0rc0"
 
 [dev-packages]
 
@@ -20,8 +21,4 @@ python_version = "3.9"
 
 [packages.uvicorn]
 extras = [ "standard",]
-version = "==0.15.0"
-
-[packages.gql]
-extras = [ "all",]
-version = "==3.0.0b1"
+version = "~=0.17.5"
