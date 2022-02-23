@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 
 class LoginInput(BaseModel):
-    username: str
+    email: str
     password: str
     totp: Optional[str]
 

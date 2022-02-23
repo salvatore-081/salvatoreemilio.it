@@ -2,9 +2,10 @@ from fastapi import FastAPI, APIRouter
 from ariadne import make_executable_schema
 from ariadne.asgi import GraphQL
 from state.appState import AppState
-from constants.graphql import SCHEMA
 from .routers import users, auth
 from .graphql.query import getQuery
+from .graphql.mutation import getMutation
+from .graphql.schema import SCHEMA
 from os import system
 import logging
 
@@ -26,7 +27,7 @@ try:
     app.include_router(api_router, prefix="")
 
     gqlApp = GraphQL(make_executable_schema(
-        SCHEMA, getQuery(appState)), keepalive=30)
+        SCHEMA, getQuery(appState), getMutation(appState)), keepalive=30)
 
     app.mount("/graphql", gqlApp)
 except Exception as e:

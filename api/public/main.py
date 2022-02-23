@@ -1,9 +1,6 @@
 from fastapi import FastAPI
 import uvicorn
 import os
-import grpc
-import internal_pb2_grpc
-import internal_pb2
 
 app = FastAPI(
     title="salvatoreemilio.it", openapi_url="/openapi.json"

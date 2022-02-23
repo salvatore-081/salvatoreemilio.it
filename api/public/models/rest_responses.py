@@ -14,8 +14,10 @@ class NotFound(BaseModel):
 class Conflict(BaseModel):
     detail: str
 
+
 class Forbidden(BaseModel):
     detail: str = "Unauthorized"
+
 
 class Unauthorized(BaseModel):
     detail: str = "Invalid credentials"
