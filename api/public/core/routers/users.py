@@ -5,7 +5,7 @@ from state.appState import AppState
 from deps.gPRCClient import GPRCClient
 from deps.keycloak import Keycloak
 from models.user import User
-from models.fastapi_responses import *
+from models.rest_responses import *
 from google.protobuf.json_format import MessageToDict
 from grpc import RpcError, StatusCode
 from fastapi.security import HTTPBearer
