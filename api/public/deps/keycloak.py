@@ -69,7 +69,6 @@ class Keycloak:
     def introspect_token(self, token: str) -> any:
         try:
             introspection = self.keycloak_openid.introspect(token=token)
-            print("introspection", introspection)
             return introspection
         except Exception as e:
             raise e
@@ -85,7 +84,7 @@ class Keycloak:
 
     def check_view_users(self, introspection, email: str) -> None:
         try:
-            if not email == introspection['email'] or not 'view-users' in introspection['resource_access']['realm-management']['roles']:
+            if email != introspection['email'] and not 'view-users' in introspection['resource_access']['realm-management']['roles']:
                 raise
         except Exception:
             raise Forbidden()

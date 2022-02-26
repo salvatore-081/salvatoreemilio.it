@@ -24,3 +24,8 @@ class Unauthorized(GraphQLError):
 class BadRequest(GraphQLError):
     def __init__(self, message: str):
         super().__init__(message=message)
+
+
+class Forbidden(GraphQLError):
+    def __init__(self) -> None:
+        super().__init__("forbidden")
