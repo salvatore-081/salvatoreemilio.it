@@ -1,6 +1,7 @@
 from keycloak import KeycloakOpenID, KeycloakAdmin
 from os import getenv
 import asyncio
+from exceptions.base import Unauthorized, BadRequest, Forbidden
 
 
 class Keycloak:
@@ -65,9 +66,26 @@ class Keycloak:
             )
             await asyncio.sleep(wait_time)
 
-    def verify_token(self, token: str) -> bool:
+    def introspect_token(self, token: str) -> any:
         try:
-            r = self.keycloak_openid.introspect(token=token)
-            return "active" in r and r["active"]
+            introspection = self.keycloak_openid.introspect(token=token)
+            print("introspection", introspection)
+            return introspection
         except Exception as e:
             raise e
+
+    def check_active(self, introspection) -> None:
+        try:
+            if not introspection["active"]:
+                raise Unauthorized()
+        except KeyError:
+            raise BadRequest()
+        except Exception as e:
+            raise e
+
+    def check_view_users(self, introspection, email: str) -> None:
+        try:
+            if not email == introspection['email'] or not 'view-users' in introspection['resource_access']['realm-management']['roles']:
+                raise
+        except Exception:
+            raise Forbidden()

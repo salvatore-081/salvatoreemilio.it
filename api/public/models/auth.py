@@ -23,4 +23,4 @@ class LoginResponse(BaseModel):
 
 
 class LogoutResponse(BaseModel):
-    pass
+    refresh_token: str

@@ -1,4 +1,3 @@
-from email import message
 from graphql import GraphQLError
 
 
@@ -19,4 +18,9 @@ class InternalServerError(GraphQLError):
 
 class Unauthorized(GraphQLError):
     def __init__(self):
-        super().__init__("invalid credentials")
+        super().__init__(message="invalid credentials")
+
+
+class BadRequest(GraphQLError):
+    def __init__(self, message: str):
+        super().__init__(message=message)

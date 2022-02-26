@@ -1,8 +1,7 @@
 from gql import gql
 from ariadne import QueryType
-from graphql import GraphQLError
 from grpc import RpcError, StatusCode
-from models.graphql_responses import InternalServerError, InvalidArgument, NotFound
+from exceptions import graphql as graphql_exceptions
 from state.appState import AppState
 
 GET_USER = gql(
@@ -26,15 +25,15 @@ def getQuery(appState: AppState) -> QueryType:
     @query.field("getUser")
     async def resolve_getUser(_, info, email):
         if not email:
-            raise InvalidArgument('email')
+            raise graphql_exceptions.InvalidArgument('email')
         try:
             r = await appState.gRPCCLient.get_user(email)
             return r
         except RpcError as e:
             if e.code() == StatusCode.NOT_FOUND:
-                raise NotFound('user', 'email', email)
-            raise InternalServerError(e.details())
+                raise graphql_exceptions.NotFound('user', 'email', email)
+            raise graphql_exceptions.InternalServerError(e.details())
         except Exception as e:
-            raise InternalServerError(str(e))
+            raise graphql_exceptions.InternalServerError(str(e))
 
     return query

@@ -5,6 +5,7 @@ SCHEMA = """
 
   type Mutation {
     login(input: LoginInput!): LoginResponse
+    logout(refresh_token: String!): LogoutResponse
     createUser(input: CreateUserInput!): User
     updateUser(input: UpdateUserInput!): User
   }
@@ -55,5 +56,9 @@ SCHEMA = """
     token_type: String
     session_state: String
     scope: String
+  }
+
+  type LogoutResponse {
+    refresh_token: String
   }
 """
