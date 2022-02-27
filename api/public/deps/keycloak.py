@@ -82,9 +82,16 @@ class Keycloak:
         except Exception as e:
             raise e
 
-    def check_view_users(self, introspection, email: str) -> None:
+    def check_view_users(self, introspection: any, email: str) -> None:
         try:
-            if email != introspection['email'] and not 'view-users' in introspection['resource_access']['realm-management']['roles']:
+            if email != introspection['email'] and not "admin" in introspection['realm_access']['roles']:
+                raise
+        except Exception:
+            raise Forbidden()
+
+    def check_manage_users(self, introspection: any, email: str) -> None:
+        try:
+            if email != introspection['email'] and not "admin" in introspection['realm_access']['roles']:
                 raise
         except Exception:
             raise Forbidden()

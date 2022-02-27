@@ -24,7 +24,7 @@ message AddUserInput {
     string currentLocation = 5;
 }
 
-message UpdateUserInputSet {
+message UpdateUserInputPayload {
     string name = 1;
     string surname = 2;
     string phoneNumber = 3;
@@ -33,7 +33,7 @@ message UpdateUserInputSet {
 
 message UpdateUserInput {
     string email = 1;
-    UpdateUserInputSet set = 2;
+    UpdateUserInputPayload updateUserInputPayload = 2;
 }
 
 message WatchUserInput {

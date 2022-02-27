@@ -1,5 +1,7 @@
 from gql import gql
 from ariadne import MutationType
+from grpc import RpcError, StatusCode
+from models.user import UpdateUserInputPayload
 from exceptions import graphql as graphql_exceptions, base as base_exceptions
 from models.auth import LogoutResponse
 from state.appState import AppState
@@ -17,6 +19,20 @@ LOGIN = gql(
             token_type
             session_state
             scope
+        }
+    }
+    """
+)
+
+UPDATE_USER = gql(
+    """
+    mutation updateUser($input: UpdateUserInput!){
+        updateUser(input: $input){
+            email
+            name
+            surname
+            phoneNumber
+            currentLocation
         }
     }
     """
@@ -68,6 +84,40 @@ def getMutation(appState: AppState) -> MutationType:
         except KeycloakGetError:
             return graphql_exceptions.BadRequest(
                 message="invalid refresh_token")
+        except Exception as e:
+            return graphql_exceptions.InternalServerError(str(e))
+
+    @mutation.field("updateUser")
+    async def resolve_update_user(_, info, input):
+        try:
+            request = info.context["request"]
+            auth: str = request.headers.get('Authorization', None)
+            if not auth or not auth.startswith("Bearer ") or len(auth) < 7:
+                return graphql_exceptions.BadRequest("invalid Authorization")
+            if not 'email' in input or len(input['email']) < 1:
+                return graphql_exceptions.InvalidArgument('email')
+            if not 'payload' in input or all(v == None or len(v) < 1 for v in input['payload'].values()):
+                return graphql_exceptions.InvalidArgument('payload')
+
+            access_token = auth[7:]
+            introspection = appState.keycloak.introspect_token(
+                access_token)
+            appState.keycloak.check_active(introspection)
+            appState.keycloak.check_manage_users(introspection, input['email'])
+            r = await appState.gRPCCLient.update_user(input['email'], UpdateUserInputPayload(**input['payload']))
+            return r
+        except base_exceptions.BadRequest:
+            return graphql_exceptions.BadRequest("bad request")
+        except base_exceptions.Forbidden:
+            return graphql_exceptions.Forbidden()
+        except base_exceptions.Unauthorized:
+            return graphql_exceptions.Unauthorized()
+        except RpcError as e:
+            if e.code() == StatusCode.NOT_FOUND:
+                return graphql_exceptions.NotFound('user', 'email', input['email'])
+            if e.code() == StatusCode.INVALID_ARGUMENT:
+                return graphql_exceptions.BadRequest('bad request')
+            return graphql_exceptions.InternalServerError(e.details())
         except Exception as e:
             return graphql_exceptions.InternalServerError(str(e))
 

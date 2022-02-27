@@ -38,6 +38,7 @@ def getAuthRouter(appState: AppState):
             introspection = keycloak.introspect_token(token.credentials)
             keycloak.check_active(introspection)
             keycloak.logout(input.refresh_token)
+
             return LogoutResponse(refresh_token=input.refresh_token).dict()
         except base_exceptions.Unauthorized:
             return JSONResponse(

@@ -6,7 +6,6 @@ SCHEMA = """
   type Mutation {
     login(input: LoginInput!): LoginResponse
     logout(refresh_token: String!): LogoutResponse
-    createUser(input: CreateUserInput!): User
     updateUser(input: UpdateUserInput!): User
   }
 
@@ -20,20 +19,12 @@ SCHEMA = """
     totp: String
   }
 
-  input CreateUserInput {
-    email: String!
-    name: String
-    surname: String
-    phoneNumber: String
-    currentLocation: String
-  }
-
   input UpdateUserInput {
     email: String!
-    set: UpdateUserInputSet!
+    payload: UpdateUserInputPayload!
   }
 
-  input UpdateUserInputSet {
+  input UpdateUserInputPayload {
     name: String
     surname: String
     phoneNumber: String

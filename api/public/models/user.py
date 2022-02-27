@@ -8,3 +8,10 @@ class User(BaseModel):
     surname: Optional[str] = None
     phoneNumber: Optional[str] = None
     currentLocation: Optional[str] = None
+
+
+class UpdateUserInputPayload(BaseModel):
+    name: Optional[str] = None
+    surname: Optional[str] = None
+    phoneNumber: Optional[str] = None
+    currentLocation: Optional[str] = None
