@@ -21,7 +21,7 @@ func (rdb *RethinkDB) UpdateUser(ctx context.Context, in *proto.UpdateUserInput)
 	}
 
 	wr, e := r.Table(defaultTable).Get(in.Email).Update(in.UpdateUserInputPayload, r.UpdateOpts{
-		ReturnChanges: true,
+		ReturnChanges: "always",
 	}).RunWrite(rdb.session)
 	if e != nil {
 		return new(proto.User), grpc.Errorf(codes.Internal, e.Error())
@@ -29,7 +29,7 @@ func (rdb *RethinkDB) UpdateUser(ctx context.Context, in *proto.UpdateUserInput)
 
 	u := proto.User{}
 
-	if len(wr.Changes) == 0 {
+	if wr.Skipped > 0 {
 		return new(proto.User), grpc.Errorf(codes.NotFound, fmt.Sprintf("no user found with email '%s'", in.Email))
 	}
 
