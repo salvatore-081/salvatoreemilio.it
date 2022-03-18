@@ -1,13 +1,14 @@
+from typing import Any
 from fastapi import FastAPI, APIRouter
 from ariadne import make_executable_schema
-from ariadne.asgi import GraphQL
+from ariadne.asgi import GraphQL, WebSocketConnectionError
 from state.appState import AppState
 from .routers import users, auth
 from .graphql.query import getQuery
 from .graphql.mutation import getMutation
+from .graphql.subscription import getSubscription
 from .graphql.schema import SCHEMA
 from os import system
-import logging
 
 try:
     appState = AppState()
@@ -26,21 +27,27 @@ try:
 
     app.include_router(api_router, prefix="")
 
-    gqlApp = GraphQL(make_executable_schema(
-        SCHEMA, getQuery(appState), getMutation(appState)), keepalive=30)
+    def on_connect(websocket, params: Any):
+        auth = params.get("Authorization")
+        if not auth or not auth.startswith("Bearer ") or len(auth) < 7:
+            raise WebSocketConnectionError("invalid Authorization")
+        websocket.scope["connection_params"] = {
+            "access_token": auth[7:],
+        }
 
-    app.mount("/graphql", gqlApp)
+    def context_value(request):
+        context = {'request': request}
+        if request.scope["type"] == "websocket":
+            context.update(request.scope["connection_params"])
+
+        return context
+
+    graphqlApp = GraphQL(make_executable_schema(
+        SCHEMA, getQuery(appState), getMutation(appState), getSubscription(appState)), keepalive=None, context_value=context_value, on_connect=on_connect)
+
+    app.mount("/graphql", graphqlApp)
 except Exception as e:
-    import logging
-    logging.getLogger("uvicorn.error").log(
+    from logging import getLogger
+    getLogger("uvicorn.error").log(
         level=50, msg=f"Startup failed: {e}")
     system("pkill python3")
-
-    # # Set all CORS enabled origins
-    # app.add_middleware(
-    #         CORSMiddleware,
-    #         allow_origins=["*"],
-    #         allow_credentials=True,
-    #         allow_methods=["*"],
-    #         allow_headers=["*"],
-    #     )

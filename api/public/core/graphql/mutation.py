@@ -1,4 +1,3 @@
-from gql import gql
 from ariadne import MutationType
 from grpc import RpcError, StatusCode
 from models.user import UpdateUserInputPayload
@@ -6,37 +5,6 @@ from exceptions import graphql as graphql_exceptions, base as base_exceptions
 from models.auth import LogoutResponse
 from state.appState import AppState
 from keycloak.exceptions import KeycloakAuthenticationError, KeycloakGetError
-
-
-LOGIN = gql(
-    """
-    mutation login($input: LoginInput!){
-        getUser(input: $input){
-            access_token
-            expires_in
-            refresh_expires_in
-            refresh_token
-            token_type
-            session_state
-            scope
-        }
-    }
-    """
-)
-
-UPDATE_USER = gql(
-    """
-    mutation updateUser($input: UpdateUserInput!){
-        updateUser(input: $input){
-            email
-            name
-            surname
-            phoneNumber
-            currentLocation
-        }
-    }
-    """
-)
 
 
 def getMutation(appState: AppState) -> MutationType:

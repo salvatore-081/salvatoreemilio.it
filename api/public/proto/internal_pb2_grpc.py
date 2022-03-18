@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from proto import internal_pb2 as proto_dot_internal__pb2
+from proto import internal_pb2 as internal__pb2
 
 
 class InternalStub(object):
@@ -15,25 +15,25 @@ class InternalStub(object):
             channel: A grpc.Channel.
         """
         self.GetUser = channel.unary_unary(
-                '/internal.Internal/GetUser',
-                request_serializer=proto_dot_internal__pb2.GetUserInput.SerializeToString,
-                response_deserializer=proto_dot_internal__pb2.User.FromString,
-                )
+            '/internal.Internal/GetUser',
+            request_serializer=internal__pb2.GetUserInput.SerializeToString,
+            response_deserializer=internal__pb2.User.FromString,
+        )
         self.AddUser = channel.unary_unary(
-                '/internal.Internal/AddUser',
-                request_serializer=proto_dot_internal__pb2.AddUserInput.SerializeToString,
-                response_deserializer=proto_dot_internal__pb2.User.FromString,
-                )
+            '/internal.Internal/AddUser',
+            request_serializer=internal__pb2.AddUserInput.SerializeToString,
+            response_deserializer=internal__pb2.User.FromString,
+        )
         self.UpdateUser = channel.unary_unary(
-                '/internal.Internal/UpdateUser',
-                request_serializer=proto_dot_internal__pb2.UpdateUserInput.SerializeToString,
-                response_deserializer=proto_dot_internal__pb2.User.FromString,
-                )
+            '/internal.Internal/UpdateUser',
+            request_serializer=internal__pb2.UpdateUserInput.SerializeToString,
+            response_deserializer=internal__pb2.User.FromString,
+        )
         self.WatchUser = channel.unary_stream(
-                '/internal.Internal/WatchUser',
-                request_serializer=proto_dot_internal__pb2.WatchUserInput.SerializeToString,
-                response_deserializer=proto_dot_internal__pb2.User.FromString,
-                )
+            '/internal.Internal/WatchUser',
+            request_serializer=internal__pb2.WatchUserInput.SerializeToString,
+            response_deserializer=internal__pb2.User.FromString,
+        )
 
 
 class InternalServicer(object):
@@ -66,100 +66,101 @@ class InternalServicer(object):
 
 def add_InternalServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'GetUser': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetUser,
-                    request_deserializer=proto_dot_internal__pb2.GetUserInput.FromString,
-                    response_serializer=proto_dot_internal__pb2.User.SerializeToString,
-            ),
-            'AddUser': grpc.unary_unary_rpc_method_handler(
-                    servicer.AddUser,
-                    request_deserializer=proto_dot_internal__pb2.AddUserInput.FromString,
-                    response_serializer=proto_dot_internal__pb2.User.SerializeToString,
-            ),
-            'UpdateUser': grpc.unary_unary_rpc_method_handler(
-                    servicer.UpdateUser,
-                    request_deserializer=proto_dot_internal__pb2.UpdateUserInput.FromString,
-                    response_serializer=proto_dot_internal__pb2.User.SerializeToString,
-            ),
-            'WatchUser': grpc.unary_stream_rpc_method_handler(
-                    servicer.WatchUser,
-                    request_deserializer=proto_dot_internal__pb2.WatchUserInput.FromString,
-                    response_serializer=proto_dot_internal__pb2.User.SerializeToString,
-            ),
+        'GetUser': grpc.unary_unary_rpc_method_handler(
+            servicer.GetUser,
+            request_deserializer=internal__pb2.GetUserInput.FromString,
+            response_serializer=internal__pb2.User.SerializeToString,
+        ),
+        'AddUser': grpc.unary_unary_rpc_method_handler(
+            servicer.AddUser,
+            request_deserializer=internal__pb2.AddUserInput.FromString,
+            response_serializer=internal__pb2.User.SerializeToString,
+        ),
+        'UpdateUser': grpc.unary_unary_rpc_method_handler(
+            servicer.UpdateUser,
+            request_deserializer=internal__pb2.UpdateUserInput.FromString,
+            response_serializer=internal__pb2.User.SerializeToString,
+        ),
+        'WatchUser': grpc.unary_stream_rpc_method_handler(
+            servicer.WatchUser,
+            request_deserializer=internal__pb2.WatchUserInput.FromString,
+            response_serializer=internal__pb2.User.SerializeToString,
+        ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'internal.Internal', rpc_method_handlers)
+        'internal.Internal', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
-
  # This class is part of an EXPERIMENTAL API.
+
+
 class Internal(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
     def GetUser(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
+                target,
+                options=(),
+                channel_credentials=None,
+                call_credentials=None,
+                insecure=False,
+                compression=None,
+                wait_for_ready=None,
+                timeout=None,
+                metadata=None):
         return grpc.experimental.unary_unary(request, target, '/internal.Internal/GetUser',
-            proto_dot_internal__pb2.GetUserInput.SerializeToString,
-            proto_dot_internal__pb2.User.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+                                             internal__pb2.GetUserInput.SerializeToString,
+                                             internal__pb2.User.FromString,
+                                             options, channel_credentials,
+                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def AddUser(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
+                target,
+                options=(),
+                channel_credentials=None,
+                call_credentials=None,
+                insecure=False,
+                compression=None,
+                wait_for_ready=None,
+                timeout=None,
+                metadata=None):
         return grpc.experimental.unary_unary(request, target, '/internal.Internal/AddUser',
-            proto_dot_internal__pb2.AddUserInput.SerializeToString,
-            proto_dot_internal__pb2.User.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+                                             internal__pb2.AddUserInput.SerializeToString,
+                                             internal__pb2.User.FromString,
+                                             options, channel_credentials,
+                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def UpdateUser(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
+                   target,
+                   options=(),
+                   channel_credentials=None,
+                   call_credentials=None,
+                   insecure=False,
+                   compression=None,
+                   wait_for_ready=None,
+                   timeout=None,
+                   metadata=None):
         return grpc.experimental.unary_unary(request, target, '/internal.Internal/UpdateUser',
-            proto_dot_internal__pb2.UpdateUserInput.SerializeToString,
-            proto_dot_internal__pb2.User.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+                                             internal__pb2.UpdateUserInput.SerializeToString,
+                                             internal__pb2.User.FromString,
+                                             options, channel_credentials,
+                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def WatchUser(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
+                  target,
+                  options=(),
+                  channel_credentials=None,
+                  call_credentials=None,
+                  insecure=False,
+                  compression=None,
+                  wait_for_ready=None,
+                  timeout=None,
+                  metadata=None):
         return grpc.experimental.unary_stream(request, target, '/internal.Internal/WatchUser',
-            proto_dot_internal__pb2.WatchUserInput.SerializeToString,
-            proto_dot_internal__pb2.User.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+                                              internal__pb2.WatchUserInput.SerializeToString,
+                                              internal__pb2.User.FromString,
+                                              options, channel_credentials,
+                                              insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

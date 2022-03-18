@@ -6,6 +6,7 @@ services:
     container_name: public-api
     restart: unless-stopped
     environment:
+      - LOG_LEVEL=DEBUG
       - INTERNAL_API_HOST=internal-api
       - INTERNAL_API_PORT=14010
       - KEYCLOAK_REALM_NAME=se

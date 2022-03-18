@@ -1,22 +1,7 @@
-from gql import gql
 from ariadne import QueryType
 from grpc import RpcError, StatusCode
 from exceptions import graphql as graphql_exceptions, base as base_exceptions
 from state.appState import AppState
-
-GET_USER = gql(
-    """
-    query getUser($email: String!){
-        getUser(email: $email){
-            email
-            name
-            surname
-            phoneNumber
-            currentLocation
-        }
-    }
-    """
-)
 
 
 def getQuery(appState: AppState) -> QueryType:
