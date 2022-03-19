@@ -2,7 +2,7 @@ from ariadne import SubscriptionType
 from grpc import StatusCode
 from grpc.aio import AioRpcError
 from state.appState import AppState
-from exceptions import graphql as graphql_exceptions, base as base_exceptions
+from exceptions import graphql as graphql_exceptions
 
 
 def getSubscription(appState: AppState) -> SubscriptionType:
