@@ -16,24 +16,10 @@ def getUsersRouter(appState: AppState):
     token_auth_scheme = HTTPBearer()
 
     @router.get("/{email}", response_model=User, responses={400: {"model": rest_exceptions.BadRequest}, 401: {"model": rest_exceptions.Unauthorized}, 403: {"model": rest_exceptions.Forbidden}, 404: {"model": rest_exceptions.NotFound}, 500: {"model": rest_exceptions.InternalServerError}},  response_model_exclude_none=True)
-    async def get_user(email: str, gPRCClient: GPRCClient = Depends(appState.select_gPRCClient), keycloak: Keycloak = Depends(appState.select_keycloak), token: str = Depends(token_auth_scheme)):
+    async def get_user(email: str, gPRCClient: GPRCClient = Depends(appState.select_gPRCClient)):
         try:
-            introspection = keycloak.introspect_token(token.credentials)
-            keycloak.check_active(introspection)
-            keycloak.check_view_users(introspection, email)
-
             r = await gPRCClient.get_user(email=email)
             return MessageToDict(r)
-        except base_exceptions.Forbidden:
-            return JSONResponse(
-                status_code=403,
-                content=rest_exceptions.Forbidden().dict()
-            )
-        except base_exceptions.Unauthorized:
-            return JSONResponse(
-                status_code=401,
-                content=rest_exceptions.Unauthorized().dict()
-            )
         except base_exceptions.BadRequest:
             return JSONResponse(
                 status_code=400,
