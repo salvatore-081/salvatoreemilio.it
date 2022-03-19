@@ -27,23 +27,8 @@ try:
 
     app.include_router(api_router, prefix="")
 
-    def on_connect(websocket, params: Any):
-        auth = params.get("Authorization")
-        if not auth or not auth.startswith("Bearer ") or len(auth) < 7:
-            raise WebSocketConnectionError("invalid Authorization")
-        websocket.scope["connection_params"] = {
-            "access_token": auth[7:],
-        }
-
-    def context_value(request):
-        context = {'request': request}
-        if request.scope["type"] == "websocket":
-            context.update(request.scope["connection_params"])
-
-        return context
-
     graphqlApp = GraphQL(make_executable_schema(
-        SCHEMA, getQuery(appState), getMutation(appState), getSubscription(appState)), keepalive=None, context_value=context_value, on_connect=on_connect)
+        SCHEMA, getQuery(appState), getMutation(appState), getSubscription(appState)), keepalive=None)
 
     app.mount("/graphql", graphqlApp)
 except Exception as e:
