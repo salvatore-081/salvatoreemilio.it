@@ -11,7 +11,7 @@ import { split } from '@apollo/client/core';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { APP_REDUCERS } from './app.state';
+import { APP_REDUCERS } from './state/app.state';
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from './state/effects';
 import { AppRoutingModule } from './app-routing.module';

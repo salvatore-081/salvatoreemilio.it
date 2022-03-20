@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { UserState, USER_REDUCER } from "./state";
+import { UserState, USER_REDUCER } from ".";
 
 export const APP_REDUCERS = {
   user: USER_REDUCER

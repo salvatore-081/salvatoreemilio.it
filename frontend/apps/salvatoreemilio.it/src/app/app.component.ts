@@ -5,8 +5,8 @@ import { LOAD } from './state/actions/user.actions';
 
 @Component({
   selector: 'frontend-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  template: `<router-outlet></router-outlet>`,
+  styles: []
 })
 export class AppComponent implements OnInit {
   constructor(private store: Store) { }
