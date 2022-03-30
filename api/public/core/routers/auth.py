@@ -2,12 +2,11 @@
 
 from fastapi import APIRouter
 from fastapi.params import Depends
-from keycloak.exceptions import KeycloakAuthenticationError, KeycloakGetError
 from starlette.responses import JSONResponse
 from deps.keycloak import Keycloak
 from models.auth import LoginInput, LogoutInput, LoginResponse, LogoutResponse
 from state.appState import AppState
-from exceptions import rest as rest_exceptions, base as base_exceptions
+from exceptions import rest as rest_exceptions
 from fastapi.security import HTTPBearer
 
 
@@ -20,11 +19,6 @@ def getAuthRouter(appState: AppState):
         try:
             login = keycloak.login(input.email, input.password, input.totp)
             return login
-        except KeycloakAuthenticationError:
-            return JSONResponse(
-                status_code=401,
-                content=rest_exceptions.Unauthorized().dict()
-            )
         except Exception as e:
             return JSONResponse(
                 status_code=500,
@@ -40,22 +34,6 @@ def getAuthRouter(appState: AppState):
             keycloak.logout(input.refresh_token)
 
             return LogoutResponse(refresh_token=input.refresh_token).dict()
-        except base_exceptions.Unauthorized:
-            return JSONResponse(
-                status_code=401,
-                content=rest_exceptions.Unauthorized().dict()
-            )
-        except base_exceptions.BadRequest:
-            return JSONResponse(
-                status_code=400,
-                content=rest_exceptions.BadRequest().dict()
-            )
-        except KeycloakGetError:
-            return JSONResponse(
-                status_code=400,
-                content=rest_exceptions.BadRequest(
-                    detail="Invalid refresh token").dict()
-            )
         except Exception as e:
             return JSONResponse(
                 status_code=500,

@@ -1,7 +1,7 @@
 from os import getenv
 from grpc.aio import insecure_channel
 from proto.internal_pb2_grpc import InternalStub
-from proto.internal_pb2 import GetUserInput, UpdateUserInput, UpdateUserInputPayload, WatchUserInput
+from proto.internal_pb2 import GetUserInput, GetUserListInput, UpdateUserInput, UpdateUserInputPayload, WatchUserInput
 
 
 class GPRCClient():
@@ -17,6 +17,15 @@ class GPRCClient():
                 st = InternalStub(ch)
                 getUser = await st.GetUser(GetUserInput(email=email))
                 return getUser
+        except Exception as e:
+            raise e
+
+    async def get_user_list(self):
+        try:
+            async with insecure_channel(self.url) as ch:
+                st = InternalStub(ch)
+                getUserList = await st.GetUserList(GetUserListInput())
+                return getUserList
         except Exception as e:
             raise e
 

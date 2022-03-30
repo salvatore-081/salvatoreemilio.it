@@ -1,5 +1,6 @@
 SCHEMA = """
   type Query {
+    getUserList: GetUserListOutput
     getUser(email: String!): User
   }
 
@@ -29,6 +30,17 @@ SCHEMA = """
     surname: String
     phoneNumber: String
     currentLocation: String
+  }
+
+  type UserListItem {
+    email: String!
+    name: String
+    surname: String
+    profilePicture: String
+  }
+
+  type GetUserListOutput {
+    userList: [UserListItem]
   }
 
   type User {

@@ -55,7 +55,7 @@ class Keycloak:
             realm_name=realm_name,
             client_secret_key=service_account_client_secret_key
         )
-        wait_time = 60 * 60 * 24 * 179  # 180 days in seconds minus 1 day for leniency
+        wait_time = 60 * 60 * 24 * 59  # 60 days in seconds minus 1 day for leniency
         t = Timer(
             wait_time, self.keycloak_service_account, args=[server_url, service_account_client_id, realm_name, service_account_client_secret_key])
         t.daemon = True

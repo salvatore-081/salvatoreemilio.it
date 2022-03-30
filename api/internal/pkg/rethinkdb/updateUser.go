@@ -16,7 +16,7 @@ func (rdb *RethinkDB) UpdateUser(ctx context.Context, in *proto.UpdateUserInput)
 		return new(proto.User), grpc.Errorf(codes.InvalidArgument, "'email' is missing")
 	}
 
-	if in.UpdateUserInputPayload == nil || (len(in.UpdateUserInputPayload.CurrentLocation) < 1 && len(in.UpdateUserInputPayload.Name) < 1 && len(in.UpdateUserInputPayload.PhoneNumber) < 1 && len(in.UpdateUserInputPayload.Surname) < 1) {
+	if in.UpdateUserInputPayload == nil || (len(in.UpdateUserInputPayload.Location) < 1 && len(in.UpdateUserInputPayload.Name) < 1 && len(in.UpdateUserInputPayload.PhoneNumber) < 1 && len(in.UpdateUserInputPayload.Surname) < 1 && len(in.UpdateUserInputPayload.ProfilePicture) < 1) {
 		return new(proto.User), grpc.Errorf(codes.InvalidArgument, "UpdateUserInput payload cannot be empty")
 	}
 

@@ -13,7 +13,21 @@ message User {
     string name = 2;
     string surname = 3;
     string phoneNumber = 4;
-    string currentLocation = 5;
+    string location = 5;
+    bytes profilePicture = 6;
+}
+
+message GetUserListInput {}
+
+message UserListItem {
+    string email = 1;
+    string name = 2;
+    string surname = 3;
+    bytes profilePicture = 4;
+}
+
+message GetUserListOutput {
+    repeated UserListItem userList = 1;
 }
 
 message AddUserInput {
@@ -21,14 +35,16 @@ message AddUserInput {
     string name = 2;
     string surname = 3;
     string phoneNumber = 4;
-    string currentLocation = 5;
+    string location = 5;
+    bytes profilePicture = 6;
 }
 
 message UpdateUserInputPayload {
     string name = 1;
     string surname = 2;
     string phoneNumber = 3;
-    string currentLocation = 4;
+    string location = 4;
+    bytes profilePicture = 6;
 }
 
 message UpdateUserInput {
@@ -42,6 +58,7 @@ message WatchUserInput {
 
 service Internal {
     rpc GetUser (GetUserInput) returns (User) {}
+    rpc GetUserList (GetUserListInput) returns (GetUserListOutput) {}
     rpc AddUser (AddUserInput) returns (User) {}
     rpc UpdateUser (UpdateUserInput) returns (User) {}
     rpc WatchUser (WatchUserInput) returns (stream User) {}

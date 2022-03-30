@@ -19,6 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type InternalClient interface {
 	GetUser(ctx context.Context, in *GetUserInput, opts ...grpc.CallOption) (*User, error)
+	GetUserList(ctx context.Context, in *GetUserListInput, opts ...grpc.CallOption) (*GetUserListOutput, error)
 	AddUser(ctx context.Context, in *AddUserInput, opts ...grpc.CallOption) (*User, error)
 	UpdateUser(ctx context.Context, in *UpdateUserInput, opts ...grpc.CallOption) (*User, error)
 	WatchUser(ctx context.Context, in *WatchUserInput, opts ...grpc.CallOption) (Internal_WatchUserClient, error)
@@ -35,6 +36,15 @@ func NewInternalClient(cc grpc.ClientConnInterface) InternalClient {
 func (c *internalClient) GetUser(ctx context.Context, in *GetUserInput, opts ...grpc.CallOption) (*User, error) {
 	out := new(User)
 	err := c.cc.Invoke(ctx, "/internal.Internal/GetUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *internalClient) GetUserList(ctx context.Context, in *GetUserListInput, opts ...grpc.CallOption) (*GetUserListOutput, error) {
+	out := new(GetUserListOutput)
+	err := c.cc.Invoke(ctx, "/internal.Internal/GetUserList", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -96,6 +106,7 @@ func (x *internalWatchUserClient) Recv() (*User, error) {
 // for forward compatibility
 type InternalServer interface {
 	GetUser(context.Context, *GetUserInput) (*User, error)
+	GetUserList(context.Context, *GetUserListInput) (*GetUserListOutput, error)
 	AddUser(context.Context, *AddUserInput) (*User, error)
 	UpdateUser(context.Context, *UpdateUserInput) (*User, error)
 	WatchUser(*WatchUserInput, Internal_WatchUserServer) error
@@ -108,6 +119,9 @@ type UnimplementedInternalServer struct {
 
 func (UnimplementedInternalServer) GetUser(context.Context, *GetUserInput) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
+}
+func (UnimplementedInternalServer) GetUserList(context.Context, *GetUserListInput) (*GetUserListOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserList not implemented")
 }
 func (UnimplementedInternalServer) AddUser(context.Context, *AddUserInput) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddUser not implemented")
@@ -145,6 +159,24 @@ func _Internal_GetUser_Handler(srv interface{}, ctx context.Context, dec func(in
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(InternalServer).GetUser(ctx, req.(*GetUserInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Internal_GetUserList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserListInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(InternalServer).GetUserList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/internal.Internal/GetUserList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(InternalServer).GetUserList(ctx, req.(*GetUserListInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -216,6 +248,10 @@ var Internal_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUser",
 			Handler:    _Internal_GetUser_Handler,
+		},
+		{
+			MethodName: "GetUserList",
+			Handler:    _Internal_GetUserList_Handler,
 		},
 		{
 			MethodName: "AddUser",
