@@ -30,14 +30,14 @@ SCHEMA = """
     surname: String
     phoneNumber: String
     location: String
-    profilePicture: String
+    profilePicture: [String]
   }
 
   type UserListItem {
     email: String!
     name: String
     surname: String
-    profilePicture: String
+    profilePicture: [String]
   }
 
   type GetUserListOutput {
@@ -50,7 +50,7 @@ SCHEMA = """
     surname: String
     phoneNumber: String
     location: String
-    profilePicture: String
+    profilePicture: [String]
   }
 
   type LoginResponse {

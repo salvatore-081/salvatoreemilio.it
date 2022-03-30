@@ -31,7 +31,7 @@ jobs:
           context: api/public
           file: api/public/Dockerfile
           push: true
-          tags: salvatoreemilio/salvatoreemilio.it_public-api:latest,salvatoreemilio/salvatoreemilio.it_public-api:0.0.12
+          tags: salvatoreemilio/salvatoreemilio.it_public-api:latest,salvatoreemilio/salvatoreemilio.it_public-api:0.0.13
   deploy:
     needs: [build]
     runs-on: ubuntu-latest

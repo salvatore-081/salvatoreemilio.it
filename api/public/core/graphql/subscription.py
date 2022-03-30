@@ -18,7 +18,7 @@ def getSubscription(appState: AppState) -> SubscriptionType:
                 yield user
         except AioRpcError as e:
             if e.code() == StatusCode.NOT_FOUND:
-                yield graphql_exceptions.NotFound('user', 'email', email)
+                yield graphql_exceptions.NotFound(e.details())
                 return
             yield graphql_exceptions.InternalServerError(e.details())
             return

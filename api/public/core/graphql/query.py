@@ -16,9 +16,21 @@ def getQuery(appState: AppState) -> QueryType:
             return r
         except RpcError as e:
             if e.code() == StatusCode.NOT_FOUND:
-                return graphql_exceptions.NotFound('user', 'email', email)
+                return graphql_exceptions.NotFound(e.details())
             if e.code() == StatusCode.INVALID_ARGUMENT:
                 return graphql_exceptions.BadRequest('bad request')
+            return graphql_exceptions.InternalServerError(e.details())
+        except Exception as e:
+            return graphql_exceptions.InternalServerError(str(e))
+
+    @query.field("getUserList")
+    async def resolve_getUserList(_, info):
+        try:
+            r = await appState.gRPCCLient.get_user_list()
+            return r
+        except RpcError as e:
+            if e.code() == StatusCode.NOT_FOUND:
+                return graphql_exceptions.NotFound(e.details())
             return graphql_exceptions.InternalServerError(e.details())
         except Exception as e:
             return graphql_exceptions.InternalServerError(str(e))

@@ -82,7 +82,7 @@ def getMutation(appState: AppState) -> MutationType:
             return graphql_exceptions.Unauthorized()
         except RpcError as e:
             if e.code() == StatusCode.NOT_FOUND:
-                return graphql_exceptions.NotFound('user', 'email', input['email'])
+                return graphql_exceptions.NotFound(e.details())
             if e.code() == StatusCode.INVALID_ARGUMENT:
                 return graphql_exceptions.BadRequest('bad request')
             return graphql_exceptions.InternalServerError(e.details())
