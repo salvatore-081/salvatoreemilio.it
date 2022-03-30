@@ -29,7 +29,8 @@ SCHEMA = """
     name: String
     surname: String
     phoneNumber: String
-    currentLocation: String
+    location: String
+    profilePicture: String
   }
 
   type UserListItem {
@@ -48,7 +49,8 @@ SCHEMA = """
     name: String
     surname: String
     phoneNumber: String
-    currentLocation: String
+    location: String
+    profilePicture: String
   }
 
   type LoginResponse {
