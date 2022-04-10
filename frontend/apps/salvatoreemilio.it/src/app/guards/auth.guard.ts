@@ -1,4 +1,3 @@
-import { UnregisteredTaskException } from '@angular-devkit/schematics';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -9,13 +8,11 @@ import {
 } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { KeycloakAuthGuard, KeycloakService } from 'keycloak-angular';
-import { env } from 'process';
 import {
   catchError,
   finalize,
   firstValueFrom,
   from,
-  lastValueFrom,
   map,
   Observable,
   of,
@@ -27,7 +24,6 @@ import { environment } from '../../environments/environment';
 import { SELECT_USER } from '../app.state';
 import { LOAD, UserState } from '../state';
 import { LOADER_OFF, LOADER_ON } from '../state/actions/loader.actions';
-// import { RequiredRole } from './required-role';
 
 @Injectable({
   providedIn: 'root',

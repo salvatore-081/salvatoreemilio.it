@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { Store } from '@ngrx/store';
 import { Observable, skipWhile, switchMap } from 'rxjs';
-import { AppModule } from '../../app.module';
 import { SELECT_USER } from '../../app.state';
 import { User } from '../../models';
-import { HeaderComponent } from './header.component';
 
 export interface HeaderState {
   selectedUser: User;
