@@ -1,3 +1,4 @@
+from base64 import b64decode, b64encode
 from fastapi import FastAPI, APIRouter
 from ariadne import make_executable_schema
 from ariadne.asgi import GraphQL
@@ -14,6 +15,7 @@ from fastapi import Request
 from starlette.responses import JSONResponse
 from exceptions import rest as rest_exceptions, base as base_exceptions
 from keycloak.exceptions import KeycloakAuthenticationError, KeycloakGetError
+from ariadne import ScalarType
 
 try:
     appState = AppState()
@@ -93,9 +95,18 @@ try:
             status_code=403,
             content=rest_exceptions.Forbidden().dict()
         )
+    
+    base64_scalar = ScalarType('Base64')
+    @base64_scalar.serializer
+    def serialize_base64(v):
+        return str(b64encode(v), 'UTF-8')
+
+    @base64_scalar.value_parser
+    def parse_base64_value(v):
+        return b64decode(v.encode('UTF-8'))
 
     graphqlApp = GraphQL(make_executable_schema(
-        SCHEMA, getQuery(appState), getMutation(appState), getSubscription(appState)), keepalive=None)
+        SCHEMA, getQuery(appState), getMutation(appState), getSubscription(appState), base64_scalar), keepalive=None)
 
     app.mount("/graphql", graphqlApp)
 except Exception as e:

@@ -1,4 +1,6 @@
 SCHEMA = """
+  scalar Base64
+
   type Query {
     getUserList: GetUserListOutput
     getUser(email: String!): User
@@ -30,14 +32,14 @@ SCHEMA = """
     surname: String
     phoneNumber: String
     location: String
-    profilePicture: [String]
+    profilePicture: Base64
   }
 
   type UserListItem {
     email: String!
     name: String
     surname: String
-    profilePicture: [String]
+    profilePicture: Base64
   }
 
   type GetUserListOutput {
@@ -50,7 +52,7 @@ SCHEMA = """
     surname: String
     phoneNumber: String
     location: String
-    profilePicture: [String]
+    profilePicture: Base64
   }
 
   type LoginResponse {
