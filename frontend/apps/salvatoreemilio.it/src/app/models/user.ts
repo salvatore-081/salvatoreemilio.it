@@ -3,5 +3,13 @@ export interface User {
   name?: string;
   surname?: string;
   phoneNumber?: string;
-  currentLocation?: string;
+  location?: string;
+  profilePicture?: string;
+}
+
+export interface UserListItem {
+  email: string;
+  name?: string;
+  surname?: string;
+  profilePicutre?: string;
 }

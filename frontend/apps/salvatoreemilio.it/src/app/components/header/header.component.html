@@ -1,0 +1,31 @@
+<div class="header__container">
+  <p-progressBar
+    class="progress_bar"
+    [ngStyle]="{ visibility: (loader$ | async) ? 'visible' : 'hidden' }"
+    mode="indeterminate"
+  >
+  </p-progressBar>
+  <div class="toolbar__container">
+    <button
+      pButton
+      class="p-button-rounded p-button-outlined"
+      type="button"
+      label="Home"
+      [style.visibility]="homePageRoute ? 'hidden' : 'visible'"
+      (click)="navigateHome()"
+    ></button>
+    <ng-container *ngrxLet="selectedUser$ as user">
+      <p-avatar
+        shape="circle"
+        size="large"
+        image="{{
+          user.profilePicture?.length && user.profilePicture!.length > 0
+            ? 'data:image/png;base64,' + user.profilePicture
+            : 'assets/avatar-default.png'
+        }}"
+        (click)="menu.toggle($event)"
+      ></p-avatar>
+    </ng-container>
+  </div>
+  <p-menu #menu [popup]="true" [model]="items"></p-menu>
+</div>

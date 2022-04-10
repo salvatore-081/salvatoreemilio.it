@@ -1,0 +1,59 @@
+.account__container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  row-gap: 8px;
+  column-gap: 16px;
+  margin: 16px 16px 128px;
+  border-radius: 16px;
+  background: whitesmoke;
+  .form__container {
+    display: flex;
+    flex-direction: column;
+    .form__label {
+      padding: 0 0 0 12px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .formControl-invalid {
+      margin: 0 0 6px 12px;
+    }
+  }
+
+  .profile-picture__container {
+    .form__label {
+      text-align: center;
+    }
+    .profile-picture__content {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+    }
+  }
+}
+
+// email
+.account__container > div:nth-child(1) {
+  flex: 100%;
+  padding: 32px 16px 0;
+  font-weight: bold;
+  font-size: 28px;
+  text-align: center;
+}
+
+// profile picture
+.account__container > div:nth-child(2) {
+  padding: 0 16px 16px;
+  flex: 100%;
+}
+
+.account__container > div:nth-child(n + 3) {
+  padding: 16px;
+  @media screen and (max-width: 768.9px) {
+    flex: 100%;
+  }
+  @media not screen and (max-width: 768.9px) {
+    flex: calc(50% - (64px));
+  }
+}

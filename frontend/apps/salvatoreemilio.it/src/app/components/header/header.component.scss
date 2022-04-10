@@ -1,0 +1,14 @@
+.header__container {
+    display: flex;
+    flex-direction: column;
+    .progress_bar {
+        height: 6px;
+    }
+    .toolbar__container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 32px 16px;
+    }
+}

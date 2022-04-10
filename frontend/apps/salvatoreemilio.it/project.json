@@ -6,7 +6,9 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/salvatoreemilio.it",
         "index": "apps/salvatoreemilio.it/src/index.html",
@@ -18,7 +20,12 @@
           "apps/salvatoreemilio.it/src/favicon.ico",
           "apps/salvatoreemilio.it/src/assets"
         ],
-        "styles": ["apps/salvatoreemilio.it/src/styles.scss"],
+        "styles": [
+          "apps/salvatoreemilio.it/src/styles.scss",
+          "node_modules/primeicons/primeicons.css",
+          "apps/salvatoreemilio.it/src/resources/themes/default/theme.scss",
+          "node_modules/primeng/resources/primeng.min.css"
+        ],
         "scripts": []
       },
       "configurations": {
@@ -83,7 +90,9 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/salvatoreemilio.it"],
+      "outputs": [
+        "coverage/apps/salvatoreemilio.it"
+      ],
       "options": {
         "jestConfig": "apps/salvatoreemilio.it/jest.config.js",
         "passWithNoTests": true
