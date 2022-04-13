@@ -14,17 +14,24 @@
       [style.visibility]="homePageRoute ? 'hidden' : 'visible'"
       (click)="navigateHome()"
     ></button>
-    <ng-container *ngrxLet="selectedUser$ as user">
-      <p-avatar
+    <ng-container *ngrxLet="profilePicture$ as profilePicture">
+      <p-skeleton
+        *ngIf="profilePicture == null; else AVATAR"
         shape="circle"
-        size="large"
-        image="{{
-          user.profilePicture?.length && user.profilePicture!.length > 0
-            ? 'data:image/png;base64,' + user.profilePicture
-            : 'assets/avatar-default.png'
-        }}"
-        (click)="menu.toggle($event)"
-      ></p-avatar>
+        size="3rem"
+      ></p-skeleton>
+      <ng-template #AVATAR>
+        <p-avatar
+          shape="circle"
+          size="large"
+          image="{{
+            profilePicture?.length && profilePicture!.length > 0
+              ? 'data:image/png;base64,' + profilePicture
+              : 'assets/avatar-default.png'
+          }}"
+          (click)="menu.toggle($event)"
+        ></p-avatar>
+      </ng-template>
     </ng-container>
   </div>
   <p-menu #menu [popup]="true" [model]="items"></p-menu>

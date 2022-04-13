@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { Store } from '@ngrx/store';
 import { Observable, skipWhile, switchMap } from 'rxjs';
-import { SELECT_USER } from '../../app.state';
+import { SELECT_USER, SELECT_USER_PROFILE_PICTURE } from '../../app.state';
 import { User } from '../../models';
 
 export interface HeaderState {
-  selectedUser: User;
+  // selectedUser: User;
+  profilePicture: string | undefined;
 }
 
 @Injectable()
@@ -15,20 +16,24 @@ export class HeaderStore extends ComponentStore<HeaderState> {
     private readonly headerStore: ComponentStore<HeaderState>,
     private store: Store
   ) {
-    super({ selectedUser: { email: '' } });
+    super({ profilePicture: undefined });
   }
 
-  readonly selectedUser$: Observable<User> = this.select(
-    (state) => state.selectedUser
-  ).pipe(skipWhile((selectedUser) => selectedUser.email === ''));
+  readonly profilePicture$: Observable<string | undefined> = this.select(
+    (state) => state?.profilePicture
+  );
 
-  readonly setSelectedUser = this.updater((state, user: User) => ({
-    selectedUser: user,
-  }));
+  readonly setProfilePicture = this.updater(
+    (state, profilePicture: string | undefined) => ({
+      profilePicture: profilePicture,
+    })
+  );
 
-  readonly changeSelectedUser = this.effect(() =>
+  readonly changeProfilePicture$ = this.effect(() =>
     this.store
-      .select(SELECT_USER)
-      .pipe(switchMap((user) => [this.setSelectedUser(user)]))
+      .select(SELECT_USER_PROFILE_PICTURE)
+      .pipe(
+        switchMap((profiePicture) => [this.setProfilePicture(profiePicture)])
+      )
   );
 }

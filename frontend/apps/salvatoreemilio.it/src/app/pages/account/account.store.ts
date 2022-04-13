@@ -1,15 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { Store } from '@ngrx/store';
-import {
-  first,
-  Observable,
-  Subject,
-  switchMap,
-  take,
-  tap,
-  throwError,
-} from 'rxjs';
+import { first, Observable, Subject, switchMap, take, tap } from 'rxjs';
 import { User } from '../../models';
 import { GraphqlService } from '../../services/graphql.service';
 import { SELECT_USER } from '../../app.state';

@@ -3,7 +3,6 @@ import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { MenuItem } from 'primeng/api';
 import { Observable } from 'rxjs';
-import { User } from '../../models';
 import { SELECT_LOADER_LOADING } from '../../app.state';
 import { HeaderStore } from './header.store';
 import { LOADER_OFF, LOADER_ON } from '../../state/actions/loader.actions';
@@ -32,7 +31,8 @@ export class HeaderComponent implements OnInit {
     },
   ];
 
-  selectedUser$: Observable<User> = this.headerStore.selectedUser$;
+  profilePicture$: Observable<string | undefined> =
+    this.headerStore.profilePicture$;
   loader$: Observable<boolean> = this.store.select(SELECT_LOADER_LOADING);
 
   constructor(

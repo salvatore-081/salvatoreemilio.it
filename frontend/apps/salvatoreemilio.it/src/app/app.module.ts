@@ -26,6 +26,7 @@ import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { ButtonModule } from 'primeng/button';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MessageService } from 'primeng/api';
+import { SkeletonModule } from 'primeng/skeleton';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -50,6 +51,7 @@ const PRIMENG_MODULES = [
   MenuModule,
   ProgressBarModule,
   ButtonModule,
+  SkeletonModule,
 ];
 
 @NgModule({
