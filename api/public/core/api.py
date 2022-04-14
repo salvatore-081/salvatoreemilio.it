@@ -4,7 +4,7 @@ from ariadne import make_executable_schema
 from ariadne.asgi import GraphQL
 from grpc import RpcError, StatusCode
 from state.appState import AppState
-from .routers import users, auth
+from .routers import users, auth, misc
 from .graphql.query import getQuery
 from .graphql.mutation import getMutation
 from .graphql.subscription import getSubscription
@@ -24,9 +24,11 @@ try:
 
     users_router = users.getUsersRouter(appState)
     auth_router = auth.getAuthRouter(appState)
+    misc_router = misc.getMiscRouter()
 
     api_router.include_router(users_router, prefix="/users", tags=["users"])
     api_router.include_router(auth_router, prefix=("/auth"), tags=["auth"])
+    api_router.include_router(misc_router, prefix=("/misc"), tags=["misc"])
 
     app = FastAPI(
         title="salvatoreemilio.it", openapi_url="/openapi.json"
