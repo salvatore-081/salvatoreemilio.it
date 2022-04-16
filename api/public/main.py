@@ -14,7 +14,7 @@ from core.api import app
 LOG_LEVEL = logging.getLevelName(getenv("LOG_LEVEL", "DEBUG"))
 JSON_LOGS = True
 WORKERS = (cpu_count() * 2) + 1
-BIND = f"0.0.0.0:{getenv('PORT', 14020)}"
+BIND = f"0.0.0.0:{getenv('GUNICORN_PORT', 14021)}"
 
 
 class InterceptHandler(logging.Handler):

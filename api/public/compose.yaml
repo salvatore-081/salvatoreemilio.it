@@ -9,7 +9,7 @@ services:
       - LOG_LEVEL=DEBUG
       - INTERNAL_API_HOST=internal-api
       - INTERNAL_API_PORT=14010
-      - PORT=14021
+      - GUNICORN_PORT=14021
       - KEYCLOAK_REALM_NAME=se
       - KEYCLOAK_URL=https://login.salvatoreemilio.it/auth/
       - KEYCLOAK_CLIENT_ID=api-auth
