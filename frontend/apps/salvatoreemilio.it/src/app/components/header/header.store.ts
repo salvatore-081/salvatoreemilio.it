@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { Store } from '@ngrx/store';
-import { Observable, skipWhile, switchMap } from 'rxjs';
-import { SELECT_USER, SELECT_USER_PROFILE_PICTURE } from '../../app.state';
-import { User } from '../../models';
+import { Observable, switchMap } from 'rxjs';
+import { SELECT_USER_PROFILE_PICTURE } from '../../app.state';
 
 export interface HeaderState {
-  // selectedUser: User;
   profilePicture: string | undefined;
 }
 
