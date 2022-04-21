@@ -5,7 +5,7 @@ export const environment = {
     wsLink: 'wss://api.salvatoreemilio.it/graphql/',
   },
   rest: {
-    url: `https://api.salvatoreemilio.it/`,
+    url: `https://api.salvatoreemilio.it`,
   },
   auth: {
     url: `https://login.salvatoreemilio.it/auth`,
