@@ -15,7 +15,7 @@ func (rdb *RethinkDB) GetUser(ctx context.Context, in *proto.GetUserInput) (*pro
 		return new(proto.User), grpc.Errorf(codes.InvalidArgument, "missing 'email' argument")
 	}
 
-	c, e := r.Table(defaultTable).Get(in.Email).Run(rdb.session)
+	c, e := r.Table(usersTable).Get(in.Email).Run(rdb.session)
 	if e != nil {
 		return new(proto.User), grpc.Errorf(codes.Internal, e.Error())
 	}

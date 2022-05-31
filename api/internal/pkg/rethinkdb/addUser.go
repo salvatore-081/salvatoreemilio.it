@@ -18,7 +18,7 @@ func (rdb *RethinkDB) AddUser(ctx context.Context, in *proto.AddUserInput) (*pro
 		return new(proto.User), grpc.Errorf(codes.InvalidArgument, "'email' is missing")
 	}
 
-	wr, e := r.Table(defaultTable).Insert(in, r.InsertOpts{
+	wr, e := r.Table(usersTable).Insert(in, r.InsertOpts{
 		ReturnChanges: true,
 	}).RunWrite(rdb.session)
 	if e != nil {

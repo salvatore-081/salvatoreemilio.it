@@ -20,7 +20,7 @@ func (rdb *RethinkDB) UpdateUser(ctx context.Context, in *proto.UpdateUserInput)
 		return new(proto.User), grpc.Errorf(codes.InvalidArgument, "UpdateUserInput payload cannot be empty")
 	}
 
-	wr, e := r.Table(defaultTable).Get(in.Email).Update(in.UpdateUserInputPayload, r.UpdateOpts{
+	wr, e := r.Table(usersTable).Get(in.Email).Update(in.UpdateUserInputPayload, r.UpdateOpts{
 		ReturnChanges: "always",
 	}).RunWrite(rdb.session)
 	if e != nil {

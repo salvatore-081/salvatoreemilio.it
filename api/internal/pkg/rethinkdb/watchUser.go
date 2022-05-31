@@ -23,7 +23,7 @@ func (rdb *RethinkDB) WatchUser(ctx context.Context, in *proto.WatchUserInput) (
 	if in == nil || len(in.Email) < 1 {
 		e <- grpc.Errorf(codes.InvalidArgument, "argument 'email' is required")
 	} else {
-		c, err := r.Table(defaultTable).Get(in.Email).Changes(r.ChangesOpts{
+		c, err := r.Table(usersTable).Get(in.Email).Changes(r.ChangesOpts{
 			IncludeInitial: true,
 		}).Run(rdb.session)
 		if err != nil {

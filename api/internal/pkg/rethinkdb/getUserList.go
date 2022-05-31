@@ -10,7 +10,7 @@ import (
 )
 
 func (rdb *RethinkDB) GetUserList(ctx context.Context, in *proto.GetUserListInput) (*proto.GetUserListOutput, error) {
-	c, e := r.Table(defaultTable).Pluck("email", "name", "surname", "profilePicture").Run(rdb.session)
+	c, e := r.Table(usersTable).Pluck("email", "name", "surname", "profilePicture").Run(rdb.session)
 	if e != nil {
 		return new(proto.GetUserListOutput), grpc.Errorf(codes.Internal, e.Error())
 	}

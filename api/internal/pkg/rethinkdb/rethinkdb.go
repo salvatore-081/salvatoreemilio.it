@@ -1,9 +1,7 @@
 package rethinkdb
 
 import (
-	"errors"
 	"fmt"
-	"os"
 
 	"github.com/rs/zerolog/log"
 	r "gopkg.in/rethinkdb/rethinkdb-go.v6"
@@ -13,7 +11,8 @@ type RethinkDB struct {
 	session *r.Session
 }
 
-const defaultTable = "users"
+const usersTable = "users" 
+const projectsTable = "projects"
 const primaryKey = "email"
 
 func (rdb *RethinkDB) NewSession() (e error) {
@@ -63,12 +62,14 @@ func (rdb *RethinkDB) NewSession() (e error) {
 			return e
 		}
 
-		e = createDefaultTable(db, s)
+		for _, v := range [2]string{usersTable, projectsTable} {
+			e = createTable(db, v, s)
 		if e != nil {
 			return e
 		}
+		}
 
-		log.Info().Msg(fmt.Sprintf("database '%s' created with default table '%s'", db, defaultTable))
+		log.Info().Msg(fmt.Sprintf("database '%s' created with tables: '%s', ''%s", db, usersTable, projectsTable))
 	} else {
 		c, e := r.DB(db).TableList().Run(s)
 		if e != nil {
@@ -82,25 +83,24 @@ func (rdb *RethinkDB) NewSession() (e error) {
 			return e
 		}
 
-		tableCheck := false
-
+		for _, v := range [2]string{usersTable, projectsTable}{
+			check := false
 		for _, t := range tableList {
-			if t == defaultTable {
-				tableCheck = true
-				r.DB(db).TableList()
+				if t == v {
+					check = true
 				break
 			}
 		}
+			if !check {
+			log.Info().Msg(fmt.Sprintf("table '%s' is missing", v))
 
-		if !tableCheck {
-			log.Info().Msg(fmt.Sprintf("default table '%s' is missing", defaultTable))
-
-			e = createDefaultTable(db, s)
+			e = createTable(db, v, s)
 			if e != nil {
 				return e
 			}
 
-			log.Info().Msg(fmt.Sprintf("default table '%s' created", defaultTable))
+			log.Info().Msg(fmt.Sprintf("table '%s' created", v))
+			}
 		}
 	}
 
@@ -117,8 +117,8 @@ func (rdb *RethinkDB) NewSession() (e error) {
 	return nil
 }
 
-func createDefaultTable(db string, s *r.Session) error {
-	_, e := r.DB(db).TableCreate(defaultTable, r.TableCreateOpts{PrimaryKey: primaryKey}).RunWrite(s)
+func createTable(db string, table string, s *r.Session) error {
+	_, e := r.DB(db).TableCreate(table, r.TableCreateOpts{PrimaryKey: primaryKey}).RunWrite(s)
 	if e != nil {
 		return e
 	}
