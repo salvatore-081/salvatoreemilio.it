@@ -1,7 +1,9 @@
 package rethinkdb
 
 import (
+	"errors"
 	"fmt"
+	"os"
 
 	"github.com/rs/zerolog/log"
 	r "gopkg.in/rethinkdb/rethinkdb-go.v6"
