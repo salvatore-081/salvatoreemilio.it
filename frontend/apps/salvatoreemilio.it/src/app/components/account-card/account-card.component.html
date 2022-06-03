@@ -1,0 +1,27 @@
+<div class="user__container" (click)="selectUser()">
+  <p-avatar
+    size="xlarge"
+    image="{{
+      user.profilePicture?.length && user.profilePicture!.length > 0
+        ? 'data:image/png;base64,' + user.profilePicture
+        : 'assets/avatar-default.png'
+    }}"
+    shape="circle"
+  ></p-avatar>
+  <div class="user__info__container">
+    <p class="user__name">{{ user?.name }} {{ user.surname }}</p>
+    <p class="user__email">{{ user.email }}</p>
+    <ng-container *ngIf="user.selected">
+      <p-divider></p-divider>
+      <button
+        pButton
+        type="button"
+        label="{{
+          user.current ? 'Gestisci l\'account' : 'Utilizza questo account'
+        }}"
+        class="p-button-sm p-button-text user__cta__button"
+        (click)="user?.current ? navigateToAccount() : switchAccount()"
+      ></button>
+    </ng-container>
+  </div>
+</div>

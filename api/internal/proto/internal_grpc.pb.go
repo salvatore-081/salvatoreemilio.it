@@ -4,6 +4,7 @@ package proto
 
 import (
 	context "context"
+	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -19,9 +20,15 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type InternalClient interface {
 	GetUser(ctx context.Context, in *GetUserInput, opts ...grpc.CallOption) (*User, error)
+	GetUserList(ctx context.Context, in *GetUserListInput, opts ...grpc.CallOption) (*GetUserListOutput, error)
 	AddUser(ctx context.Context, in *AddUserInput, opts ...grpc.CallOption) (*User, error)
 	UpdateUser(ctx context.Context, in *UpdateUserInput, opts ...grpc.CallOption) (*User, error)
 	WatchUser(ctx context.Context, in *WatchUserInput, opts ...grpc.CallOption) (Internal_WatchUserClient, error)
+	GetProjects(ctx context.Context, in *GetProjectsInput, opts ...grpc.CallOption) (*GetProjectsOutput, error)
+	AddProject(ctx context.Context, in *AddProjectInput, opts ...grpc.CallOption) (*Project, error)
+	UpdateProject(ctx context.Context, in *UpdateProjectInput, opts ...grpc.CallOption) (*Project, error)
+	DeleteProject(ctx context.Context, in *DeleteProjectInput, opts ...grpc.CallOption) (*empty.Empty, error)
+	WatchProjects(ctx context.Context, in *WatchProjectsInput, opts ...grpc.CallOption) (Internal_WatchProjectsClient, error)
 }
 
 type internalClient struct {
@@ -35,6 +42,15 @@ func NewInternalClient(cc grpc.ClientConnInterface) InternalClient {
 func (c *internalClient) GetUser(ctx context.Context, in *GetUserInput, opts ...grpc.CallOption) (*User, error) {
 	out := new(User)
 	err := c.cc.Invoke(ctx, "/internal.Internal/GetUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *internalClient) GetUserList(ctx context.Context, in *GetUserListInput, opts ...grpc.CallOption) (*GetUserListOutput, error) {
+	out := new(GetUserListOutput)
+	err := c.cc.Invoke(ctx, "/internal.Internal/GetUserList", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -91,14 +107,88 @@ func (x *internalWatchUserClient) Recv() (*User, error) {
 	return m, nil
 }
 
+func (c *internalClient) GetProjects(ctx context.Context, in *GetProjectsInput, opts ...grpc.CallOption) (*GetProjectsOutput, error) {
+	out := new(GetProjectsOutput)
+	err := c.cc.Invoke(ctx, "/internal.Internal/GetProjects", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *internalClient) AddProject(ctx context.Context, in *AddProjectInput, opts ...grpc.CallOption) (*Project, error) {
+	out := new(Project)
+	err := c.cc.Invoke(ctx, "/internal.Internal/AddProject", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *internalClient) UpdateProject(ctx context.Context, in *UpdateProjectInput, opts ...grpc.CallOption) (*Project, error) {
+	out := new(Project)
+	err := c.cc.Invoke(ctx, "/internal.Internal/UpdateProject", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *internalClient) DeleteProject(ctx context.Context, in *DeleteProjectInput, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/internal.Internal/DeleteProject", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *internalClient) WatchProjects(ctx context.Context, in *WatchProjectsInput, opts ...grpc.CallOption) (Internal_WatchProjectsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &Internal_ServiceDesc.Streams[1], "/internal.Internal/WatchProjects", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &internalWatchProjectsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type Internal_WatchProjectsClient interface {
+	Recv() (*WatchProjectsOutput, error)
+	grpc.ClientStream
+}
+
+type internalWatchProjectsClient struct {
+	grpc.ClientStream
+}
+
+func (x *internalWatchProjectsClient) Recv() (*WatchProjectsOutput, error) {
+	m := new(WatchProjectsOutput)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // InternalServer is the server API for Internal service.
 // All implementations must embed UnimplementedInternalServer
 // for forward compatibility
 type InternalServer interface {
 	GetUser(context.Context, *GetUserInput) (*User, error)
+	GetUserList(context.Context, *GetUserListInput) (*GetUserListOutput, error)
 	AddUser(context.Context, *AddUserInput) (*User, error)
 	UpdateUser(context.Context, *UpdateUserInput) (*User, error)
 	WatchUser(*WatchUserInput, Internal_WatchUserServer) error
+	GetProjects(context.Context, *GetProjectsInput) (*GetProjectsOutput, error)
+	AddProject(context.Context, *AddProjectInput) (*Project, error)
+	UpdateProject(context.Context, *UpdateProjectInput) (*Project, error)
+	DeleteProject(context.Context, *DeleteProjectInput) (*empty.Empty, error)
+	WatchProjects(*WatchProjectsInput, Internal_WatchProjectsServer) error
 	mustEmbedUnimplementedInternalServer()
 }
 
@@ -109,6 +199,9 @@ type UnimplementedInternalServer struct {
 func (UnimplementedInternalServer) GetUser(context.Context, *GetUserInput) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
 }
+func (UnimplementedInternalServer) GetUserList(context.Context, *GetUserListInput) (*GetUserListOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserList not implemented")
+}
 func (UnimplementedInternalServer) AddUser(context.Context, *AddUserInput) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddUser not implemented")
 }
@@ -117,6 +210,21 @@ func (UnimplementedInternalServer) UpdateUser(context.Context, *UpdateUserInput)
 }
 func (UnimplementedInternalServer) WatchUser(*WatchUserInput, Internal_WatchUserServer) error {
 	return status.Errorf(codes.Unimplemented, "method WatchUser not implemented")
+}
+func (UnimplementedInternalServer) GetProjects(context.Context, *GetProjectsInput) (*GetProjectsOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetProjects not implemented")
+}
+func (UnimplementedInternalServer) AddProject(context.Context, *AddProjectInput) (*Project, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddProject not implemented")
+}
+func (UnimplementedInternalServer) UpdateProject(context.Context, *UpdateProjectInput) (*Project, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateProject not implemented")
+}
+func (UnimplementedInternalServer) DeleteProject(context.Context, *DeleteProjectInput) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteProject not implemented")
+}
+func (UnimplementedInternalServer) WatchProjects(*WatchProjectsInput, Internal_WatchProjectsServer) error {
+	return status.Errorf(codes.Unimplemented, "method WatchProjects not implemented")
 }
 func (UnimplementedInternalServer) mustEmbedUnimplementedInternalServer() {}
 
@@ -145,6 +253,24 @@ func _Internal_GetUser_Handler(srv interface{}, ctx context.Context, dec func(in
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(InternalServer).GetUser(ctx, req.(*GetUserInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Internal_GetUserList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserListInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(InternalServer).GetUserList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/internal.Internal/GetUserList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(InternalServer).GetUserList(ctx, req.(*GetUserListInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -206,6 +332,99 @@ func (x *internalWatchUserServer) Send(m *User) error {
 	return x.ServerStream.SendMsg(m)
 }
 
+func _Internal_GetProjects_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetProjectsInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(InternalServer).GetProjects(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/internal.Internal/GetProjects",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(InternalServer).GetProjects(ctx, req.(*GetProjectsInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Internal_AddProject_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddProjectInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(InternalServer).AddProject(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/internal.Internal/AddProject",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(InternalServer).AddProject(ctx, req.(*AddProjectInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Internal_UpdateProject_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateProjectInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(InternalServer).UpdateProject(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/internal.Internal/UpdateProject",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(InternalServer).UpdateProject(ctx, req.(*UpdateProjectInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Internal_DeleteProject_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteProjectInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(InternalServer).DeleteProject(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/internal.Internal/DeleteProject",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(InternalServer).DeleteProject(ctx, req.(*DeleteProjectInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Internal_WatchProjects_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchProjectsInput)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(InternalServer).WatchProjects(m, &internalWatchProjectsServer{stream})
+}
+
+type Internal_WatchProjectsServer interface {
+	Send(*WatchProjectsOutput) error
+	grpc.ServerStream
+}
+
+type internalWatchProjectsServer struct {
+	grpc.ServerStream
+}
+
+func (x *internalWatchProjectsServer) Send(m *WatchProjectsOutput) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // Internal_ServiceDesc is the grpc.ServiceDesc for Internal service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -218,6 +437,10 @@ var Internal_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Internal_GetUser_Handler,
 		},
 		{
+			MethodName: "GetUserList",
+			Handler:    _Internal_GetUserList_Handler,
+		},
+		{
 			MethodName: "AddUser",
 			Handler:    _Internal_AddUser_Handler,
 		},
@@ -225,11 +448,32 @@ var Internal_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "UpdateUser",
 			Handler:    _Internal_UpdateUser_Handler,
 		},
+		{
+			MethodName: "GetProjects",
+			Handler:    _Internal_GetProjects_Handler,
+		},
+		{
+			MethodName: "AddProject",
+			Handler:    _Internal_AddProject_Handler,
+		},
+		{
+			MethodName: "UpdateProject",
+			Handler:    _Internal_UpdateProject_Handler,
+		},
+		{
+			MethodName: "DeleteProject",
+			Handler:    _Internal_DeleteProject_Handler,
+		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
 			StreamName:    "WatchUser",
 			Handler:       _Internal_WatchUser_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "WatchProjects",
+			Handler:       _Internal_WatchProjects_Handler,
 			ServerStreams: true,
 		},
 	},

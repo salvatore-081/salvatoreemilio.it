@@ -4,62 +4,74 @@ from starlette.responses import JSONResponse
 from state.appState import AppState
 from deps.gPRCClient import GPRCClient
 from deps.keycloak import Keycloak
-from models.user import User
-from models.fastapi_responses import *
+from models.user import UpdateUserInputPayload, User, UserList
 from google.protobuf.json_format import MessageToDict
-from grpc import RpcError, StatusCode
 from fastapi.security import HTTPBearer
+from exceptions import rest as rest_exceptions
 
 
 def getUsersRouter(appState: AppState):
     router = APIRouter()
     token_auth_scheme = HTTPBearer()
 
-    @router.get("/{email}", response_model=User, responses={401: {"model": Unauthorized}, 403: {"model": Forbidden}, 404: {"model": NotFound}, 500: {"model": InternalServerError}},  response_model_exclude_none=True)
-    async def get_user(email: str, gPRCClient: GPRCClient = Depends(appState.select_gPRCClient), auth: Keycloak = Depends(appState.select_keycloak), token: str = Depends(token_auth_scheme)):
+    @router.get("", response_model=UserList, responses={400: {"model": rest_exceptions.BadRequest}, 404: {"model": rest_exceptions.NotFound}, 500: {"model": rest_exceptions.InternalServerError}},  response_model_exclude_none=True)
+    async def get_user_list(gPRCClient: GPRCClient = Depends(appState.select_gPRCClient)):
         try:
-            if not auth.verify_token(token.credentials):
-                return JSONResponse(
-                    status_code=401,
-                    content=Unauthorized().dict()
-                )
-            r = await gPRCClient.get_user(email=email)
+            r = await gPRCClient.get_user_list()
             return MessageToDict(r)
-        except RpcError as e:
-            match e.code():
-                case StatusCode.NOT_FOUND:
-                    return JSONResponse(
-                        status_code=404,
-                        content=NotFound(detail=e.details()).dict()
-                    )
-                case _:
-                    return JSONResponse(
-                        status_code=500,
-                        content=InternalServerError(detail=e.details(), debug=e.code()).dict()
-                    )
         except Exception as e:
             return JSONResponse(
                 status_code=500,
-                content=InternalServerError(debug=str(e)).dict()
+                content=rest_exceptions.InternalServerError(
+                    debug=str(e)).dict()
             )
 
-    @router.post("", response_model=User, status_code=201, responses={500: {"model": InternalServerError}, 409: {"model": Conflict}}, response_model_exclude_unset=True, response_model_exclude_none=True)
-    async def add_user(user: User, gPRCClient: GPRCClient = Depends(appState.select_gPRCClient)):
+    @router.get("/{email}", response_model=User, responses={400: {"model": rest_exceptions.BadRequest}, 404: {"model": rest_exceptions.NotFound}, 500: {"model": rest_exceptions.InternalServerError}},  response_model_exclude_none=True)
+    async def get_user(email: str, gPRCClient: GPRCClient = Depends(appState.select_gPRCClient)):
         try:
-            check = await gPRCClient.get_user(email=user.email)
-            if check['getUser']:
-                return JSONResponse(
-                    status_code=409,
-                    content=Conflict(
-                        detail=f"{user.email} already exists").dict()
-                )
-            r = await gPRCClient.add_user(user=user)
-
-            return r['addUser']
+            r = await gPRCClient.get_user(email=email)
+            return MessageToDict(r)
         except Exception as e:
             return JSONResponse(
                 status_code=500,
-                content=InternalServerError(debug=str(e)).dict()
+                content=rest_exceptions.InternalServerError(
+                    debug=str(e)).dict()
+            )
+
+    # @router.post("", response_model=User, status_code=201, responses={500: {"model": rest_exceptions.InternalServerError}, 409: {"model": rest_exceptions.Conflict}}, response_model_exclude_unset=True, response_model_exclude_none=True)
+    # async def add_user(user: User, gPRCClient: GPRCClient = Depends(appState.select_gPRCClient)):
+    #     try:
+    #         check = await gPRCClient.get_user(email=user.email)
+    #         if check['getUser']:
+    #             return JSONResponse(
+    #                 status_code=409,
+    #                 content=rest_exceptions.Conflict(
+    #                     detail=f"{user.email} already exists").dict()
+    #             )
+    #         r = await gPRCClient.add_user(user=user)
+
+    #         return r['addUser']
+    #     except Exception as e:
+    #         return JSONResponse(
+    #             status_code=500,
+    #             content=rest_exceptions.InternalServerError(
+    #                 debug=str(e)).dict()
+    #         )
+
+    @router.put("/{email}", response_model=User, responses={400: {"model": rest_exceptions.BadRequest}, 401: {"model": rest_exceptions.Unauthorized}, 403: {"model": rest_exceptions.Forbidden}, 404: {"model": rest_exceptions.NotFound}, 500: {"model": rest_exceptions.InternalServerError}},  response_model_exclude_none=True)
+    async def put_user(email: str, payload: UpdateUserInputPayload, gPRCClient: GPRCClient = Depends(appState.select_gPRCClient), keycloak: Keycloak = Depends(appState.select_keycloak), token: str = Depends(token_auth_scheme)):
+        try:
+            introspection = keycloak.introspect_token(token.credentials)
+            keycloak.check_active(introspection)
+            keycloak.check_manage_users(introspection, email)
+
+            r = await gPRCClient.update_user(email, payload)
+            return MessageToDict(r)
+        except Exception as e:
+            return JSONResponse(
+                status_code=500,
+                content=rest_exceptions.InternalServerError(
+                    debug=str(e)).dict()
             )
 
     return router

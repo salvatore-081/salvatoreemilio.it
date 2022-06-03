@@ -1,0 +1,16 @@
+.terminal__container {
+  display: flex;
+  flex-direction: column;
+
+  .header__container {
+    height: 40px;
+    width: 100%;
+    background-color: #0d0d0d;
+    border-radius: 6px 6px 0 0;
+    color: #f2f2f2;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+}

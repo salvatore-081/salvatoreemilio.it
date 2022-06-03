@@ -1,0 +1,20 @@
+<ng-container *ngrxLet="ip$ as ip">
+  <ng-container *ngrxLet="user$ as user">
+    <p-skeleton
+      *ngIf="ip == null && user.email !== ''; else TERMINAL"
+      width="100%"
+      height="calc(18rem + 40px)"
+    ></p-skeleton>
+    <ng-template #TERMINAL>
+      <div class="terminal__container" *ngrxLet="user$ as user">
+        <div class="header__container">
+          <div class="header__label">{{ ip }}@salvatoreemilio.it:~</div>
+        </div>
+        <p-terminal
+          welcomeMessage="type 'help' to list available commands"
+          prompt="{{ ip }}@salvatoreemilio.it:~$"
+        ></p-terminal>
+      </div>
+    </ng-template>
+  </ng-container>
+</ng-container>

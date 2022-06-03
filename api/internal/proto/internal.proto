@@ -2,6 +2,7 @@ syntax = "proto3";
 
 option go_package = "https://github.com/salvatore-081/salvatoreemilio.it/tree/development/api/internal/proto";
 
+import "google/protobuf/empty.proto";
 package internal;
 
 message GetUserInput {
@@ -13,7 +14,21 @@ message User {
     string name = 2;
     string surname = 3;
     string phoneNumber = 4;
-    string currentLocation = 5;
+    string location = 5;
+    bytes profilePicture = 6;
+}
+
+message GetUserListInput {}
+
+message UserListItem {
+    string email = 1;
+    string name = 2;
+    string surname = 3;
+    bytes profilePicture = 4;
+}
+
+message GetUserListOutput {
+    repeated UserListItem userList = 1;
 }
 
 message AddUserInput {
@@ -21,28 +36,95 @@ message AddUserInput {
     string name = 2;
     string surname = 3;
     string phoneNumber = 4;
-    string currentLocation = 5;
+    string location = 5;
+    bytes profilePicture = 6;
 }
 
-message UpdateUserInputSet {
+message UpdateUserInputPayload {
     string name = 1;
     string surname = 2;
     string phoneNumber = 3;
-    string currentLocation = 4;
+    string location = 4;
+    bytes profilePicture = 6;
 }
 
 message UpdateUserInput {
     string email = 1;
-    UpdateUserInputSet set = 2;
+    UpdateUserInputPayload updateUserInputPayload = 2;
 }
 
 message WatchUserInput {
     string email = 1;
 }
 
+message Link {
+    string name = 1;
+    string url = 2;
+}
+
+message Project {
+    string id = 1;
+    string email = 2;
+    string title = 3;
+    string description = 4;
+    bytes image = 5;
+    repeated string tags = 6;
+    repeated Link links = 7;
+}
+
+message GetProjectsOutput {
+    repeated Project projects = 1;
+}
+
+message GetProjectsInput {
+    string email = 1;
+}
+
+message AddProjectInput {
+    string id = 1;
+    string email = 2;
+    string title = 3;
+    string description = 4;
+    bytes image = 5;
+    repeated string tags = 6;
+    repeated Link links = 7;
+}
+
+message UpdateProjectInput {
+    string id = 1;
+    UpdateProjectInputPayload updateProjectInputPayload = 2;
+}
+
+message UpdateProjectInputPayload {
+    string email = 2;
+    string title = 3;
+    string description = 4;
+    bytes image = 5;
+    repeated string tags = 6;
+    repeated Link links = 7;
+}
+
+message DeleteProjectInput {
+    string id = 1;
+}
+
+message WatchProjectsInput {
+    string email = 1;
+}
+
+message WatchProjectsOutput {
+    repeated Project projects = 1;
+}
+
 service Internal {
     rpc GetUser (GetUserInput) returns (User) {}
+    rpc GetUserList (GetUserListInput) returns (GetUserListOutput) {}
     rpc AddUser (AddUserInput) returns (User) {}
     rpc UpdateUser (UpdateUserInput) returns (User) {}
     rpc WatchUser (WatchUserInput) returns (stream User) {}
+    rpc GetProjects (GetProjectsInput) returns (GetProjectsOutput) {}
+    rpc AddProject (AddProjectInput) returns (Project) {}
+    rpc UpdateProject (UpdateProjectInput) returns (Project) {}
+    rpc DeleteProject (DeleteProjectInput) returns (google.protobuf.Empty){}
+    rpc WatchProjects (WatchProjectsInput) returns (stream WatchProjectsOutput) {}
 }

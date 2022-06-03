@@ -1,6 +1,7 @@
 from keycloak import KeycloakOpenID, KeycloakAdmin
 from os import getenv
-import asyncio
+from exceptions.base import Unauthorized, BadRequest, Forbidden
+from threading import Timer
 
 
 class Keycloak:
@@ -30,14 +31,8 @@ class Keycloak:
                 realm_name=realm_name,
                 client_secret_key=client_secret_key)
 
-            self.keycloak_service_account = KeycloakAdmin(
-                server_url=server_url,
-                client_id=service_account_client_id,
-                realm_name=realm_name,
-                client_secret_key=service_account_client_secret_key
-            )
-            asyncio.create_task(
-                self.refresh_keycloak_service_account_token(server_url, service_account_client_id, realm_name, service_account_client_secret_key))
+            self.keycloak_service_account(
+                server_url, service_account_client_id, realm_name, service_account_client_secret_key)
         except Exception as e:
             raise e
 
@@ -53,21 +48,45 @@ class Keycloak:
         except Exception as e:
             raise e
 
-    async def refresh_keycloak_service_account_token(self, server_url, service_account_client_id, realm_name, service_account_client_secret_key):
-        wait_time = 60 * 60 * 24 * 179  # 180 days in seconds minus 1 day for leniency
-        await asyncio.sleep(wait_time)
-        while True:
-            self.keycloak_service_account = KeycloakAdmin(
-                server_url=server_url,
-                client_id=service_account_client_id,
-                realm_name=realm_name,
-                client_secret_key=service_account_client_secret_key
-            )
-            await asyncio.sleep(wait_time)
+    def keycloak_service_account(self, server_url, service_account_client_id, realm_name, service_account_client_secret_key):
+        self.keycloak_service_account = KeycloakAdmin(
+            server_url=server_url,
+            client_id=service_account_client_id,
+            realm_name=realm_name,
+            client_secret_key=service_account_client_secret_key
+        )
+        wait_time = 60 * 60 * 24 * 59  # 60 days in seconds minus 1 day for leniency
+        t = Timer(
+            wait_time, self.keycloak_service_account, args=[server_url, service_account_client_id, realm_name, service_account_client_secret_key])
+        t.daemon = True
+        t.start()
 
-    def verify_token(self, token: str) -> bool:
+    def introspect_token(self, token: str) -> any:
         try:
-            r =  self.keycloak_openid.introspect(token=token)
-            return "active" in r and r["active"]
+            introspection = self.keycloak_openid.introspect(token=token)
+            return introspection
         except Exception as e:
             raise e
+
+    def check_active(self, introspection) -> None:
+        try:
+            if not introspection["active"]:
+                raise Unauthorized()
+        except KeyError:
+            raise BadRequest()
+        except Exception as e:
+            raise e
+
+    def check_view_users(self, introspection: any, email: str) -> None:
+        try:
+            if email != introspection['email'] and not "admin" in introspection['realm_access']['roles']:
+                raise
+        except Exception:
+            raise Forbidden()
+
+    def check_manage_users(self, introspection: any, email: str) -> None:
+        try:
+            if email != introspection['email'] and not "admin" in introspection['realm_access']['roles']:
+                raise
+        except Exception:
+            raise Forbidden()

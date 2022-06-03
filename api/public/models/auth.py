@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 
 class LoginInput(BaseModel):
-    username: str
+    email: str
     password: str
     totp: Optional[str]
 
@@ -23,4 +23,4 @@ class LoginResponse(BaseModel):
 
 
 class LogoutResponse(BaseModel):
-    pass
+    refresh_token: str
