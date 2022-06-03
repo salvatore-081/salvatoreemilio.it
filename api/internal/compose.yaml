@@ -5,12 +5,8 @@ services:
     image: salvatoreemilio/salvatoreemilio.it_internal-api:latest
     container_name: internal-api
     restart: unless-stopped
-    environment:
-      - PORT=14010
-      - LOG_LEVEL=DEBUG
-      - DB_HOST=rethinkdb
-      - DB_PORT=13020
-      - DB_DATABASE=salvatoreemilio
+    volumes:
+      - ./config.json:./config.json
     networks:
       - default
     logging:

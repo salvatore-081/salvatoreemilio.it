@@ -31,7 +31,7 @@ jobs:
           context: api/internal
           file: api/internal/Dockerfile
           push: true
-          tags: salvatoreemilio/salvatoreemilio.it_internal-api:latest,salvatoreemilio/salvatoreemilio.it_internal-api:0.0.8
+          tags: salvatoreemilio/salvatoreemilio.it_internal-api:latest,salvatoreemilio/salvatoreemilio.it_internal-api:0.0.9
   deploy:
     needs: [build]
     runs-on: ubuntu-latest

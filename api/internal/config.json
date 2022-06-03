@@ -1,0 +1,22 @@
+{
+  "port": "14010",
+  "logLevel": "DEBUG",
+  "rethinkDB": {
+    "host": "rethinkdb",
+    "port": "13020",
+    "database": {
+      "name": "salvatoreemilio",
+      "tables": {
+        "users": {
+          "name": "users",
+          "primaryKey": "email"
+        },
+        "projects": {
+          "name": "projects",
+          "primaryKey": "id",
+          "secondaryIndex": "email"
+        }
+      }
+    }
+  }
+}
