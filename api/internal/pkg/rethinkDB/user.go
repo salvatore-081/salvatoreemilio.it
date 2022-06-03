@@ -20,7 +20,7 @@ type watchUserFeed struct {
 }
 
 func (rdb *RethinkDB) AddUser(ctx context.Context, in *proto.AddUserInput) (*proto.User, error) {
-	table := rdb.config.Database.Tables["users"]
+	table := rdb.config.Database.Tables["users"].Name
 
 	if in == nil || len(in.Email) < 1 {
 		return new(proto.User), grpc.Errorf(codes.InvalidArgument, "'email' is missing")
@@ -56,7 +56,7 @@ func (rdb *RethinkDB) AddUser(ctx context.Context, in *proto.AddUserInput) (*pro
 }
 
 func (rdb *RethinkDB) GetUser(ctx context.Context, in *proto.GetUserInput) (*proto.User, error) {
-	table := rdb.config.Database.Tables["users"]
+	table := rdb.config.Database.Tables["users"].Name
 
 	if in == nil || len(in.Email) < 1 {
 		return new(proto.User), grpc.Errorf(codes.InvalidArgument, "missing 'email' argument")
@@ -82,7 +82,7 @@ func (rdb *RethinkDB) GetUser(ctx context.Context, in *proto.GetUserInput) (*pro
 }
 
 func (rdb *RethinkDB) GetUserList(ctx context.Context, in *proto.GetUserListInput) (*proto.GetUserListOutput, error) {
-	table := rdb.config.Database.Tables["users"]
+	table := rdb.config.Database.Tables["users"].Name
 
 	c, e := r.Table(table).Pluck("email", "name", "surname", "profilePicture").Run(rdb.session)
 	if e != nil {
@@ -102,7 +102,7 @@ func (rdb *RethinkDB) GetUserList(ctx context.Context, in *proto.GetUserListInpu
 }
 
 func (rdb *RethinkDB) UpdateUser(ctx context.Context, in *proto.UpdateUserInput) (*proto.User, error) {
-	table := rdb.config.Database.Tables["users"]
+	table := rdb.config.Database.Tables["users"].Name
 
 	if in == nil || len(in.Email) < 1 {
 		return new(proto.User), grpc.Errorf(codes.InvalidArgument, "'email' is missing")
@@ -139,7 +139,7 @@ func (rdb *RethinkDB) UpdateUser(ctx context.Context, in *proto.UpdateUserInput)
 }
 
 func (rdb *RethinkDB) WatchUser(ctx context.Context, in *proto.WatchUserInput) (<-chan *proto.User, chan error) {
-	table := rdb.config.Database.Tables["users"]
+	table := rdb.config.Database.Tables["users"].Name
 
 	ch := make(chan *proto.User)
 	e := make(chan error, 1)
