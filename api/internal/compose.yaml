@@ -6,7 +6,7 @@ services:
     container_name: internal-api
     restart: unless-stopped
     volumes:
-      - ./config.json:./config.json
+      - ./config.json:/app/config.json
     networks:
       - default
     logging:
