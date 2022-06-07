@@ -70,6 +70,7 @@ message Project {
     bytes image = 5;
     repeated string tags = 6;
     repeated Link links = 7;
+    int32 index = 8;
 }
 
 message GetProjectsOutput {
@@ -96,12 +97,12 @@ message UpdateProjectInput {
 }
 
 message UpdateProjectInputPayload {
-    string email = 2;
-    string title = 3;
-    string description = 4;
-    bytes image = 5;
-    repeated string tags = 6;
-    repeated Link links = 7;
+    int32 index = 1;
+    string title = 2;
+    string description = 3;
+    bytes image = 4;
+    repeated string tags = 5;
+    repeated Link links = 6;
 }
 
 message DeleteProjectInput {
