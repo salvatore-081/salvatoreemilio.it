@@ -33,6 +33,8 @@ func main() {
 
 	log.Logger = zerolog.New(logOutput)
 
+	log.Info().Msg("startup")
+
 	log.Info().Msg("loading configuration")
 
 	var config models.Config
