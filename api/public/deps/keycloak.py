@@ -1,18 +1,18 @@
 from keycloak import KeycloakOpenID, KeycloakAdmin
 from os import getenv
+from deps.config import KeycloakConfig
 from exceptions.base import Unauthorized, BadRequest, Forbidden
-from threading import Timer
+import threading
 
 
 class Keycloak:
-    def __init__(self) -> None:
+    def __init__(self, config: KeycloakConfig) -> None:
         try:
-            server_url = getenv(
-                "KEYCLOAK_URL", "https://iam.salvatoreemilio.it/auth/")
-            realm_name = getenv("KEYCLOAK_REALM_NAME", "se")
-            client_id = getenv("KEYCLOAK_CLIENT_ID", "api-auth")
-            service_account_client_id = getenv(
-                "KEYCLOAK_SERVICE_ACCOUNT_CLIENT_ID", "api-service-account")
+            self.config: KeycloakConfig = config
+            server_url = config.url
+            realm_name = self.config.realm
+            client_id = self.config.clientId
+            service_account_client_id = self.config.serviceAccountClientId
 
             client_secret_key = getenv("KEYCLOAK_CLIENT_SECRET_KEY")
             if client_secret_key is None:
@@ -30,7 +30,6 @@ class Keycloak:
                 client_id=client_id,
                 realm_name=realm_name,
                 client_secret_key=client_secret_key)
-
             self.keycloak_service_account(
                 server_url, service_account_client_id, realm_name, service_account_client_secret_key)
         except Exception as e:
@@ -56,7 +55,7 @@ class Keycloak:
             client_secret_key=service_account_client_secret_key
         )
         wait_time = 60 * 60 * 24 * 59  # 60 days in seconds minus 1 day for leniency
-        t = Timer(
+        t = threading.Timer(
             wait_time, self.keycloak_service_account, args=[server_url, service_account_client_id, realm_name, service_account_client_secret_key])
         t.daemon = True
         t.start()

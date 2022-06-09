@@ -1,12 +1,14 @@
+from deps.config import Config
 from deps.keycloak import Keycloak
-from deps.gPRCClient import GPRCClient
+from deps.gRPCClient import GRPCClient
 
 
 class AppState():
-    def __init__(self):
+    def __init__(self, config: Config):
         try:
-            self.gRPCCLient = GPRCClient()
-            self.keycloak = Keycloak()
+            self.config: Config = config
+            self.gRPCCLient = GRPCClient(self.config.gRPCServer)
+            self.keycloak = Keycloak(self.config.keycloak)
         except Exception as e:
             raise e
 

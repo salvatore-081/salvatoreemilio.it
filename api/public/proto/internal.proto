@@ -2,6 +2,7 @@ syntax = "proto3";
 
 option go_package = "https://github.com/salvatore-081/salvatoreemilio.it/tree/development/api/internal/proto";
 
+import "google/protobuf/empty.proto";
 package internal;
 
 message GetUserInput {
@@ -56,10 +57,75 @@ message WatchUserInput {
     string email = 1;
 }
 
+message Link {
+    string name = 1;
+    string url = 2;
+}
+
+message Project {
+    string id = 1;
+    string email = 2;
+    string title = 3;
+    string description = 4;
+    bytes image = 5;
+    repeated string tags = 6;
+    repeated Link links = 7;
+    int32 index = 8;
+}
+
+message GetProjectsOutput {
+    repeated Project projects = 1;
+}
+
+message GetProjectsInput {
+    string email = 1;
+}
+
+message AddProjectInput {
+    string id = 1;
+    string email = 2;
+    string title = 3;
+    string description = 4;
+    bytes image = 5;
+    repeated string tags = 6;
+    repeated Link links = 7;
+}
+
+message UpdateProjectInput {
+    string id = 1;
+    UpdateProjectInputPayload updateProjectInputPayload = 2;
+}
+
+message UpdateProjectInputPayload {
+    int32 index = 1;
+    string title = 2;
+    string description = 3;
+    bytes image = 4;
+    repeated string tags = 5;
+    repeated Link links = 6;
+}
+
+message DeleteProjectInput {
+    string id = 1;
+}
+
+message WatchProjectsInput {
+    string email = 1;
+}
+
+message WatchProjectsOutput {
+    repeated Project projects = 1;
+}
+
 service Internal {
     rpc GetUser (GetUserInput) returns (User) {}
     rpc GetUserList (GetUserListInput) returns (GetUserListOutput) {}
     rpc AddUser (AddUserInput) returns (User) {}
     rpc UpdateUser (UpdateUserInput) returns (User) {}
     rpc WatchUser (WatchUserInput) returns (stream User) {}
+    rpc GetProjects (GetProjectsInput) returns (GetProjectsOutput) {}
+    rpc AddProject (AddProjectInput) returns (Project) {}
+    rpc UpdateProject (UpdateProjectInput) returns (Project) {}
+    rpc DeleteProject (DeleteProjectInput) returns (google.protobuf.Empty){}
+    rpc WatchProjects (WatchProjectsInput) returns (stream WatchProjectsOutput) {}
 }

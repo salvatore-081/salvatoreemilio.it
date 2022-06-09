@@ -4,7 +4,7 @@ from exceptions import graphql as graphql_exceptions
 from state.appState import AppState
 
 
-def getQuery(appState: AppState) -> QueryType:
+def newQuery(appState: AppState) -> QueryType:
     query = QueryType()
 
     @query.field("getUser")

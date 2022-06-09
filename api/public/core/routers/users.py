@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from fastapi.params import Depends
 from starlette.responses import JSONResponse
 from state.appState import AppState
-from deps.gPRCClient import GPRCClient
+from deps.gRPCClient import GRPCClient
 from deps.keycloak import Keycloak
 from models.user import UpdateUserInputPayload, User, UserList
 from google.protobuf.json_format import MessageToDict
@@ -15,9 +15,9 @@ def getUsersRouter(appState: AppState):
     token_auth_scheme = HTTPBearer()
 
     @router.get("", response_model=UserList, responses={400: {"model": rest_exceptions.BadRequest}, 404: {"model": rest_exceptions.NotFound}, 500: {"model": rest_exceptions.InternalServerError}},  response_model_exclude_none=True)
-    async def get_user_list(gPRCClient: GPRCClient = Depends(appState.select_gPRCClient)):
+    async def get_user_list(gRPCClient: GRPCClient = Depends(appState.select_gPRCClient)):
         try:
-            r = await gPRCClient.get_user_list()
+            r = await gRPCClient.get_user_list()
             return MessageToDict(r)
         except Exception as e:
             return JSONResponse(
@@ -27,9 +27,9 @@ def getUsersRouter(appState: AppState):
             )
 
     @router.get("/{email}", response_model=User, responses={400: {"model": rest_exceptions.BadRequest}, 404: {"model": rest_exceptions.NotFound}, 500: {"model": rest_exceptions.InternalServerError}},  response_model_exclude_none=True)
-    async def get_user(email: str, gPRCClient: GPRCClient = Depends(appState.select_gPRCClient)):
+    async def get_user(email: str, gRPCClient: GRPCClient = Depends(appState.select_gPRCClient)):
         try:
-            r = await gPRCClient.get_user(email=email)
+            r = await gRPCClient.get_user(email=email)
             return MessageToDict(r)
         except Exception as e:
             return JSONResponse(
@@ -39,16 +39,16 @@ def getUsersRouter(appState: AppState):
             )
 
     # @router.post("", response_model=User, status_code=201, responses={500: {"model": rest_exceptions.InternalServerError}, 409: {"model": rest_exceptions.Conflict}}, response_model_exclude_unset=True, response_model_exclude_none=True)
-    # async def add_user(user: User, gPRCClient: GPRCClient = Depends(appState.select_gPRCClient)):
+    # async def add_user(user: User, gRPCClient: GRPCClient = Depends(appState.select_gPRCClient)):
     #     try:
-    #         check = await gPRCClient.get_user(email=user.email)
+    #         check = await gRPCClient.get_user(email=user.email)
     #         if check['getUser']:
     #             return JSONResponse(
     #                 status_code=409,
     #                 content=rest_exceptions.Conflict(
     #                     detail=f"{user.email} already exists").dict()
     #             )
-    #         r = await gPRCClient.add_user(user=user)
+    #         r = await gRPCClient.add_user(user=user)
 
     #         return r['addUser']
     #     except Exception as e:
@@ -59,13 +59,13 @@ def getUsersRouter(appState: AppState):
     #         )
 
     @router.put("/{email}", response_model=User, responses={400: {"model": rest_exceptions.BadRequest}, 401: {"model": rest_exceptions.Unauthorized}, 403: {"model": rest_exceptions.Forbidden}, 404: {"model": rest_exceptions.NotFound}, 500: {"model": rest_exceptions.InternalServerError}},  response_model_exclude_none=True)
-    async def put_user(email: str, payload: UpdateUserInputPayload, gPRCClient: GPRCClient = Depends(appState.select_gPRCClient), keycloak: Keycloak = Depends(appState.select_keycloak), token: str = Depends(token_auth_scheme)):
+    async def put_user(email: str, payload: UpdateUserInputPayload, gRPCClient: GRPCClient = Depends(appState.select_gPRCClient), keycloak: Keycloak = Depends(appState.select_keycloak), token: str = Depends(token_auth_scheme)):
         try:
             introspection = keycloak.introspect_token(token.credentials)
             keycloak.check_active(introspection)
             keycloak.check_manage_users(introspection, email)
 
-            r = await gPRCClient.update_user(email, payload)
+            r = await gRPCClient.update_user(email, payload)
             return MessageToDict(r)
         except Exception as e:
             return JSONResponse(

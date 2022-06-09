@@ -1,13 +1,14 @@
-from os import getenv
 from grpc.aio import insecure_channel
+from deps.config import GRPCServerConfig
 from proto.internal_pb2_grpc import InternalStub
 from proto.internal_pb2 import GetUserInput, GetUserListInput, UpdateUserInput, UpdateUserInputPayload, WatchUserInput
 
 
-class GPRCClient():
-    def __init__(self) -> None:
+class GRPCClient():
+    def __init__(self, config: GRPCServerConfig) -> None:
         try:
-            self.url = f"{getenv('INTERNAL_API_HOST', 'internal-api')}:{getenv('INTERNAL_API_PORT', '14010')}"
+            self.config = config
+            self.url = f"{self.config.host}:{self.config.port}"
         except Exception as e:
             raise e
 

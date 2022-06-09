@@ -11,6 +11,7 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
+from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -19,8 +20,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'ZWhttps://github.com/salvatore-081/salvatoreemilio.it/tree/development/api/internal/proto',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x14proto/internal.proto\x12\x08internal\"\x1d\n\x0cGetUserInput\x12\r\n\x05\x65mail\x18\x01 \x01(\t\"s\n\x04User\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0f\n\x07surname\x18\x03 \x01(\t\x12\x13\n\x0bphoneNumber\x18\x04 \x01(\t\x12\x10\n\x08location\x18\x05 \x01(\t\x12\x16\n\x0eprofilePicture\x18\x06 \x01(\x0c\"\x12\n\x10GetUserListInput\"T\n\x0cUserListItem\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0f\n\x07surname\x18\x03 \x01(\t\x12\x16\n\x0eprofilePicture\x18\x04 \x01(\x0c\"=\n\x11GetUserListOutput\x12(\n\x08userList\x18\x01 \x03(\x0b\x32\x16.internal.UserListItem\"{\n\x0c\x41\x64\x64UserInput\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0f\n\x07surname\x18\x03 \x01(\t\x12\x13\n\x0bphoneNumber\x18\x04 \x01(\t\x12\x10\n\x08location\x18\x05 \x01(\t\x12\x16\n\x0eprofilePicture\x18\x06 \x01(\x0c\"v\n\x16UpdateUserInputPayload\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07surname\x18\x02 \x01(\t\x12\x13\n\x0bphoneNumber\x18\x03 \x01(\t\x12\x10\n\x08location\x18\x04 \x01(\t\x12\x16\n\x0eprofilePicture\x18\x06 \x01(\x0c\"b\n\x0fUpdateUserInput\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12@\n\x16updateUserInputPayload\x18\x02 \x01(\x0b\x32 .internal.UpdateUserInputPayload\"\x1f\n\x0eWatchUserInput\x12\r\n\x05\x65mail\x18\x01 \x01(\t2\xb4\x02\n\x08Internal\x12\x33\n\x07GetUser\x12\x16.internal.GetUserInput\x1a\x0e.internal.User\"\x00\x12H\n\x0bGetUserList\x12\x1a.internal.GetUserListInput\x1a\x1b.internal.GetUserListOutput\"\x00\x12\x33\n\x07\x41\x64\x64User\x12\x16.internal.AddUserInput\x1a\x0e.internal.User\"\x00\x12\x39\n\nUpdateUser\x12\x19.internal.UpdateUserInput\x1a\x0e.internal.User\"\x00\x12\x39\n\tWatchUser\x12\x18.internal.WatchUserInput\x1a\x0e.internal.User\"\x00\x30\x01\x42YZWhttps://github.com/salvatore-081/salvatoreemilio.it/tree/development/api/internal/protob\x06proto3'
-)
+  serialized_pb=b'\n\x14proto/internal.proto\x12\x08internal\x1a\x1bgoogle/protobuf/empty.proto\"\x1d\n\x0cGetUserInput\x12\r\n\x05\x65mail\x18\x01 \x01(\t\"s\n\x04User\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0f\n\x07surname\x18\x03 \x01(\t\x12\x13\n\x0bphoneNumber\x18\x04 \x01(\t\x12\x10\n\x08location\x18\x05 \x01(\t\x12\x16\n\x0eprofilePicture\x18\x06 \x01(\x0c\"\x12\n\x10GetUserListInput\"T\n\x0cUserListItem\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0f\n\x07surname\x18\x03 \x01(\t\x12\x16\n\x0eprofilePicture\x18\x04 \x01(\x0c\"=\n\x11GetUserListOutput\x12(\n\x08userList\x18\x01 \x03(\x0b\x32\x16.internal.UserListItem\"{\n\x0c\x41\x64\x64UserInput\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0f\n\x07surname\x18\x03 \x01(\t\x12\x13\n\x0bphoneNumber\x18\x04 \x01(\t\x12\x10\n\x08location\x18\x05 \x01(\t\x12\x16\n\x0eprofilePicture\x18\x06 \x01(\x0c\"v\n\x16UpdateUserInputPayload\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07surname\x18\x02 \x01(\t\x12\x13\n\x0bphoneNumber\x18\x03 \x01(\t\x12\x10\n\x08location\x18\x04 \x01(\t\x12\x16\n\x0eprofilePicture\x18\x06 \x01(\x0c\"b\n\x0fUpdateUserInput\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12@\n\x16updateUserInputPayload\x18\x02 \x01(\x0b\x32 .internal.UpdateUserInputPayload\"\x1f\n\x0eWatchUserInput\x12\r\n\x05\x65mail\x18\x01 \x01(\t\"!\n\x04Link\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0b\n\x03url\x18\x02 \x01(\t\"\x93\x01\n\x07Project\x12\n\n\x02id\x18\x01 \x01(\t\x12\r\n\x05\x65mail\x18\x02 \x01(\t\x12\r\n\x05title\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\r\n\x05image\x18\x05 \x01(\x0c\x12\x0c\n\x04tags\x18\x06 \x03(\t\x12\x1d\n\x05links\x18\x07 \x03(\x0b\x32\x0e.internal.Link\x12\r\n\x05index\x18\x08 \x01(\x05\"8\n\x11GetProjectsOutput\x12#\n\x08projects\x18\x01 \x03(\x0b\x32\x11.internal.Project\"!\n\x10GetProjectsInput\x12\r\n\x05\x65mail\x18\x01 \x01(\t\"\x8c\x01\n\x0f\x41\x64\x64ProjectInput\x12\n\n\x02id\x18\x01 \x01(\t\x12\r\n\x05\x65mail\x18\x02 \x01(\t\x12\r\n\x05title\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\r\n\x05image\x18\x05 \x01(\x0c\x12\x0c\n\x04tags\x18\x06 \x03(\t\x12\x1d\n\x05links\x18\x07 \x03(\x0b\x32\x0e.internal.Link\"h\n\x12UpdateProjectInput\x12\n\n\x02id\x18\x01 \x01(\t\x12\x46\n\x19updateProjectInputPayload\x18\x02 \x01(\x0b\x32#.internal.UpdateProjectInputPayload\"\x8a\x01\n\x19UpdateProjectInputPayload\x12\r\n\x05index\x18\x01 \x01(\x05\x12\r\n\x05title\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\r\n\x05image\x18\x04 \x01(\x0c\x12\x0c\n\x04tags\x18\x05 \x03(\t\x12\x1d\n\x05links\x18\x06 \x03(\x0b\x32\x0e.internal.Link\" \n\x12\x44\x65leteProjectInput\x12\n\n\x02id\x18\x01 \x01(\t\"#\n\x12WatchProjectsInput\x12\r\n\x05\x65mail\x18\x01 \x01(\t\":\n\x13WatchProjectsOutput\x12#\n\x08projects\x18\x01 \x03(\x0b\x32\x11.internal.Project2\x9b\x05\n\x08Internal\x12\x33\n\x07GetUser\x12\x16.internal.GetUserInput\x1a\x0e.internal.User\"\x00\x12H\n\x0bGetUserList\x12\x1a.internal.GetUserListInput\x1a\x1b.internal.GetUserListOutput\"\x00\x12\x33\n\x07\x41\x64\x64User\x12\x16.internal.AddUserInput\x1a\x0e.internal.User\"\x00\x12\x39\n\nUpdateUser\x12\x19.internal.UpdateUserInput\x1a\x0e.internal.User\"\x00\x12\x39\n\tWatchUser\x12\x18.internal.WatchUserInput\x1a\x0e.internal.User\"\x00\x30\x01\x12H\n\x0bGetProjects\x12\x1a.internal.GetProjectsInput\x1a\x1b.internal.GetProjectsOutput\"\x00\x12<\n\nAddProject\x12\x19.internal.AddProjectInput\x1a\x11.internal.Project\"\x00\x12\x42\n\rUpdateProject\x12\x1c.internal.UpdateProjectInput\x1a\x11.internal.Project\"\x00\x12G\n\rDeleteProject\x12\x1c.internal.DeleteProjectInput\x1a\x16.google.protobuf.Empty\"\x00\x12P\n\rWatchProjects\x12\x1c.internal.WatchProjectsInput\x1a\x1d.internal.WatchProjectsOutput\"\x00\x30\x01\x42YZWhttps://github.com/salvatore-081/salvatoreemilio.it/tree/development/api/internal/protob\x06proto3'
+  ,
+  dependencies=[google_dot_protobuf_dot_empty__pb2.DESCRIPTOR,])
 
 
 
@@ -52,8 +54,8 @@ _GETUSERINPUT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=34,
-  serialized_end=63,
+  serialized_start=63,
+  serialized_end=92,
 )
 
 
@@ -119,8 +121,8 @@ _USER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=65,
-  serialized_end=180,
+  serialized_start=94,
+  serialized_end=209,
 )
 
 
@@ -144,8 +146,8 @@ _GETUSERLISTINPUT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=182,
-  serialized_end=200,
+  serialized_start=211,
+  serialized_end=229,
 )
 
 
@@ -197,8 +199,8 @@ _USERLISTITEM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=202,
-  serialized_end=286,
+  serialized_start=231,
+  serialized_end=315,
 )
 
 
@@ -229,8 +231,8 @@ _GETUSERLISTOUTPUT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=288,
-  serialized_end=349,
+  serialized_start=317,
+  serialized_end=378,
 )
 
 
@@ -296,8 +298,8 @@ _ADDUSERINPUT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=351,
-  serialized_end=474,
+  serialized_start=380,
+  serialized_end=503,
 )
 
 
@@ -356,8 +358,8 @@ _UPDATEUSERINPUTPAYLOAD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=476,
-  serialized_end=594,
+  serialized_start=505,
+  serialized_end=623,
 )
 
 
@@ -395,8 +397,8 @@ _UPDATEUSERINPUT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=596,
-  serialized_end=694,
+  serialized_start=625,
+  serialized_end=723,
 )
 
 
@@ -427,12 +429,478 @@ _WATCHUSERINPUT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=696,
-  serialized_end=727,
+  serialized_start=725,
+  serialized_end=756,
+)
+
+
+_LINK = _descriptor.Descriptor(
+  name='Link',
+  full_name='internal.Link',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='name', full_name='internal.Link.name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='url', full_name='internal.Link.url', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=758,
+  serialized_end=791,
+)
+
+
+_PROJECT = _descriptor.Descriptor(
+  name='Project',
+  full_name='internal.Project',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='internal.Project.id', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='email', full_name='internal.Project.email', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='title', full_name='internal.Project.title', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='description', full_name='internal.Project.description', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='image', full_name='internal.Project.image', index=4,
+      number=5, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"",
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='tags', full_name='internal.Project.tags', index=5,
+      number=6, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='links', full_name='internal.Project.links', index=6,
+      number=7, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='index', full_name='internal.Project.index', index=7,
+      number=8, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=794,
+  serialized_end=941,
+)
+
+
+_GETPROJECTSOUTPUT = _descriptor.Descriptor(
+  name='GetProjectsOutput',
+  full_name='internal.GetProjectsOutput',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='projects', full_name='internal.GetProjectsOutput.projects', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=943,
+  serialized_end=999,
+)
+
+
+_GETPROJECTSINPUT = _descriptor.Descriptor(
+  name='GetProjectsInput',
+  full_name='internal.GetProjectsInput',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='email', full_name='internal.GetProjectsInput.email', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1001,
+  serialized_end=1034,
+)
+
+
+_ADDPROJECTINPUT = _descriptor.Descriptor(
+  name='AddProjectInput',
+  full_name='internal.AddProjectInput',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='internal.AddProjectInput.id', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='email', full_name='internal.AddProjectInput.email', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='title', full_name='internal.AddProjectInput.title', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='description', full_name='internal.AddProjectInput.description', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='image', full_name='internal.AddProjectInput.image', index=4,
+      number=5, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"",
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='tags', full_name='internal.AddProjectInput.tags', index=5,
+      number=6, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='links', full_name='internal.AddProjectInput.links', index=6,
+      number=7, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1037,
+  serialized_end=1177,
+)
+
+
+_UPDATEPROJECTINPUT = _descriptor.Descriptor(
+  name='UpdateProjectInput',
+  full_name='internal.UpdateProjectInput',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='internal.UpdateProjectInput.id', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='updateProjectInputPayload', full_name='internal.UpdateProjectInput.updateProjectInputPayload', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1179,
+  serialized_end=1283,
+)
+
+
+_UPDATEPROJECTINPUTPAYLOAD = _descriptor.Descriptor(
+  name='UpdateProjectInputPayload',
+  full_name='internal.UpdateProjectInputPayload',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='index', full_name='internal.UpdateProjectInputPayload.index', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='title', full_name='internal.UpdateProjectInputPayload.title', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='description', full_name='internal.UpdateProjectInputPayload.description', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='image', full_name='internal.UpdateProjectInputPayload.image', index=3,
+      number=4, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"",
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='tags', full_name='internal.UpdateProjectInputPayload.tags', index=4,
+      number=5, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='links', full_name='internal.UpdateProjectInputPayload.links', index=5,
+      number=6, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1286,
+  serialized_end=1424,
+)
+
+
+_DELETEPROJECTINPUT = _descriptor.Descriptor(
+  name='DeleteProjectInput',
+  full_name='internal.DeleteProjectInput',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='internal.DeleteProjectInput.id', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1426,
+  serialized_end=1458,
+)
+
+
+_WATCHPROJECTSINPUT = _descriptor.Descriptor(
+  name='WatchProjectsInput',
+  full_name='internal.WatchProjectsInput',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='email', full_name='internal.WatchProjectsInput.email', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1460,
+  serialized_end=1495,
+)
+
+
+_WATCHPROJECTSOUTPUT = _descriptor.Descriptor(
+  name='WatchProjectsOutput',
+  full_name='internal.WatchProjectsOutput',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='projects', full_name='internal.WatchProjectsOutput.projects', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1497,
+  serialized_end=1555,
 )
 
 _GETUSERLISTOUTPUT.fields_by_name['userList'].message_type = _USERLISTITEM
 _UPDATEUSERINPUT.fields_by_name['updateUserInputPayload'].message_type = _UPDATEUSERINPUTPAYLOAD
+_PROJECT.fields_by_name['links'].message_type = _LINK
+_GETPROJECTSOUTPUT.fields_by_name['projects'].message_type = _PROJECT
+_ADDPROJECTINPUT.fields_by_name['links'].message_type = _LINK
+_UPDATEPROJECTINPUT.fields_by_name['updateProjectInputPayload'].message_type = _UPDATEPROJECTINPUTPAYLOAD
+_UPDATEPROJECTINPUTPAYLOAD.fields_by_name['links'].message_type = _LINK
+_WATCHPROJECTSOUTPUT.fields_by_name['projects'].message_type = _PROJECT
 DESCRIPTOR.message_types_by_name['GetUserInput'] = _GETUSERINPUT
 DESCRIPTOR.message_types_by_name['User'] = _USER
 DESCRIPTOR.message_types_by_name['GetUserListInput'] = _GETUSERLISTINPUT
@@ -442,6 +910,16 @@ DESCRIPTOR.message_types_by_name['AddUserInput'] = _ADDUSERINPUT
 DESCRIPTOR.message_types_by_name['UpdateUserInputPayload'] = _UPDATEUSERINPUTPAYLOAD
 DESCRIPTOR.message_types_by_name['UpdateUserInput'] = _UPDATEUSERINPUT
 DESCRIPTOR.message_types_by_name['WatchUserInput'] = _WATCHUSERINPUT
+DESCRIPTOR.message_types_by_name['Link'] = _LINK
+DESCRIPTOR.message_types_by_name['Project'] = _PROJECT
+DESCRIPTOR.message_types_by_name['GetProjectsOutput'] = _GETPROJECTSOUTPUT
+DESCRIPTOR.message_types_by_name['GetProjectsInput'] = _GETPROJECTSINPUT
+DESCRIPTOR.message_types_by_name['AddProjectInput'] = _ADDPROJECTINPUT
+DESCRIPTOR.message_types_by_name['UpdateProjectInput'] = _UPDATEPROJECTINPUT
+DESCRIPTOR.message_types_by_name['UpdateProjectInputPayload'] = _UPDATEPROJECTINPUTPAYLOAD
+DESCRIPTOR.message_types_by_name['DeleteProjectInput'] = _DELETEPROJECTINPUT
+DESCRIPTOR.message_types_by_name['WatchProjectsInput'] = _WATCHPROJECTSINPUT
+DESCRIPTOR.message_types_by_name['WatchProjectsOutput'] = _WATCHPROJECTSOUTPUT
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 GetUserInput = _reflection.GeneratedProtocolMessageType('GetUserInput', (_message.Message,), {
@@ -507,6 +985,76 @@ WatchUserInput = _reflection.GeneratedProtocolMessageType('WatchUserInput', (_me
   })
 _sym_db.RegisterMessage(WatchUserInput)
 
+Link = _reflection.GeneratedProtocolMessageType('Link', (_message.Message,), {
+  'DESCRIPTOR' : _LINK,
+  '__module__' : 'proto.internal_pb2'
+  # @@protoc_insertion_point(class_scope:internal.Link)
+  })
+_sym_db.RegisterMessage(Link)
+
+Project = _reflection.GeneratedProtocolMessageType('Project', (_message.Message,), {
+  'DESCRIPTOR' : _PROJECT,
+  '__module__' : 'proto.internal_pb2'
+  # @@protoc_insertion_point(class_scope:internal.Project)
+  })
+_sym_db.RegisterMessage(Project)
+
+GetProjectsOutput = _reflection.GeneratedProtocolMessageType('GetProjectsOutput', (_message.Message,), {
+  'DESCRIPTOR' : _GETPROJECTSOUTPUT,
+  '__module__' : 'proto.internal_pb2'
+  # @@protoc_insertion_point(class_scope:internal.GetProjectsOutput)
+  })
+_sym_db.RegisterMessage(GetProjectsOutput)
+
+GetProjectsInput = _reflection.GeneratedProtocolMessageType('GetProjectsInput', (_message.Message,), {
+  'DESCRIPTOR' : _GETPROJECTSINPUT,
+  '__module__' : 'proto.internal_pb2'
+  # @@protoc_insertion_point(class_scope:internal.GetProjectsInput)
+  })
+_sym_db.RegisterMessage(GetProjectsInput)
+
+AddProjectInput = _reflection.GeneratedProtocolMessageType('AddProjectInput', (_message.Message,), {
+  'DESCRIPTOR' : _ADDPROJECTINPUT,
+  '__module__' : 'proto.internal_pb2'
+  # @@protoc_insertion_point(class_scope:internal.AddProjectInput)
+  })
+_sym_db.RegisterMessage(AddProjectInput)
+
+UpdateProjectInput = _reflection.GeneratedProtocolMessageType('UpdateProjectInput', (_message.Message,), {
+  'DESCRIPTOR' : _UPDATEPROJECTINPUT,
+  '__module__' : 'proto.internal_pb2'
+  # @@protoc_insertion_point(class_scope:internal.UpdateProjectInput)
+  })
+_sym_db.RegisterMessage(UpdateProjectInput)
+
+UpdateProjectInputPayload = _reflection.GeneratedProtocolMessageType('UpdateProjectInputPayload', (_message.Message,), {
+  'DESCRIPTOR' : _UPDATEPROJECTINPUTPAYLOAD,
+  '__module__' : 'proto.internal_pb2'
+  # @@protoc_insertion_point(class_scope:internal.UpdateProjectInputPayload)
+  })
+_sym_db.RegisterMessage(UpdateProjectInputPayload)
+
+DeleteProjectInput = _reflection.GeneratedProtocolMessageType('DeleteProjectInput', (_message.Message,), {
+  'DESCRIPTOR' : _DELETEPROJECTINPUT,
+  '__module__' : 'proto.internal_pb2'
+  # @@protoc_insertion_point(class_scope:internal.DeleteProjectInput)
+  })
+_sym_db.RegisterMessage(DeleteProjectInput)
+
+WatchProjectsInput = _reflection.GeneratedProtocolMessageType('WatchProjectsInput', (_message.Message,), {
+  'DESCRIPTOR' : _WATCHPROJECTSINPUT,
+  '__module__' : 'proto.internal_pb2'
+  # @@protoc_insertion_point(class_scope:internal.WatchProjectsInput)
+  })
+_sym_db.RegisterMessage(WatchProjectsInput)
+
+WatchProjectsOutput = _reflection.GeneratedProtocolMessageType('WatchProjectsOutput', (_message.Message,), {
+  'DESCRIPTOR' : _WATCHPROJECTSOUTPUT,
+  '__module__' : 'proto.internal_pb2'
+  # @@protoc_insertion_point(class_scope:internal.WatchProjectsOutput)
+  })
+_sym_db.RegisterMessage(WatchProjectsOutput)
+
 
 DESCRIPTOR._options = None
 
@@ -517,8 +1065,8 @@ _INTERNAL = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=730,
-  serialized_end=1038,
+  serialized_start=1558,
+  serialized_end=2225,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetUser',
@@ -567,6 +1115,56 @@ _INTERNAL = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_WATCHUSERINPUT,
     output_type=_USER,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='GetProjects',
+    full_name='internal.Internal.GetProjects',
+    index=5,
+    containing_service=None,
+    input_type=_GETPROJECTSINPUT,
+    output_type=_GETPROJECTSOUTPUT,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='AddProject',
+    full_name='internal.Internal.AddProject',
+    index=6,
+    containing_service=None,
+    input_type=_ADDPROJECTINPUT,
+    output_type=_PROJECT,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='UpdateProject',
+    full_name='internal.Internal.UpdateProject',
+    index=7,
+    containing_service=None,
+    input_type=_UPDATEPROJECTINPUT,
+    output_type=_PROJECT,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='DeleteProject',
+    full_name='internal.Internal.DeleteProject',
+    index=8,
+    containing_service=None,
+    input_type=_DELETEPROJECTINPUT,
+    output_type=google_dot_protobuf_dot_empty__pb2._EMPTY,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='WatchProjects',
+    full_name='internal.Internal.WatchProjects',
+    index=9,
+    containing_service=None,
+    input_type=_WATCHPROJECTSINPUT,
+    output_type=_WATCHPROJECTSOUTPUT,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),

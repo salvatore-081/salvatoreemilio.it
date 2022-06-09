@@ -7,7 +7,7 @@ from state.appState import AppState
 from keycloak.exceptions import KeycloakAuthenticationError, KeycloakGetError
 
 
-def getMutation(appState: AppState) -> MutationType:
+def newMutation(appState: AppState) -> MutationType:
     mutation = MutationType()
 
     @mutation.field("login")

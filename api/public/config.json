@@ -1,0 +1,18 @@
+{
+  "logLevel": "DEBUG",
+  "workers": "auto",
+  "port": "14021",
+  "gRPCServer": {
+    "host": "internal-api",
+    "port": "14010"
+  },
+  "gunicorn": {
+    "port": "14021"
+  },
+  "keycloak": {
+    "realm": "se",
+    "url": "https://login.salvatoreemilio.it/auth/",
+    "clientId": "api-auth",
+    "serviceAccountClientId": "api-service-account"
+  }
+}

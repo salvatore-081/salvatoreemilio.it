@@ -5,7 +5,7 @@ from state.appState import AppState
 from exceptions import graphql as graphql_exceptions
 
 
-def getSubscription(appState: AppState) -> SubscriptionType:
+def newSubscription(appState: AppState) -> SubscriptionType:
     subscription = SubscriptionType()
 
     @subscription.source('watchUser')

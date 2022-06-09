@@ -2,6 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
+from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 from proto import internal_pb2 as proto_dot_internal__pb2
 
 
@@ -39,6 +40,31 @@ class InternalStub(object):
                 request_serializer=proto_dot_internal__pb2.WatchUserInput.SerializeToString,
                 response_deserializer=proto_dot_internal__pb2.User.FromString,
                 )
+        self.GetProjects = channel.unary_unary(
+                '/internal.Internal/GetProjects',
+                request_serializer=proto_dot_internal__pb2.GetProjectsInput.SerializeToString,
+                response_deserializer=proto_dot_internal__pb2.GetProjectsOutput.FromString,
+                )
+        self.AddProject = channel.unary_unary(
+                '/internal.Internal/AddProject',
+                request_serializer=proto_dot_internal__pb2.AddProjectInput.SerializeToString,
+                response_deserializer=proto_dot_internal__pb2.Project.FromString,
+                )
+        self.UpdateProject = channel.unary_unary(
+                '/internal.Internal/UpdateProject',
+                request_serializer=proto_dot_internal__pb2.UpdateProjectInput.SerializeToString,
+                response_deserializer=proto_dot_internal__pb2.Project.FromString,
+                )
+        self.DeleteProject = channel.unary_unary(
+                '/internal.Internal/DeleteProject',
+                request_serializer=proto_dot_internal__pb2.DeleteProjectInput.SerializeToString,
+                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                )
+        self.WatchProjects = channel.unary_stream(
+                '/internal.Internal/WatchProjects',
+                request_serializer=proto_dot_internal__pb2.WatchProjectsInput.SerializeToString,
+                response_deserializer=proto_dot_internal__pb2.WatchProjectsOutput.FromString,
+                )
 
 
 class InternalServicer(object):
@@ -74,6 +100,36 @@ class InternalServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetProjects(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def AddProject(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def UpdateProject(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def DeleteProject(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def WatchProjects(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_InternalServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -101,6 +157,31 @@ def add_InternalServicer_to_server(servicer, server):
                     servicer.WatchUser,
                     request_deserializer=proto_dot_internal__pb2.WatchUserInput.FromString,
                     response_serializer=proto_dot_internal__pb2.User.SerializeToString,
+            ),
+            'GetProjects': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetProjects,
+                    request_deserializer=proto_dot_internal__pb2.GetProjectsInput.FromString,
+                    response_serializer=proto_dot_internal__pb2.GetProjectsOutput.SerializeToString,
+            ),
+            'AddProject': grpc.unary_unary_rpc_method_handler(
+                    servicer.AddProject,
+                    request_deserializer=proto_dot_internal__pb2.AddProjectInput.FromString,
+                    response_serializer=proto_dot_internal__pb2.Project.SerializeToString,
+            ),
+            'UpdateProject': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdateProject,
+                    request_deserializer=proto_dot_internal__pb2.UpdateProjectInput.FromString,
+                    response_serializer=proto_dot_internal__pb2.Project.SerializeToString,
+            ),
+            'DeleteProject': grpc.unary_unary_rpc_method_handler(
+                    servicer.DeleteProject,
+                    request_deserializer=proto_dot_internal__pb2.DeleteProjectInput.FromString,
+                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ),
+            'WatchProjects': grpc.unary_stream_rpc_method_handler(
+                    servicer.WatchProjects,
+                    request_deserializer=proto_dot_internal__pb2.WatchProjectsInput.FromString,
+                    response_serializer=proto_dot_internal__pb2.WatchProjectsOutput.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -194,5 +275,90 @@ class Internal(object):
         return grpc.experimental.unary_stream(request, target, '/internal.Internal/WatchUser',
             proto_dot_internal__pb2.WatchUserInput.SerializeToString,
             proto_dot_internal__pb2.User.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetProjects(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/internal.Internal/GetProjects',
+            proto_dot_internal__pb2.GetProjectsInput.SerializeToString,
+            proto_dot_internal__pb2.GetProjectsOutput.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def AddProject(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/internal.Internal/AddProject',
+            proto_dot_internal__pb2.AddProjectInput.SerializeToString,
+            proto_dot_internal__pb2.Project.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def UpdateProject(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/internal.Internal/UpdateProject',
+            proto_dot_internal__pb2.UpdateProjectInput.SerializeToString,
+            proto_dot_internal__pb2.Project.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def DeleteProject(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/internal.Internal/DeleteProject',
+            proto_dot_internal__pb2.DeleteProjectInput.SerializeToString,
+            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def WatchProjects(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/internal.Internal/WatchProjects',
+            proto_dot_internal__pb2.WatchProjectsInput.SerializeToString,
+            proto_dot_internal__pb2.WatchProjectsOutput.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
