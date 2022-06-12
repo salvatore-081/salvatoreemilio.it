@@ -10,14 +10,9 @@ import (
 	"google.golang.org/grpc/codes"
 	r "gopkg.in/rethinkdb/rethinkdb-go.v6"
 
-	"github.com/rs/zerolog/log"
+	"github.com/salvatore.081/salvatoreemilio-it/models"
 	"github.com/salvatore.081/salvatoreemilio-it/proto"
 )
-
-type watchUserFeed struct {
-	NewVal *proto.User `json:"new_val,omitempty"`
-	OldVal *proto.User `json:"old_val,omitempty"`
-}
 
 func (rdb *RethinkDB) AddUser(ctx context.Context, in *proto.AddUserInput) (*proto.User, error) {
 	table := rdb.config.Database.Tables["users"].Name
@@ -155,11 +150,10 @@ func (rdb *RethinkDB) WatchUser(ctx context.Context, in *proto.WatchUserInput) (
 		} else {
 			go func(ctx context.Context) {
 				<-ctx.Done()
-				log.Debug().Msg("WatchUser cursor closed")
 				c.Close()
 			}(ctx)
 
-			feed := watchUserFeed{}
+			feed := models.WatchFeed[proto.User]{}
 
 			go func() {
 				for c.Next(&feed) {

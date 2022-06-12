@@ -85,6 +85,83 @@ func (rdb *RethinkDB) GetProjects(ctx context.Context, in *proto.GetProjectsInpu
 	return &proto.GetProjectsOutput{Projects: projects}, nil
 }
 
+func (rdb *RethinkDB) UpdateProject(ctx context.Context, in *proto.UpdateProjectInput) (*proto.Project, error) {
+	table := rdb.config.Database.Tables["projects"].Name
+
+	if in == nil || len(in.Id) < 1 {
+		return new(proto.Project), grpc.Errorf(codes.InvalidArgument, "'id' is missing")
+	}
+
+	if in.UpdateProjectInputPayload == nil || in.UpdateProjectInputPayload.Index == 0 && len(in.UpdateProjectInputPayload.Title) < 1 && (len(in.UpdateProjectInputPayload.Description) < 1 && len(in.UpdateProjectInputPayload.Image) < 1 && len(in.UpdateProjectInputPayload.Tags) < 1 && len(in.UpdateProjectInputPayload.Links) < 1) {
+		return new(proto.Project), grpc.Errorf(codes.InvalidArgument, "UpdateProjectInputPayload payload cannot be empty")
+	}
+
+	wr, e := r.Table(table).Get(in.Id).Update(in.UpdateProjectInputPayload, r.UpdateOpts{
+		ReturnChanges: "always",
+	}).RunWrite(rdb.session)
+	if e != nil {
+		return new(proto.Project), grpc.Errorf(codes.Internal, e.Error())
+	}
+
+	project := proto.Project{}
+
+	if wr.Skipped > 0 {
+		return new(proto.Project), grpc.Errorf(codes.NotFound, fmt.Sprintf("no project found with id '%s'", in.Id))
+	}
+
+	d, e := json.Marshal(wr.Changes[0].NewValue)
+	if e != nil {
+		return new(proto.Project), grpc.Errorf(codes.Internal, e.Error())
+	}
+
+	e = json.Unmarshal(d, &project)
+	if e != nil {
+		return new(proto.Project), grpc.Errorf(codes.Internal, e.Error())
+	}
+
+	// TODO
+	// the following codition could be implemented inside the first Rethink query
+	// I will do it leter (maybe)
+	if in.UpdateProjectInputPayload.Index != 0 {
+		d, e = json.Marshal(wr.Changes[0].OldValue)
+		if e != nil {
+			return &project, grpc.Errorf(codes.Internal, e.Error())
+		}
+
+		old := proto.Project{}
+
+		e = json.Unmarshal(d, &old)
+		if e != nil {
+			return &project, grpc.Errorf(codes.Internal, e.Error())
+		}
+
+		if old.Index != project.Index {
+			_, e := r.Table(table).GetAllByIndex("email", project.Email).Filter(func(row r.Term) interface{} {
+				return r.Branch(
+					r.Expr(project.Index).Ge(r.Expr(old.Index)),
+					row.Field("id").Ne(project.Id).And(row.Field("index").Ge(old.Index).And(row.Field("index").Le(project.Index))),
+					row.Field("id").Ne(project.Id).And(row.Field("index").Ge(project.Index).And(row.Field("index").Le(old.Index))),
+				)
+			}).Update(func(row r.Term) interface{} {
+				return r.Branch(
+					r.Expr(project.Index).Ge(r.Expr(old.Index)),
+					r.Object("index", row.Field("index").Sub(1)),
+					r.Object("index", row.Field("index").Add(1)),
+				)
+			}).Run(rdb.session)
+			if e != nil {
+				return &project, e
+			}
+		}
+
+		if e != nil {
+			return &project, e
+		}
+	}
+
+	return &project, nil
+}
+
 func (rdb *RethinkDB) DeleteProject(ctx context.Context, in *proto.DeleteProjectInput) (*empty.Empty, error) {
 	table := rdb.config.Database.Tables["projects"].Name
 
@@ -104,4 +181,40 @@ func (rdb *RethinkDB) DeleteProject(ctx context.Context, in *proto.DeleteProject
 	}
 
 	return new(empty.Empty), nil
+}
+
+func (rdb *RethinkDB) WatchProjects(ctx context.Context, in *proto.WatchProjectsInput) (<-chan *proto.ProjectFeed, chan error) {
+	table := rdb.config.Database.Tables["projects"].Name
+
+	ch := make(chan *proto.ProjectFeed)
+	e := make(chan error, 1)
+
+	if in == nil || len(in.Email) < 1 {
+		e <- grpc.Errorf(codes.InvalidArgument, "argument 'email' is required")
+	} else {
+		c, err := r.Table(table).GetAllByIndex("email", in.Email).Changes(r.ChangesOpts{
+			IncludeInitial: true,
+		}).Run(rdb.session)
+		if err != nil {
+			e <- grpc.Errorf(codes.Internal, err.Error())
+		} else {
+			go func(ctx context.Context) {
+				<-ctx.Done()
+				c.Close()
+			}(ctx)
+
+			go func() {
+				if c.IsNil() {
+					ctx.Done()
+					e <- grpc.Errorf(codes.NotFound, fmt.Sprintf("no projects found with email '%s'", in.Email))
+				}
+				feed := proto.ProjectFeed{}
+				for c.Next(&feed) {
+					ch <- &feed
+				}
+			}()
+		}
+	}
+
+	return ch, e
 }

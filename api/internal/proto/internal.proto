@@ -117,6 +117,11 @@ message WatchProjectsOutput {
     repeated Project projects = 1;
 }
 
+message ProjectFeed {
+    Project new_val = 1;
+    Project old_val = 2;
+}
+
 service Internal {
     rpc GetUser (GetUserInput) returns (User) {}
     rpc GetUserList (GetUserListInput) returns (GetUserListOutput) {}
@@ -127,5 +132,5 @@ service Internal {
     rpc AddProject (AddProjectInput) returns (Project) {}
     rpc UpdateProject (UpdateProjectInput) returns (Project) {}
     rpc DeleteProject (DeleteProjectInput) returns (google.protobuf.Empty){}
-    rpc WatchProjects (WatchProjectsInput) returns (stream WatchProjectsOutput) {}
+    rpc WatchProjects (WatchProjectsInput) returns (stream ProjectFeed) {}
 }

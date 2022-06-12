@@ -159,7 +159,7 @@ func (c *internalClient) WatchProjects(ctx context.Context, in *WatchProjectsInp
 }
 
 type Internal_WatchProjectsClient interface {
-	Recv() (*WatchProjectsOutput, error)
+	Recv() (*ProjectFeed, error)
 	grpc.ClientStream
 }
 
@@ -167,8 +167,8 @@ type internalWatchProjectsClient struct {
 	grpc.ClientStream
 }
 
-func (x *internalWatchProjectsClient) Recv() (*WatchProjectsOutput, error) {
-	m := new(WatchProjectsOutput)
+func (x *internalWatchProjectsClient) Recv() (*ProjectFeed, error) {
+	m := new(ProjectFeed)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -413,7 +413,7 @@ func _Internal_WatchProjects_Handler(srv interface{}, stream grpc.ServerStream) 
 }
 
 type Internal_WatchProjectsServer interface {
-	Send(*WatchProjectsOutput) error
+	Send(*ProjectFeed) error
 	grpc.ServerStream
 }
 
@@ -421,7 +421,7 @@ type internalWatchProjectsServer struct {
 	grpc.ServerStream
 }
 
-func (x *internalWatchProjectsServer) Send(m *WatchProjectsOutput) error {
+func (x *internalWatchProjectsServer) Send(m *ProjectFeed) error {
 	return x.ServerStream.SendMsg(m)
 }
 
