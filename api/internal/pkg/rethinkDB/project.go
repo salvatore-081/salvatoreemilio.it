@@ -71,15 +71,15 @@ func (rdb *RethinkDB) GetProjects(ctx context.Context, in *proto.GetProjectsInpu
 		return new(proto.GetProjectsOutput), e
 	}
 
-	if c.IsNil() {
-		return new(proto.GetProjectsOutput), grpc.Errorf(codes.NotFound, fmt.Sprintf("no projects found for '%s'", in.Email))
-	}
-
 	projects := []*proto.Project{}
 
 	e = c.All(&projects)
 	if e != nil {
 		return new(proto.GetProjectsOutput), grpc.Errorf(codes.Internal, e.Error())
+	}
+
+	if len(projects) == 0 {
+		return new(proto.GetProjectsOutput), grpc.Errorf(codes.NotFound, fmt.Sprintf("no projects found for '%s'", in.Email))
 	}
 
 	return &proto.GetProjectsOutput{Projects: projects}, nil

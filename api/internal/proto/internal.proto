@@ -82,7 +82,6 @@ message GetProjectsInput {
 }
 
 message AddProjectInput {
-    string id = 1;
     string email = 2;
     string title = 3;
     string description = 4;
