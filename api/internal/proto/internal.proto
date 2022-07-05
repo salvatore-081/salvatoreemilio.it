@@ -2,7 +2,6 @@ syntax = "proto3";
 
 option go_package = "https://github.com/salvatore-081/salvatoreemilio.it/tree/development/api/internal/proto";
 
-import "google/protobuf/empty.proto";
 package internal;
 
 message GetUserInput {
@@ -112,6 +111,10 @@ message DeleteProjectInput {
     string id = 1;
 }
 
+message DeleteProjectOutput {
+    string id = 1;
+}
+
 message WatchProjectsInput {
     string email = 1;
 }
@@ -135,6 +138,6 @@ service Internal {
     rpc GetProjects (GetProjectsInput) returns (GetProjectsOutput) {}
     rpc AddProject (AddProjectInput) returns (Project) {}
     rpc UpdateProject (UpdateProjectInput) returns (Project) {}
-    rpc DeleteProject (DeleteProjectInput) returns (google.protobuf.Empty){}
+    rpc DeleteProject (DeleteProjectInput) returns (DeleteProjectOutput) {}
     rpc WatchProjects (WatchProjectsInput) returns (stream ProjectFeed) {}
 }

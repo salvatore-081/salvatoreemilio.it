@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/salvatore.081/salvatoreemilio-it/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -184,25 +183,25 @@ func (rdb *RethinkDB) UpdateProject(ctx context.Context, in *proto.UpdateProject
 	return &project, nil
 }
 
-func (rdb *RethinkDB) DeleteProject(ctx context.Context, in *proto.DeleteProjectInput) (*empty.Empty, error) {
+func (rdb *RethinkDB) DeleteProject(ctx context.Context, in *proto.DeleteProjectInput) (*proto.DeleteProjectOutput, error) {
 	table := rdb.config.Database.Tables["projects"].Name
 
 	wr, e := r.Table(table).Get(in.Id).Delete(r.DeleteOpts{
 		ReturnChanges: true,
 	}).RunWrite(rdb.session)
 	if e != nil {
-		return new(empty.Empty), e
+		return new(proto.DeleteProjectOutput), e
 	}
 
 	if len(wr.FirstError) > 0 {
-		return new(empty.Empty), grpc.Errorf(codes.Internal, wr.FirstError)
+		return new(proto.DeleteProjectOutput), grpc.Errorf(codes.Internal, wr.FirstError)
 	}
 
 	if wr.Deleted < 1 {
-		return new(empty.Empty), grpc.Errorf(codes.NotFound, fmt.Sprintf("no project found with id '%s'", in.Id))
+		return new(proto.DeleteProjectOutput), grpc.Errorf(codes.NotFound, fmt.Sprintf("no project found with id '%s'", in.Id))
 	}
 
-	return new(empty.Empty), nil
+	return &proto.DeleteProjectOutput{Id: in.Id}, nil
 }
 
 func (rdb *RethinkDB) WatchProjects(ctx context.Context, in *proto.WatchProjectsInput) (<-chan *proto.ProjectFeed, chan error) {

@@ -4,7 +4,6 @@ package proto
 
 import (
 	context "context"
-	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -28,7 +27,7 @@ type InternalClient interface {
 	GetProjects(ctx context.Context, in *GetProjectsInput, opts ...grpc.CallOption) (*GetProjectsOutput, error)
 	AddProject(ctx context.Context, in *AddProjectInput, opts ...grpc.CallOption) (*Project, error)
 	UpdateProject(ctx context.Context, in *UpdateProjectInput, opts ...grpc.CallOption) (*Project, error)
-	DeleteProject(ctx context.Context, in *DeleteProjectInput, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteProject(ctx context.Context, in *DeleteProjectInput, opts ...grpc.CallOption) (*DeleteProjectOutput, error)
 	WatchProjects(ctx context.Context, in *WatchProjectsInput, opts ...grpc.CallOption) (Internal_WatchProjectsClient, error)
 }
 
@@ -144,8 +143,8 @@ func (c *internalClient) UpdateProject(ctx context.Context, in *UpdateProjectInp
 	return out, nil
 }
 
-func (c *internalClient) DeleteProject(ctx context.Context, in *DeleteProjectInput, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *internalClient) DeleteProject(ctx context.Context, in *DeleteProjectInput, opts ...grpc.CallOption) (*DeleteProjectOutput, error) {
+	out := new(DeleteProjectOutput)
 	err := c.cc.Invoke(ctx, "/internal.Internal/DeleteProject", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -198,7 +197,7 @@ type InternalServer interface {
 	GetProjects(context.Context, *GetProjectsInput) (*GetProjectsOutput, error)
 	AddProject(context.Context, *AddProjectInput) (*Project, error)
 	UpdateProject(context.Context, *UpdateProjectInput) (*Project, error)
-	DeleteProject(context.Context, *DeleteProjectInput) (*empty.Empty, error)
+	DeleteProject(context.Context, *DeleteProjectInput) (*DeleteProjectOutput, error)
 	WatchProjects(*WatchProjectsInput, Internal_WatchProjectsServer) error
 	mustEmbedUnimplementedInternalServer()
 }
@@ -234,7 +233,7 @@ func (UnimplementedInternalServer) AddProject(context.Context, *AddProjectInput)
 func (UnimplementedInternalServer) UpdateProject(context.Context, *UpdateProjectInput) (*Project, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateProject not implemented")
 }
-func (UnimplementedInternalServer) DeleteProject(context.Context, *DeleteProjectInput) (*empty.Empty, error) {
+func (UnimplementedInternalServer) DeleteProject(context.Context, *DeleteProjectInput) (*DeleteProjectOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteProject not implemented")
 }
 func (UnimplementedInternalServer) WatchProjects(*WatchProjectsInput, Internal_WatchProjectsServer) error {

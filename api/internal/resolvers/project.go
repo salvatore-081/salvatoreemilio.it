@@ -3,7 +3,6 @@ package resolvers
 import (
 	"context"
 
-	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/salvatore.081/salvatoreemilio-it/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -25,7 +24,7 @@ func (s *Server) UpdateProject(ctx context.Context, in *proto.UpdateProjectInput
 	return s.Db.UpdateProject(ctx, in)
 }
 
-func (s *Server) DeleteProject(ctx context.Context, in *proto.DeleteProjectInput) (*empty.Empty, error) {
+func (s *Server) DeleteProject(ctx context.Context, in *proto.DeleteProjectInput) (*proto.DeleteProjectOutput, error) {
 	return s.Db.DeleteProject(ctx, in)
 }
 
