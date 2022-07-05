@@ -24,6 +24,7 @@ type InternalClient interface {
 	AddUser(ctx context.Context, in *AddUserInput, opts ...grpc.CallOption) (*User, error)
 	UpdateUser(ctx context.Context, in *UpdateUserInput, opts ...grpc.CallOption) (*User, error)
 	WatchUser(ctx context.Context, in *WatchUserInput, opts ...grpc.CallOption) (Internal_WatchUserClient, error)
+	GetProject(ctx context.Context, in *GetProjectInput, opts ...grpc.CallOption) (*Project, error)
 	GetProjects(ctx context.Context, in *GetProjectsInput, opts ...grpc.CallOption) (*GetProjectsOutput, error)
 	AddProject(ctx context.Context, in *AddProjectInput, opts ...grpc.CallOption) (*Project, error)
 	UpdateProject(ctx context.Context, in *UpdateProjectInput, opts ...grpc.CallOption) (*Project, error)
@@ -107,6 +108,15 @@ func (x *internalWatchUserClient) Recv() (*User, error) {
 	return m, nil
 }
 
+func (c *internalClient) GetProject(ctx context.Context, in *GetProjectInput, opts ...grpc.CallOption) (*Project, error) {
+	out := new(Project)
+	err := c.cc.Invoke(ctx, "/internal.Internal/GetProject", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *internalClient) GetProjects(ctx context.Context, in *GetProjectsInput, opts ...grpc.CallOption) (*GetProjectsOutput, error) {
 	out := new(GetProjectsOutput)
 	err := c.cc.Invoke(ctx, "/internal.Internal/GetProjects", in, out, opts...)
@@ -184,6 +194,7 @@ type InternalServer interface {
 	AddUser(context.Context, *AddUserInput) (*User, error)
 	UpdateUser(context.Context, *UpdateUserInput) (*User, error)
 	WatchUser(*WatchUserInput, Internal_WatchUserServer) error
+	GetProject(context.Context, *GetProjectInput) (*Project, error)
 	GetProjects(context.Context, *GetProjectsInput) (*GetProjectsOutput, error)
 	AddProject(context.Context, *AddProjectInput) (*Project, error)
 	UpdateProject(context.Context, *UpdateProjectInput) (*Project, error)
@@ -210,6 +221,9 @@ func (UnimplementedInternalServer) UpdateUser(context.Context, *UpdateUserInput)
 }
 func (UnimplementedInternalServer) WatchUser(*WatchUserInput, Internal_WatchUserServer) error {
 	return status.Errorf(codes.Unimplemented, "method WatchUser not implemented")
+}
+func (UnimplementedInternalServer) GetProject(context.Context, *GetProjectInput) (*Project, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetProject not implemented")
 }
 func (UnimplementedInternalServer) GetProjects(context.Context, *GetProjectsInput) (*GetProjectsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetProjects not implemented")
@@ -332,6 +346,24 @@ func (x *internalWatchUserServer) Send(m *User) error {
 	return x.ServerStream.SendMsg(m)
 }
 
+func _Internal_GetProject_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetProjectInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(InternalServer).GetProject(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/internal.Internal/GetProject",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(InternalServer).GetProject(ctx, req.(*GetProjectInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Internal_GetProjects_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetProjectsInput)
 	if err := dec(in); err != nil {
@@ -447,6 +479,10 @@ var Internal_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateUser",
 			Handler:    _Internal_UpdateUser_Handler,
+		},
+		{
+			MethodName: "GetProject",
+			Handler:    _Internal_GetProject_Handler,
 		},
 		{
 			MethodName: "GetProjects",

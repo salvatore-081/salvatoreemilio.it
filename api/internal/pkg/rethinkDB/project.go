@@ -63,12 +63,34 @@ func (rdb *RethinkDB) AddProject(ctx context.Context, in *proto.AddProjectInput)
 	return &p, nil
 }
 
+func (rdb *RethinkDB) GetProject(ctx context.Context, in *proto.GetProjectInput) (*proto.Project, error) {
+	table := rdb.config.Database.Tables["projects"].Name
+
+	c, e := r.Table(table).Get(in.Id).Run(rdb.session)
+	if e != nil {
+		return new(proto.Project), grpc.Errorf(codes.Internal, e.Error())
+	}
+
+	if c.IsNil() {
+		return new(proto.Project), grpc.Errorf(codes.NotFound, fmt.Sprintf("no project found with id '%s'", in.Id))
+	}
+
+	projects := []*proto.Project{}
+
+	e = c.All(&projects)
+	if e != nil {
+		return new(proto.Project), grpc.Errorf(codes.Internal, e.Error())
+	}
+
+	return projects[0], nil
+}
+
 func (rdb *RethinkDB) GetProjects(ctx context.Context, in *proto.GetProjectsInput) (*proto.GetProjectsOutput, error) {
 	table := rdb.config.Database.Tables["projects"].Name
 
 	c, e := r.Table(table).GetAllByIndex("email", in.Email).OrderBy(r.Desc("index")).Run(rdb.session)
 	if e != nil {
-		return new(proto.GetProjectsOutput), e
+		return new(proto.GetProjectsOutput), grpc.Errorf(codes.Internal, e.Error())
 	}
 
 	projects := []*proto.Project{}

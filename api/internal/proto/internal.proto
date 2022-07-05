@@ -77,6 +77,10 @@ message GetProjectsOutput {
     repeated Project projects = 1;
 }
 
+message GetProjectInput {
+    string id = 1;
+}
+
 message GetProjectsInput {
     string email = 1;
 }
@@ -127,6 +131,7 @@ service Internal {
     rpc AddUser (AddUserInput) returns (User) {}
     rpc UpdateUser (UpdateUserInput) returns (User) {}
     rpc WatchUser (WatchUserInput) returns (stream User) {}
+    rpc GetProject (GetProjectInput) returns (Project) {}
     rpc GetProjects (GetProjectsInput) returns (GetProjectsOutput) {}
     rpc AddProject (AddProjectInput) returns (Project) {}
     rpc UpdateProject (UpdateProjectInput) returns (Project) {}

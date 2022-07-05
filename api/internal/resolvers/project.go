@@ -13,6 +13,10 @@ func (s *Server) AddProject(ctx context.Context, in *proto.AddProjectInput) (*pr
 	return s.Db.AddProject(ctx, in)
 }
 
+func (s *Server) GetProject(ctx context.Context, in *proto.GetProjectInput) (*proto.Project, error) {
+	return s.Db.GetProject(ctx, in)
+}
+
 func (s *Server) GetProjects(ctx context.Context, in *proto.GetProjectsInput) (*proto.GetProjectsOutput, error) {
 	return s.Db.GetProjects(ctx, in)
 }
