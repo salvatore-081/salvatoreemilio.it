@@ -4,16 +4,21 @@ SCHEMA = """
   type Query {
     getUserList: GetUserListOutput
     getUser(email: String!): User
+    getProjects(email: String!): GetProjectsOutput
   }
 
   type Mutation {
     login(input: LoginInput!): LoginResponse
     logout(refresh_token: String!): LogoutResponse
     updateUser(input: UpdateUserInput!): User
+    addProject(input: AddProjectInput!): Project
+    updateProject(input: UpdateProjectInput!): Project
+    deleteProject(id: String!): DeleteProjectOutput
   }
 
   type Subscription {
     watchUser(email: String!): User
+    watchProjects(email: String!): ProjectFeed
   }
 
   input LoginInput {
@@ -21,6 +26,36 @@ SCHEMA = """
     password: String!
     totp: String
   }
+
+  input AddProjectInput {
+    email: String!
+    title: String!
+    description: String
+    image: Base64
+    tags: [String]
+    links: [AddLinkInput]
+  }
+
+  input AddLinkInput {
+    name: String!
+    url: String!
+  }
+
+  input UpdateProjectInput {
+    id: String!
+    payload: UpdateProjectInputPayload!
+  }
+
+  input UpdateProjectInputPayload {
+    email: String
+    title: String
+    description: String
+    image: Base64
+    tags: [String]
+    links: [AddLinkInput]
+    index: Int
+  }
+
 
   input UpdateUserInput {
     email: String!
@@ -44,6 +79,35 @@ SCHEMA = """
 
   type GetUserListOutput {
     userList: [UserListItem]
+  }
+
+  type GetProjectsOutput {
+    projects: [Project]
+  }
+
+  type Project {
+    id: String!
+    email: String!
+    title: String!
+    description: String
+    image: Base64
+    tags: [String]
+    links: [Link]
+    index: Int!
+  }
+
+  type ProjectFeed {
+    new_val: Project
+    old_val: Project
+  }
+
+  type DeleteProjectOutput {
+    id: String!
+  }
+
+  type Link {
+    name: String
+    url: String
   }
 
   type User {

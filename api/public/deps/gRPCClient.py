@@ -1,9 +1,12 @@
+from fastapi import Request
+from grpc import RpcError, StatusCode
 from grpc.aio import insecure_channel
+from models import project as project_models
 from deps.config import GRPCServerConfig
 from proto.internal_pb2_grpc import InternalStub
-from proto.internal_pb2 import GetUserInput, GetUserListInput, UpdateUserInput, UpdateUserInputPayload, WatchUserInput
-
-
+from proto.internal_pb2 import DeleteProjectInput, GetProjectInput, GetUserInput, GetUserListInput, UpdateUserInput, UpdateUserInputPayload, WatchProjectsInput, WatchUserInput, GetProjectsInput, AddProjectInput, UpdateProjectInput, UpdateProjectInputPayload
+from starlette.responses import JSONResponse
+from exceptions import rest as rest_exceptions
 class GRPCClient():
     def __init__(self, config: GRPCServerConfig) -> None:
         try:
@@ -30,14 +33,6 @@ class GRPCClient():
         except Exception as e:
             raise e
 
-    async def add_user(self, user: any):
-        try:
-            res = {}
-            # res = await self.session.execute_async(ADD_USER, variable_values={"input": user.dict()})
-            return res
-        except Exception as e:
-            raise e
-
     async def update_user(self, email: str, payload: UpdateUserInputPayload):
         try:
             async with insecure_channel(self.url) as ch:
@@ -55,3 +50,74 @@ class GRPCClient():
                     yield user
         except Exception as e:
             raise e
+
+    async def get_project(self, id: str):
+        try:
+            async with insecure_channel(self.url) as ch:
+                st = InternalStub(ch)
+                getProject = await st.GetProject(GetProjectInput(id=id))
+                return getProject
+        except Exception as e:
+            raise e
+
+    async def get_projects(self, email: str):
+        try:
+            async with insecure_channel(self.url) as ch:
+                st = InternalStub(ch)
+                getProjects = await st.GetProjects(GetProjectsInput(email=email))
+                return getProjects
+        except Exception as e:
+            raise e
+    
+    async def add_project(self, project: project_models.AddProjectInput):
+        try:
+            async with insecure_channel(self.url) as ch:
+                st = InternalStub(ch)
+                addProject = await st.AddProject(AddProjectInput(**project.dict()))
+                return addProject
+        except Exception as e:
+            raise e
+    
+    async def update_project(self, id: str, payload: project_models.UpdateProjectInputPayload):
+        try:
+            async with insecure_channel(self.url) as ch:
+                st = InternalStub(ch)
+                updateProject = await st.UpdateProject(UpdateProjectInput(id=id, updateProjectInputPayload=UpdateProjectInputPayload(**payload.dict())))
+                return updateProject
+        except Exception as e:
+            raise e
+    
+    async def delete_project(self, id: str):
+        try:
+            async with insecure_channel(self.url) as ch:
+                st = InternalStub(ch)
+                await st.DeleteProject(DeleteProjectInput(id=id))
+                return 
+        except Exception as e:
+            raise e
+    
+    async def watch_projects(self, email: str):
+        try:
+            async with insecure_channel(self.url) as ch:
+                st = InternalStub(ch)
+                async for project in st.WatchProjects(WatchProjectsInput(email=email)):
+                    yield project
+        except Exception as e:
+            raise e
+
+    def rpcError_exception_handler(_, request: Request, e: RpcError):
+        if e.code() == StatusCode.INVALID_ARGUMENT:
+            return JSONResponse(
+                status_code=400,
+                content=rest_exceptions.BadRequest().dict()
+            )
+        if e.code() == StatusCode.NOT_FOUND:
+            return JSONResponse(
+                status_code=404,
+                content=rest_exceptions.NotFound(detail=e.details()).dict()
+            )
+        return JSONResponse(
+            status_code=500,
+            content=rest_exceptions.InternalServerError(
+                detail=e.details(), debug=e.code()).dict()
+        )

@@ -14,7 +14,7 @@ def newSubscription(appState: AppState) -> SubscriptionType:
             yield graphql_exceptions.InvalidArgument('email')
             return
         try:
-            async for user in appState.gRPCCLient.watch_user(email):
+            async for user in appState.gRPCClient.watch_user(email):
                 yield user
         except AioRpcError as e:
             if e.code() == StatusCode.NOT_FOUND:
@@ -25,12 +25,38 @@ def newSubscription(appState: AppState) -> SubscriptionType:
         except Exception as e:
             yield e
             return
-
+    
     @subscription.field('watchUser')
     async def resolve_watch_user_field(source, info, email):
         try:
             return source
         except Exception as e:
             return graphql_exceptions.InternalServerError(str(e))
+    
+    @subscription.source('watchProjects')
+    async def resolve_watch_projects_source(req, info, email):
+        if not email:
+            yield graphql_exceptions.InvalidArgument('email')
+            return
+        try:
+            async for project in appState.gRPCClient.watch_projects(email):
+                yield project
+        except AioRpcError as e:
+            if e.code() == StatusCode.NOT_FOUND:
+                yield graphql_exceptions.NotFound(e.details())
+                return
+            yield graphql_exceptions.InternalServerError(e.details())
+            return
+        except Exception as e:
+            yield e
+            return
+
+    @subscription.field('watchProjects')
+    async def resolve_watch_projects_field(source, info, email):
+        try:
+            return source
+        except Exception as e:
+            return graphql_exceptions.InternalServerError(str(e))
+
 
     return subscription

@@ -1,10 +1,10 @@
 from fastapi import FastAPI, APIRouter
 from ariadne import make_executable_schema
 from ariadne.asgi import GraphQL
-from grpc import RpcError, StatusCode
+from grpc import RpcError
 from deps.config import Config
 from state.appState import AppState
-from .routers import users, auth, misc
+from .routers import users, auth, misc, projects
 from .graphql.query import newQuery
 from .graphql.mutation import newMutation
 from .graphql.subscription import newSubscription
@@ -21,7 +21,6 @@ from loguru import logger
 from graphql import GraphQLError
 from gunicorn.glogging import Logger
 from sys import stdout
-
 
 CONFIG_PATH: str = "config.json"
 
@@ -41,8 +40,9 @@ class Application():
         try:
             api_router = APIRouter()
 
-            api_router.include_router(users.getUsersRouter(self.appState), prefix="/users", tags=["users"])
             api_router.include_router(auth.getAuthRouter(self.appState), prefix=("/auth"), tags=["auth"])
+            api_router.include_router(users.getUsersRouter(self.appState), prefix="/users", tags=["users"])
+            api_router.include_router(projects.newProjectsRouter(self.appState), prefix=("/projects"), tags=["projects"])
             api_router.include_router(misc.getMiscRouter(), prefix=("/misc"), tags=["misc"])
 
             return api_router
@@ -54,25 +54,8 @@ class Application():
             app = FastAPI(title="salvatoreemilio.it", openapi_url="/openapi.json")
             app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
             app.include_router(self.__newApiRouter(), prefix="")
-
-            @app.exception_handler(RpcError)
-            async def rpcError_exception_handler(request: Request, e: RpcError):
-                if e.code() == StatusCode.INVALID_ARGUMENT:
-                    return JSONResponse(
-                        status_code=400,
-                        content=rest_exceptions.BadRequest().dict()
-                    )
-                if e.code() == StatusCode.NOT_FOUND:
-                    return JSONResponse(
-                        status_code=404,
-                        content=rest_exceptions.NotFound(detail=e.details()).dict()
-                    )
-                return JSONResponse(
-                    status_code=500,
-                    content=rest_exceptions.InternalServerError(
-                        detail=e.details(), debug=e.code()).dict()
-                )
-
+            app.add_exception_handler(RpcError, self.appState.gRPCClient.rpcError_exception_handler)
+                
             @app.exception_handler(base_exceptions.BadRequest)
             async def bad_request_exception_handler(request: Request, e: base_exceptions.BadRequest):
                 return JSONResponse(
@@ -107,6 +90,14 @@ class Application():
                 return JSONResponse(
                     status_code=403,
                     content=rest_exceptions.Forbidden().dict()
+                )
+            
+            @app.exception_handler(Exception)
+            async def fallback_exception_handler(request: Request, e: base_exceptions.Forbidden):
+                return JSONResponse(
+                    status_code=500,
+                    content=rest_exceptions.InternalServerError(
+                    debug=str(e)).dict()
                 )
 
             graphqlApp = GraphQL(make_executable_schema(

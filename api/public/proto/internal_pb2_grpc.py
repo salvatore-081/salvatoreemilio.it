@@ -2,7 +2,6 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 from proto import internal_pb2 as proto_dot_internal__pb2
 
 
@@ -40,6 +39,11 @@ class InternalStub(object):
                 request_serializer=proto_dot_internal__pb2.WatchUserInput.SerializeToString,
                 response_deserializer=proto_dot_internal__pb2.User.FromString,
                 )
+        self.GetProject = channel.unary_unary(
+                '/internal.Internal/GetProject',
+                request_serializer=proto_dot_internal__pb2.GetProjectInput.SerializeToString,
+                response_deserializer=proto_dot_internal__pb2.Project.FromString,
+                )
         self.GetProjects = channel.unary_unary(
                 '/internal.Internal/GetProjects',
                 request_serializer=proto_dot_internal__pb2.GetProjectsInput.SerializeToString,
@@ -58,12 +62,12 @@ class InternalStub(object):
         self.DeleteProject = channel.unary_unary(
                 '/internal.Internal/DeleteProject',
                 request_serializer=proto_dot_internal__pb2.DeleteProjectInput.SerializeToString,
-                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                response_deserializer=proto_dot_internal__pb2.DeleteProjectOutput.FromString,
                 )
         self.WatchProjects = channel.unary_stream(
                 '/internal.Internal/WatchProjects',
                 request_serializer=proto_dot_internal__pb2.WatchProjectsInput.SerializeToString,
-                response_deserializer=proto_dot_internal__pb2.WatchProjectsOutput.FromString,
+                response_deserializer=proto_dot_internal__pb2.ProjectFeed.FromString,
                 )
 
 
@@ -95,6 +99,12 @@ class InternalServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def WatchUser(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetProject(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -158,6 +168,11 @@ def add_InternalServicer_to_server(servicer, server):
                     request_deserializer=proto_dot_internal__pb2.WatchUserInput.FromString,
                     response_serializer=proto_dot_internal__pb2.User.SerializeToString,
             ),
+            'GetProject': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetProject,
+                    request_deserializer=proto_dot_internal__pb2.GetProjectInput.FromString,
+                    response_serializer=proto_dot_internal__pb2.Project.SerializeToString,
+            ),
             'GetProjects': grpc.unary_unary_rpc_method_handler(
                     servicer.GetProjects,
                     request_deserializer=proto_dot_internal__pb2.GetProjectsInput.FromString,
@@ -176,12 +191,12 @@ def add_InternalServicer_to_server(servicer, server):
             'DeleteProject': grpc.unary_unary_rpc_method_handler(
                     servicer.DeleteProject,
                     request_deserializer=proto_dot_internal__pb2.DeleteProjectInput.FromString,
-                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+                    response_serializer=proto_dot_internal__pb2.DeleteProjectOutput.SerializeToString,
             ),
             'WatchProjects': grpc.unary_stream_rpc_method_handler(
                     servicer.WatchProjects,
                     request_deserializer=proto_dot_internal__pb2.WatchProjectsInput.FromString,
-                    response_serializer=proto_dot_internal__pb2.WatchProjectsOutput.SerializeToString,
+                    response_serializer=proto_dot_internal__pb2.ProjectFeed.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -279,6 +294,23 @@ class Internal(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
+    def GetProject(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/internal.Internal/GetProject',
+            proto_dot_internal__pb2.GetProjectInput.SerializeToString,
+            proto_dot_internal__pb2.Project.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
     def GetProjects(request,
             target,
             options=(),
@@ -342,7 +374,7 @@ class Internal(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/internal.Internal/DeleteProject',
             proto_dot_internal__pb2.DeleteProjectInput.SerializeToString,
-            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            proto_dot_internal__pb2.DeleteProjectOutput.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -359,6 +391,6 @@ class Internal(object):
             metadata=None):
         return grpc.experimental.unary_stream(request, target, '/internal.Internal/WatchProjects',
             proto_dot_internal__pb2.WatchProjectsInput.SerializeToString,
-            proto_dot_internal__pb2.WatchProjectsOutput.FromString,
+            proto_dot_internal__pb2.ProjectFeed.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
