@@ -92,8 +92,8 @@ class GRPCClient():
         try:
             async with insecure_channel(self.url) as ch:
                 st = InternalStub(ch)
-                await st.DeleteProject(DeleteProjectInput(id=id))
-                return 
+                deleteProject = await st.DeleteProject(DeleteProjectInput(id=id))
+                return deleteProject
         except Exception as e:
             raise e
     
