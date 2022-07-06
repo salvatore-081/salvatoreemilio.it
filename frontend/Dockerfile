@@ -1,7 +1,7 @@
 FROM node:alpine as node
 WORKDIR /app
 COPY . .
-RUN npm install
+RUN npm install --force
 RUN npm run build salvatoreemilio.it --configuration=production
 
 FROM nginx:alpine
