@@ -73,7 +73,8 @@ class GRPCClient():
         try:
             async with insecure_channel(self.url) as ch:
                 st = InternalStub(ch)
-                addProject = await st.AddProject(AddProjectInput(**project.dict()))
+                addProjectInput = AddProjectInput(**project) if type(project) is dict else AddProjectInput(**project.dict())
+                addProject = await st.AddProject(addProjectInput)                 
                 return addProject
         except Exception as e:
             raise e
