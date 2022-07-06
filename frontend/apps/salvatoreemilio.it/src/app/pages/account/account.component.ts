@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 import { FileUpload } from 'primeng/fileupload';
 import { Observable, Subject, switchMap, tap } from 'rxjs';
 import { GraphqlService } from '../../services/graphql.service';
@@ -18,7 +18,7 @@ export class AccountComponent implements OnInit {
   email$: Observable<string> = this.accountStore.email$;
   emailLoading$: Observable<boolean> = this.accountStore.emailLoading$;
 
-  nameFormControl: FormControl = new FormControl('', [
+  nameFormControl: UntypedFormControl = new UntypedFormControl('', [
     Validators.pattern(`^[A-zÀ-ú][A-zÀ-ú ]{2,}$`),
   ]);
   name$: Observable<string | undefined> = this.accountStore.name$;
@@ -28,7 +28,7 @@ export class AccountComponent implements OnInit {
     )
   );
 
-  surnameFormControl: FormControl = new FormControl('', [
+  surnameFormControl: UntypedFormControl = new UntypedFormControl('', [
     Validators.pattern(`^[A-zÀ-ú][A-zÀ-ú ]{2,}$`),
   ]);
   surname$: Observable<string | undefined> = this.accountStore.surname$;
@@ -38,7 +38,7 @@ export class AccountComponent implements OnInit {
     )
   );
 
-  phoneNumberFormControl: FormControl = new FormControl('', [
+  phoneNumberFormControl: UntypedFormControl = new UntypedFormControl('', [
     Validators.pattern(`^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$`),
   ]);
   phoneNumber$: Observable<string | undefined> = this.accountStore.phoneNumber$;
@@ -51,7 +51,7 @@ export class AccountComponent implements OnInit {
       )
     );
 
-  locationFormControl: FormControl = new FormControl('', [
+  locationFormControl: UntypedFormControl = new UntypedFormControl('', [
     Validators.minLength(2),
   ]);
   location$: Observable<string | undefined> = this.accountStore.location$;
@@ -64,7 +64,7 @@ export class AccountComponent implements OnInit {
       )
     );
 
-  profilePictureFormControl: FormControl = new FormControl('');
+  profilePictureFormControl: UntypedFormControl = new UntypedFormControl('');
   profilePicture$: Observable<string | undefined> =
     this.accountStore.profilePicture$;
   profilePictureLoading$: Observable<boolean> =
