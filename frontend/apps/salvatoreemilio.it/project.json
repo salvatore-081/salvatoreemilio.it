@@ -90,7 +90,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/salvatoreemilio.it"],
       "options": {
-        "jestConfig": "apps/salvatoreemilio.it/jest.config.js",
+        "jestConfig": "apps/salvatoreemilio.it/jest.config.ts",
         "passWithNoTests": true
       }
     }
