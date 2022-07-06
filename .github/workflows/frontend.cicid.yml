@@ -31,7 +31,7 @@ jobs:
           context: frontend
           file: frontend/Dockerfile
           push: true
-          tags: salvatoreemilio/salvatoreemilio.it_frontend:latest,salvatoreemilio/salvatoreemilio.it_frontend:0.0.6
+          tags: salvatoreemilio/salvatoreemilio.it_frontend:latest,salvatoreemilio/salvatoreemilio.it_frontend:0.0.7
   deploy:
     needs: [build]
     runs-on: ubuntu-latest
