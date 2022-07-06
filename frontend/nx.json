@@ -45,6 +45,5 @@
       "style": "scss"
     }
   },
-  "defaultProject": "salvatoreemilio.it",
-  "$schema": "./node_modules/nx/schemas/nx-schema.json"
+  "defaultProject": "salvatoreemilio.it"
 }
