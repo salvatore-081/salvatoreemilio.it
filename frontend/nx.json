@@ -21,6 +21,14 @@
       }
     }
   },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
+  },
   "generators": {
     "@nrwl/angular:application": {
       "style": "scss",
@@ -37,10 +45,5 @@
     }
   },
   "defaultProject": "salvatoreemilio.it",
-  "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "targetDefaults": {
-    "build": {
-      "dependsOn": ["^build"]
-    }
-  }
+  "$schema": "./node_modules/nx/schemas/nx-schema.json"
 }
