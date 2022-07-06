@@ -1,14 +1,11 @@
 {
   "projectType": "application",
-  "root": "apps/salvatoreemilio.it",
   "sourceRoot": "apps/salvatoreemilio.it/src",
   "prefix": "frontend",
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/salvatoreemilio.it",
         "index": "apps/salvatoreemilio.it/src/index.html",
@@ -90,9 +87,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/apps/salvatoreemilio.it"
-      ],
+      "outputs": ["coverage/apps/salvatoreemilio.it"],
       "options": {
         "jestConfig": "apps/salvatoreemilio.it/jest.config.js",
         "passWithNoTests": true
