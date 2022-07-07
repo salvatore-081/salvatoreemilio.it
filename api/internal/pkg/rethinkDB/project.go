@@ -99,10 +99,6 @@ func (rdb *RethinkDB) GetProjects(ctx context.Context, in *proto.GetProjectsInpu
 		return new(proto.GetProjectsOutput), grpc.Errorf(codes.Internal, e.Error())
 	}
 
-	if len(projects) == 0 {
-		return new(proto.GetProjectsOutput), grpc.Errorf(codes.NotFound, fmt.Sprintf("no projects found for '%s'", in.Email))
-	}
-
 	return &proto.GetProjectsOutput{Projects: projects}, nil
 }
 
@@ -225,11 +221,10 @@ func (rdb *RethinkDB) WatchProjects(ctx context.Context, in *proto.WatchProjects
 			}(ctx)
 
 			go func() {
-				if c.IsNil() {
-					ctx.Done()
-					e <- grpc.Errorf(codes.NotFound, fmt.Sprintf("no projects found with email '%s'", in.Email))
-				}
 				feed := proto.ProjectFeed{}
+				if c.IsNil() {
+					ch <- &feed
+				}
 				for c.Next(&feed) {
 					ch <- &feed
 				}
