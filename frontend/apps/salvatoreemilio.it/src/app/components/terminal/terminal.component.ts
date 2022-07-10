@@ -57,7 +57,6 @@ export class TerminalComponent implements OnInit, OnDestroy {
           command.toUpperCase()
         )?.value;
         if (F) {
-          console.log('F', F);
           F();
         } else {
           this.terminalService.sendResponse(
@@ -65,7 +64,6 @@ export class TerminalComponent implements OnInit, OnDestroy {
           );
         }
       });
-    // this.user$.subscribe((v) => console.log('user', v));
   }
 
   ngOnDestroy(): void {

@@ -22,7 +22,7 @@ import {
 } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { SELECT_USER } from '../app.state';
-import { LOAD, UserState } from '../state';
+import { LOAD_USER, UserState } from '../state';
 import { LOADER_OFF, LOADER_ON } from '../state/actions/loader.actions';
 
 @Injectable({
@@ -70,7 +70,7 @@ export class AuthGuard extends KeycloakAuthGuard implements CanActivate {
               (route.queryParams as Params)['email'] !== user.email
             ) {
               this.store.dispatch(
-                LOAD({
+                LOAD_USER({
                   email: (route.queryParams as Params)['email'] as string,
                 })
               );

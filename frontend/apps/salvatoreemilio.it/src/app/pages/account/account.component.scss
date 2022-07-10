@@ -1,59 +1,70 @@
 .account__container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
-  row-gap: 8px;
-  column-gap: 16px;
-  margin: 16px 16px 128px;
+  gap: 64px;
+  margin: 0px 16px 64px;
   border-radius: 16px;
-  background: whitesmoke;
-  .form__container {
+  .email__container {
+    padding: 0 16px;
+    font-weight: bold;
+    font-size: 42px;
+    text-align: center;
+    max-width: calc(100vw - 32px);
+    @media screen and (max-width: 768.9px) {
+      font-size: 7vw;
+    }
+  }
+  .profile-picture__container {
+    margin-top: -32px;
     display: flex;
     flex-direction: column;
-    .form__label {
-      padding: 0 0 0 12px;
+    gap: 16px;
+    align-items: center;
+  }
+  .section__container {
+    padding: 44px 32px;
+    background: var(--surface-section);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    & .section__title {
+      font-size: 32px;
       font-weight: bold;
-      font-size: 18px;
-    }
-    .formControl-invalid {
-      margin: 0 0 6px 12px;
+      flex: 100%;
     }
   }
-
-  .profile-picture__container {
-    .form__label {
-      text-align: center;
+  .info__section {
+    column-gap: 32px;
+    row-gap: 16px;
+    & > div {
+      @media screen and (max-width: 768.9px) {
+        flex: 100%;
+      }
+      @media not screen and (max-width: 768.9px) {
+        flex: calc(50% - (64px));
+      }
     }
-    .profile-picture__content {
+    .form__container {
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      align-items: center;
+      .form__label {
+        padding: 0 0 0 12px;
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .formControl-invalid {
+        margin: 0 0 6px 12px;
+      }
     }
   }
-}
-
-// email
-.account__container > div:nth-child(1) {
-  flex: 100%;
-  padding: 32px 16px 0;
-  font-weight: bold;
-  font-size: 28px;
-  text-align: center;
-}
-
-// profile picture
-.account__container > div:nth-child(2) {
-  padding: 0 16px 16px;
-  flex: 100%;
-}
-
-.account__container > div:nth-child(n + 3) {
-  padding: 16px;
-  @media screen and (max-width: 768.9px) {
-    flex: 100%;
-  }
-  @media not screen and (max-width: 768.9px) {
-    flex: calc(50% - (64px));
+  .projects__section {
+    & .section__title {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-content: center;
+    }
   }
 }

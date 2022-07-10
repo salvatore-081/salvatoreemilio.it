@@ -6,7 +6,7 @@ import { map, Observable, skipWhile, switchMap } from 'rxjs';
 import { User } from '../../models';
 import { GraphqlService } from '../../services/graphql.service';
 import { SELECT_USER } from '../../app.state';
-import { LOAD } from '../../state';
+import { LOAD_USER } from '../../state';
 
 export interface AccountsUser extends User {
   selected: boolean;
@@ -68,7 +68,7 @@ export class AccountsStore extends ComponentStore<AccountsState> {
   }));
 
   readonly switchCurrentAccount = this.updater((state, email: string) => {
-    this.store.dispatch(LOAD({ email: email }));
+    this.store.dispatch(LOAD_USER({ email: email }));
     return {
       ...state,
       userList: state.userList.map((u) => ({

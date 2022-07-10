@@ -5,9 +5,9 @@
   .header__container {
     height: 40px;
     width: 100%;
-    background-color: #0d0d0d;
+    background-color: var(--surface-card);
     border-radius: 6px 6px 0 0;
-    color: #f2f2f2;
+    color: var(--text-color);
     display: flex;
     flex-direction: row;
     align-items: center;

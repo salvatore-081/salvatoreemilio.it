@@ -7,11 +7,11 @@ html {
 body {
   height: 100%;
   overflow: hidden;
-  overflow-y: overlay;
+  // overflow-y: overlay;
   font-family: 'Lato', sans-serif;
   font-weight: 400;
-  color: #0d0d0d;
-  background-color: hsl(0, 0%, 95%);
+  color: var(--primary-color-text);
+  background: var(--surface-ground);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
@@ -32,6 +32,7 @@ body {
   border-radius: 0.5625rem;
   border: 0.375rem solid rgba(0, 0, 0, 0);
   background-color: rgba(232, 234, 237, 0.16);
+  // background-color: red;
   background-clip: padding-box;
 }
 

@@ -27,6 +27,7 @@ import { ButtonModule } from 'primeng/button';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MessageService } from 'primeng/api';
 import { SkeletonModule } from 'primeng/skeleton';
+import { ProjectsEffects } from './state/effects/projects.effects';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -65,7 +66,7 @@ const PRIMENG_MODULES = [
     ApolloModule,
     HttpClientModule,
     StoreModule.forRoot(APP_REDUCERS),
-    EffectsModule.forRoot([UserEffects]),
+    EffectsModule.forRoot([UserEffects, ProjectsEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,

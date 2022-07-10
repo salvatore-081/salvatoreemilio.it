@@ -1,37 +1,40 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { KeycloakService } from 'keycloak-angular';
 import { catchError, first, from, map, of } from 'rxjs';
 import { environment } from '../environments/environment';
-import { LOAD } from './state/actions/user.actions';
+import { LOAD_USER } from './state/actions/user.actions';
 
 @Component({
   selector: 'root',
   template: `
     <header class="header__component"></header>
-    <router-outlet></router-outlet>
+    <div class="router-outlet__container">
+      <router-outlet></router-outlet>
+    </div>
   `,
   styles: [
     `
-      .header__component {
-        position: sticky;
-        top: 0;
+      .router-outlet__container {
+        height: calc(100vh - 78px);
+        overflow-y: scroll;
+        overflow-x: hidden;
+        max-width: 100vw;
       }
     `,
   ],
 })
 export class AppComponent implements OnInit {
-  constructor(
-    private http: HttpClient,
-    private store: Store,
-    private keycloakService: KeycloakService
-  ) {}
+  constructor(private store: Store, private keycloakService: KeycloakService) {}
 
   ngOnInit(): void {
     from(this.keycloakService.getToken())
       .pipe(
-        map((token) => JSON.parse(window.atob(token?.split('.')[1]))?.email),
+        map((token) =>
+          token
+            ? JSON.parse(window.atob(token?.split('.')[1]))?.email
+            : undefined
+        ),
         catchError((e) => {
           console.error(e);
           return of(undefined);
@@ -39,7 +42,7 @@ export class AppComponent implements OnInit {
         first()
       )
       .subscribe((email: string | undefined) => {
-        this.store.dispatch(LOAD({ email: email ?? environment.email }));
+        this.store.dispatch(LOAD_USER({ email: email ?? environment.email }));
       });
   }
 }

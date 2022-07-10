@@ -5,10 +5,10 @@
   --surface-d: #dee2e6;
   --surface-e: #ffffff;
   --surface-f: #ffffff;
-  --text-color: #495057;
-  --text-color-secondary: #6c757d;
-  --primary-color: #3b82f6;
-  --primary-color-text: #ffffff;
+  --text-color: #ffffffe6;
+  --text-color-secondary: #202124;
+  --primary-color: #202124;
+  --primary-color-text: #ffffffe6;
   // --font-family:-apple-system, "Lato", sans-serif, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
   --surface-0: #ffffff;
   --surface-50: #fafafa;
@@ -34,9 +34,9 @@
   --content-padding: 1.25rem;
   --inline-spacing: 0.5rem;
   --border-radius: 6px;
-  --surface-ground: #eff3f8;
-  --surface-section: #ffffff;
-  --surface-card: #ffffff;
+  --surface-ground: #202124;
+  --surface-section: #36373a;
+  --surface-card: #000000;
   --surface-overlay: #ffffff;
   --surface-border: #dfe7ef;
   --surface-hover: #f6f9fc;
@@ -1866,7 +1866,7 @@ p-treeselect.ng-invalid.ng-dirty > .p-treeselect {
 }
 .p-button.p-button-outlined {
   background-color: transparent;
-  color: #3b82f6;
+  color: var(--text-color);
   border: 1px solid;
 }
 .p-button.p-button-outlined:enabled:hover {
@@ -6631,13 +6631,13 @@ p-treeselect.ng-invalid.ng-dirty > .p-treeselect {
 .p-progressbar {
   border: 0 none;
   height: 4px;
-  background: hsl(0, 0%, 95%);
+  background: var(--surface-ground);
 }
 
 .p-progressbar .p-progressbar-value {
   border: 0 none;
   margin: 0;
-  background: #3b82f6;
+  background: var(--text-color);
 }
 .p-progressbar .p-progressbar-label {
   color: #ffffff;
@@ -6705,9 +6705,8 @@ p-treeselect.ng-invalid.ng-dirty > .p-treeselect {
 }
 
 .p-terminal {
-  background: #ffffff;
-  color: #495057;
-  border: 1px solid #dee2e6;
+  background: var(--surface-section);
+  color: var(--text-color);
   padding: 1.25rem;
 }
 .p-terminal .p-terminal-input {

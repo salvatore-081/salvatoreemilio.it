@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { Store } from '@ngrx/store';
-import { first, Observable, Subject, switchMap, take, tap } from 'rxjs';
-import { User } from '../../models';
+import { first, Observable, Subject, switchMap, take } from 'rxjs';
+import { Project, User } from '../../models';
 import { GraphqlService } from '../../services/graphql.service';
 import { SELECT_USER } from '../../app.state';
 import { MessageService } from 'primeng/api';
@@ -15,6 +15,7 @@ export interface AccountState extends User {
   phoneNumberLoading: boolean;
   locationLoading: boolean;
   profilePictureLoading: boolean;
+  projects: Project[];
 }
 
 @Injectable()
@@ -33,6 +34,7 @@ export class AccountStore extends ComponentStore<AccountState> {
       phoneNumberLoading: false,
       locationLoading: false,
       profilePictureLoading: true,
+      projects: [],
     });
   }
 
@@ -79,6 +81,8 @@ export class AccountStore extends ComponentStore<AccountState> {
   readonly profilePictureLoading$: Observable<boolean> = this.select(
     (s) => s.profilePictureLoading
   );
+
+  readonly projects$: Observable<Project[]> = this.select((s) => s.projects);
 
   private readonly updateUser = this.updater((state, user: User) => {
     let s: Partial<AccountState> = {};

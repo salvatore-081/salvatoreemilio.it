@@ -1,9 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { FileUpload } from 'primeng/fileupload';
-import { Observable, Subject, switchMap, tap } from 'rxjs';
-import { GraphqlService } from '../../services/graphql.service';
+import { Observable, tap } from 'rxjs';
+import { Project } from '../../models';
 import { AccountStore } from './account.store';
 
 @Component({
@@ -76,11 +75,9 @@ export class AccountComponent implements OnInit {
       )
     );
 
-  constructor(
-    private accountStore: AccountStore,
-    private gql: GraphqlService,
-    private http: HttpClient
-  ) {}
+  projects: Observable<Project[]> = this.accountStore.projects$;
+
+  constructor(private accountStore: AccountStore) {}
 
   ngOnInit(): void {
     this.name$.subscribe((v) => this.nameFormControl.patchValue(v));

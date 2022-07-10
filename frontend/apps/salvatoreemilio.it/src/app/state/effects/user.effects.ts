@@ -13,7 +13,12 @@ import {
   tap,
 } from 'rxjs';
 import { GraphqlService } from '../../services/graphql.service';
-import { SET_USER, LOAD, LOAD_ERROR } from '../actions';
+import {
+  SET_USER,
+  LOAD_USER,
+  LOAD_USER_ERROR,
+  LOAD_PROJECTS,
+} from '../actions';
 import { User } from '../../models';
 import { LOADER_OFF, LOADER_ON } from '../actions/loader.actions';
 import { KeycloakService } from 'keycloak-angular';
@@ -30,9 +35,14 @@ export class UserEffects {
 
   load$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(LOAD),
-      tap((action) => this.store.dispatch(LOADER_ON({ key: `LOAD USER` }))),
+      ofType(LOAD_USER),
       map((action) => action.email),
+      tap((email) => {
+        this.store.dispatch(LOADER_ON({ key: 'LOAD USER' }));
+
+        this.store.dispatch(LOADER_ON({ key: 'LOAD PROJECTS' }));
+        this.store.dispatch(LOAD_PROJECTS({ email: email }));
+      }),
       switchMap((email) =>
         this.graphqlService.watchUser(email).pipe(startWith(undefined))
       ),
@@ -47,18 +57,18 @@ export class UserEffects {
         this.store.dispatch(LOADER_ON({ key: `WATCH USER` }));
         return of(SET_USER({ user: pair[1]?.data?.watchUser as User }));
       }),
-      catchError(() => [LOADER_OFF({ key: 'WatchUser' }), LOAD_ERROR()])
+      catchError(() => [LOADER_OFF({ key: 'WatchUser' }), LOAD_USER_ERROR()])
     );
   });
 
   loadError$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(LOAD_ERROR),
+      ofType(LOAD_USER_ERROR),
       switchMap(() => from(this.keycloakService.getToken())),
       map((token) => JSON.parse(window.atob(token?.split('.')[1]))?.email),
       catchError(() => of(undefined)),
       switchMap((email: string | undefined) =>
-        of(LOAD({ email: email ?? environment.email }))
+        of(LOAD_USER({ email: email ?? environment.email }))
       )
     );
   });

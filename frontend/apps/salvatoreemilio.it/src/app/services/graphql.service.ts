@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApolloQueryResult, FetchResult } from '@apollo/client/core';
 import { Apollo, gql, MutationResult } from 'apollo-angular';
 import { Observable } from 'rxjs';
+import { ProjectFeed } from '../models';
 import { User, UserListItem } from '../models/user';
 
 const GET_USER_LIST = gql<
@@ -16,18 +17,6 @@ const GET_USER_LIST = gql<
         surname
         profilePicture
       }
-    }
-  }
-`;
-
-const GET_USER = gql<{ getUser?: User }, { email: string }>`
-  query GetUser($email: String!) {
-    getUser(email: $email) {
-      email
-      name
-      surname
-      phoneNumber
-      location
     }
   }
 `;
@@ -101,20 +90,44 @@ const UPDATE_USER_PROFILE_PICTURE = gql<
   }
 `;
 
+const WATCH_PROJECTS = gql<{ projectFeed: any }, { email: string }>`
+  subscription WatchProjects($email: String!) {
+    watchProjects(email: $email) {
+      old_val {
+        id
+        email
+        title
+        description
+        image
+        tags
+        links {
+          name
+          url
+        }
+        index
+      }
+      new_val {
+        id
+        email
+        title
+        description
+        image
+        tags
+        links {
+          name
+          url
+        }
+        index
+      }
+    }
+  }
+`;
+
 @Injectable({
   providedIn: 'root',
 })
 export class GraphqlService {
   constructor(private apollo: Apollo) {}
-
-  getUser(email: string): Observable<ApolloQueryResult<{ getUser?: User }>> {
-    return this.apollo.query({
-      query: GET_USER,
-      variables: {
-        email: email,
-      },
-    });
-  }
 
   getUserList(): Observable<
     ApolloQueryResult<{ getUserList?: { userList?: UserListItem[] } }>
@@ -201,6 +214,17 @@ export class GraphqlService {
   > {
     return this.apollo.subscribe({
       query: WATCH_USER,
+      variables: {
+        email: email,
+      },
+    });
+  }
+
+  watchProjects(
+    email: string
+  ): Observable<FetchResult<{ projectFeed?: ProjectFeed | undefined }>> {
+    return this.apollo.subscribe({
+      query: WATCH_PROJECTS,
       variables: {
         email: email,
       },

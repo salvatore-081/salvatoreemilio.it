@@ -9,223 +9,238 @@
       ></p-skeleton>
       <ng-template #EMAIL> {{ email$ | async }} </ng-template>
     </div>
-    <div class="form__container profile-picture__container">
-      <p class="form__label">Profile picture</p>
-      <div class="profile-picture__content">
-        <ng-container
-          *ngrxLet="profilePictureLoading$ as profilePictureLoading"
+    <div class="profile-picture__container">
+      <ng-container *ngrxLet="profilePictureLoading$ as profilePictureLoading">
+        <p-skeleton
+          *ngIf="emailLoading || profilePictureLoading; else PROFILE_PICTURE"
+          width="8rem"
+          height="8rem"
         >
-          <p-skeleton
-            *ngIf="emailLoading || profilePictureLoading; else PROFILE_PICTURE"
-            width="8rem"
-            height="8rem"
-          >
-          </p-skeleton>
-          <ng-template #PROFILE_PICTURE>
-            <p-avatar
-              *ngrxLet="profilePicture$ as profilePicture"
-              styleClass="p-avatar-xxl"
-              image="{{
-                profilePicture?.length && profilePicture!.length > 0
-                  ? 'data:image/png;base64,' + profilePicture
-                  : 'assets/avatar-default.png'
-              }}"
-              shape="circle"
-            ></p-avatar>
-          </ng-template>
+        </p-skeleton>
+        <ng-template #PROFILE_PICTURE>
+          <p-avatar
+            *ngrxLet="profilePicture$ as profilePicture"
+            styleClass="p-avatar-xxl"
+            image="{{
+              profilePicture?.length && profilePicture!.length > 0
+                ? 'data:image/png;base64,' + profilePicture
+                : 'assets/avatar-default.png'
+            }}"
+            shape="circle"
+          ></p-avatar>
+        </ng-template>
 
-          <p-fileUpload
-            #fileUpload
-            [customUpload]="true"
-            (uploadHandler)="updateProfilePicture($event, fileUpload)"
-            name="myfile[]"
-            [auto]="true"
-            [disabled]="profilePictureLoading"
-            mode="basic"
-            accept="image/*"
-            [maxFileSize]="2500000"
-            chooseLabel="Modifica"
-            [fileLimit]="1"
-            [chooseIcon]="'pi pi-pencil'"
-          ></p-fileUpload>
-        </ng-container>
+        <p-fileUpload
+          #fileUpload
+          [customUpload]="true"
+          (uploadHandler)="updateProfilePicture($event, fileUpload)"
+          name="myfile[]"
+          [auto]="true"
+          [disabled]="profilePictureLoading"
+          mode="basic"
+          accept="image/*"
+          [maxFileSize]="2500000"
+          chooseLabel="Modifica"
+          [fileLimit]="1"
+          [chooseIcon]="'pi pi-upload'"
+        ></p-fileUpload>
+      </ng-container>
+    </div>
+    <div class="section__container info__section">
+      <span class="section__title">Info</span>
+      <div class="form__container">
+        <p class="form__label">Name</p>
+        <p-skeleton
+          *ngIf="emailLoading; else NAME"
+          width="100%"
+          height="45.2px"
+        ></p-skeleton>
+        <ng-template #NAME>
+          <ng-container *ngrxLet="nameLoading$ as nameLoading">
+            <small
+              *ngIf="nameFormControl.invalid && nameFormControl.dirty"
+              class="p-error block formControl-invalid"
+              >Invalid name.</small
+            >
+            <div class="p-inputgroup">
+              <input
+                [formControl]="nameFormControl"
+                type="text"
+                pInputText
+                [ngClass]="{
+                  'ng-invalid ng-dirty':
+                    nameFormControl.invalid && nameFormControl.dirty
+                }"
+              />
+
+              <button
+                type="button"
+                [disabled]="
+                  nameLoading ||
+                  nameFormControl.pristine ||
+                  (nameFormControl.dirty && nameFormControl.invalid)
+                "
+                pButton
+                (click)="updateName()"
+                pRipple
+                icon="{{
+                  nameLoading ? 'pi pi-spin pi-spinner' : 'pi pi-check'
+                }}"
+                styleClass="p-button-danger"
+              ></button>
+            </div>
+          </ng-container>
+        </ng-template>
+      </div>
+      <div class="form__container">
+        <p class="form__label">Surname</p>
+        <p-skeleton
+          *ngIf="emailLoading; else SURNAME"
+          width="100%"
+          height="45.2px"
+        ></p-skeleton>
+        <ng-template #SURNAME>
+          <ng-container *ngrxLet="surnameLoading$ as surnameLoading">
+            <small
+              *ngIf="surnameFormControl.invalid && surnameFormControl.dirty"
+              class="p-error block formControl-invalid"
+              >Invalid surname.</small
+            >
+            <div class="p-inputgroup">
+              <input
+                [formControl]="surnameFormControl"
+                type="text"
+                pInputText
+                [ngClass]="{
+                  'ng-invalid ng-dirty':
+                    surnameFormControl.invalid && surnameFormControl.dirty
+                }"
+              />
+
+              <button
+                type="button"
+                [disabled]="
+                  surnameLoading ||
+                  surnameFormControl.pristine ||
+                  (surnameFormControl.dirty && surnameFormControl.invalid)
+                "
+                pButton
+                (click)="updateSurname()"
+                pRipple
+                icon="{{
+                  surnameLoading ? 'pi pi-spin pi-spinner' : 'pi pi-check'
+                }}"
+                styleClass="p-button-danger"
+              ></button>
+            </div>
+          </ng-container>
+        </ng-template>
+      </div>
+      <div class="form__container">
+        <p class="form__label">Phone number</p>
+        <p-skeleton
+          *ngIf="emailLoading; else PHONE_NUMBER"
+          width="100%"
+          height="45.2px"
+        ></p-skeleton>
+        <ng-template #PHONE_NUMBER>
+          <ng-container *ngrxLet="phoneNumberLoading$ as phoneNumberLoading">
+            <small
+              *ngIf="
+                phoneNumberFormControl.invalid && phoneNumberFormControl.dirty
+              "
+              class="p-error block formControl-invalid"
+              >Invalid phone number.</small
+            >
+            <div class="p-inputgroup">
+              <input
+                [formControl]="phoneNumberFormControl"
+                type="text"
+                pInputText
+                [ngClass]="{
+                  'ng-invalid ng-dirty':
+                    phoneNumberFormControl.invalid &&
+                    phoneNumberFormControl.dirty
+                }"
+              />
+
+              <button
+                type="button"
+                [disabled]="
+                  phoneNumberLoading ||
+                  phoneNumberFormControl.pristine ||
+                  (phoneNumberFormControl.dirty &&
+                    phoneNumberFormControl.invalid)
+                "
+                pButton
+                (click)="updatePhoneNumber()"
+                pRipple
+                icon="{{
+                  phoneNumberLoading ? 'pi pi-spin pi-spinner' : 'pi pi-check'
+                }}"
+                styleClass="p-button-danger"
+              ></button>
+            </div>
+          </ng-container>
+        </ng-template>
+      </div>
+      <div class="form__container">
+        <p class="form__label">Location</p>
+        <p-skeleton
+          *ngIf="emailLoading; else LOCATION"
+          width="100%"
+          height="45.2px"
+        ></p-skeleton>
+        <ng-template #LOCATION>
+          <ng-container *ngrxLet="locationLoading$ as locationLoading">
+            <small
+              *ngIf="locationFormControl.invalid && locationFormControl.dirty"
+              class="p-error block formControl-invalid"
+              >Invalid location.</small
+            >
+            <div class="p-inputgroup">
+              <input
+                [formControl]="locationFormControl"
+                type="text"
+                pInputText
+                [ngClass]="{
+                  'ng-invalid ng-dirty':
+                    locationFormControl.invalid && locationFormControl.dirty
+                }"
+              />
+
+              <button
+                type="button"
+                [disabled]="
+                  locationLoading ||
+                  locationFormControl.pristine ||
+                  (locationFormControl.dirty && locationFormControl.invalid)
+                "
+                pButton
+                (click)="updateLocation()"
+                pRipple
+                icon="{{
+                  locationLoading ? 'pi pi-spin pi-spinner' : 'pi pi-check'
+                }}"
+                styleClass="p-button-danger"
+              ></button>
+            </div>
+          </ng-container>
+        </ng-template>
       </div>
     </div>
-    <div class="form__container">
-      <p class="form__label">Name</p>
-      <p-skeleton
-        *ngIf="emailLoading; else NAME"
-        width="100%"
-        height="45.2px"
-      ></p-skeleton>
-      <ng-template #NAME>
-        <ng-container *ngrxLet="nameLoading$ as nameLoading">
-          <small
-            *ngIf="nameFormControl.invalid && nameFormControl.dirty"
-            class="p-error block formControl-invalid"
-            >Invalid name.</small
-          >
-          <div class="p-inputgroup">
-            <input
-              [formControl]="nameFormControl"
-              type="text"
-              pInputText
-              [ngClass]="{
-                'ng-invalid ng-dirty':
-                  nameFormControl.invalid && nameFormControl.dirty
-              }"
-            />
-
-            <button
-              type="button"
-              [disabled]="
-                nameLoading ||
-                nameFormControl.pristine ||
-                (nameFormControl.dirty && nameFormControl.invalid)
-              "
-              pButton
-              (click)="updateName()"
-              pRipple
-              icon="{{ nameLoading ? 'pi pi-spin pi-spinner' : 'pi pi-check' }}"
-              styleClass="p-button-danger"
-            ></button>
-          </div>
-        </ng-container>
-      </ng-template>
-    </div>
-    <div class="form__container">
-      <p class="form__label">Surname</p>
-      <p-skeleton
-        *ngIf="emailLoading; else SURNAME"
-        width="100%"
-        height="45.2px"
-      ></p-skeleton>
-      <ng-template #SURNAME>
-        <ng-container *ngrxLet="surnameLoading$ as surnameLoading">
-          <small
-            *ngIf="surnameFormControl.invalid && surnameFormControl.dirty"
-            class="p-error block formControl-invalid"
-            >Invalid surname.</small
-          >
-          <div class="p-inputgroup">
-            <input
-              [formControl]="surnameFormControl"
-              type="text"
-              pInputText
-              [ngClass]="{
-                'ng-invalid ng-dirty':
-                  surnameFormControl.invalid && surnameFormControl.dirty
-              }"
-            />
-
-            <button
-              type="button"
-              [disabled]="
-                surnameLoading ||
-                surnameFormControl.pristine ||
-                (surnameFormControl.dirty && surnameFormControl.invalid)
-              "
-              pButton
-              (click)="updateSurname()"
-              pRipple
-              icon="{{
-                surnameLoading ? 'pi pi-spin pi-spinner' : 'pi pi-check'
-              }}"
-              styleClass="p-button-danger"
-            ></button>
-          </div>
-        </ng-container>
-      </ng-template>
-    </div>
-    <div class="form__container">
-      <p class="form__label">Phone number</p>
-      <p-skeleton
-        *ngIf="emailLoading; else PHONE_NUMBER"
-        width="100%"
-        height="45.2px"
-      ></p-skeleton>
-      <ng-template #PHONE_NUMBER>
-        <ng-container *ngrxLet="phoneNumberLoading$ as phoneNumberLoading">
-          <small
-            *ngIf="
-              phoneNumberFormControl.invalid && phoneNumberFormControl.dirty
-            "
-            class="p-error block formControl-invalid"
-            >Invalid phone number.</small
-          >
-          <div class="p-inputgroup">
-            <input
-              [formControl]="phoneNumberFormControl"
-              type="text"
-              pInputText
-              [ngClass]="{
-                'ng-invalid ng-dirty':
-                  phoneNumberFormControl.invalid && phoneNumberFormControl.dirty
-              }"
-            />
-
-            <button
-              type="button"
-              [disabled]="
-                phoneNumberLoading ||
-                phoneNumberFormControl.pristine ||
-                (phoneNumberFormControl.dirty && phoneNumberFormControl.invalid)
-              "
-              pButton
-              (click)="updatePhoneNumber()"
-              pRipple
-              icon="{{
-                phoneNumberLoading ? 'pi pi-spin pi-spinner' : 'pi pi-check'
-              }}"
-              styleClass="p-button-danger"
-            ></button>
-          </div>
-        </ng-container>
-      </ng-template>
-    </div>
-    <div class="form__container">
-      <p class="form__label">Location</p>
-      <p-skeleton
-        *ngIf="emailLoading; else LOCATION"
-        width="100%"
-        height="45.2px"
-      ></p-skeleton>
-      <ng-template #LOCATION>
-        <ng-container *ngrxLet="locationLoading$ as locationLoading">
-          <small
-            *ngIf="locationFormControl.invalid && locationFormControl.dirty"
-            class="p-error block formControl-invalid"
-            >Invalid location.</small
-          >
-          <div class="p-inputgroup">
-            <input
-              [formControl]="locationFormControl"
-              type="text"
-              pInputText
-              [ngClass]="{
-                'ng-invalid ng-dirty':
-                  locationFormControl.invalid && locationFormControl.dirty
-              }"
-            />
-
-            <button
-              type="button"
-              [disabled]="
-                locationLoading ||
-                locationFormControl.pristine ||
-                (locationFormControl.dirty && locationFormControl.invalid)
-              "
-              pButton
-              (click)="updateLocation()"
-              pRipple
-              icon="{{
-                locationLoading ? 'pi pi-spin pi-spinner' : 'pi pi-check'
-              }}"
-              styleClass="p-button-danger"
-            ></button>
-          </div>
-        </ng-container>
-      </ng-template>
+    <div class="section__container projects__section">
+      <div class="section__title">
+        <span>Projects</span>
+        <div class="buttons__container">
+          <button
+            pButton
+            class="p-button-rounded p-button-text"
+            type="button"
+            icon="pi pi-plus-circle"
+          ></button>
+        </div>
+      </div>
     </div>
   </ng-container>
 </div>
