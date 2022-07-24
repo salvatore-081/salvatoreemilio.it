@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   keycloak:
-    image: quay.io/keycloak/keycloak:latest
+    image: quay.io/keycloak/keycloak:18.0.2-legacy
     container_name: keycloak
     command: [ "-Djboss.http.port=12000" ]
     restart: unless-stopped
