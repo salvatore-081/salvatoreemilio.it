@@ -11,7 +11,7 @@
   },
   "keycloak": {
     "realm": "se",
-    "url": "https://login.salvatoreemilio.it/auth/",
+    "url": "https://login.salvatoreemilio.it/",
     "clientId": "api-auth",
     "serviceAccountClientId": "api-service-account"
   }
