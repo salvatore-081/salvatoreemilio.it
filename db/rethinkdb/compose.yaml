@@ -7,10 +7,10 @@ services:
     restart: unless-stopped
     volumes:
       - ./rethinkdb.conf:/etc/rethinkdb/default.conf
-      - rethinkdb_data:/data
+      - se-api-rethinkdb:/data
     command: rethinkdb --config-file /etc/rethinkdb/default.conf
     networks:
-      - default
+      - api-db
     logging:
       driver: "json-file"
       options:
@@ -19,10 +19,10 @@ services:
         tag: "{{.Name}}"
 
 volumes:
-  rethinkdb_data:
+  se-api-rethinkdb:
     external: true
 
 networks:
-  default:
+  api-db:
     external: true
-    name: se_default
+    name: se-api-db

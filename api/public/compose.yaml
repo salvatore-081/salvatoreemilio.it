@@ -11,7 +11,8 @@ services:
     volumes:
       - ./config.json:/app/config.json
     networks:
-      - default
+      - api
+      - api-proxy
     logging:
       driver: "json-file"
       options:
@@ -26,6 +27,7 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf
     networks:
       - default
+      - api-proxy
     depends_on:
       - public-api
     logging:
@@ -40,8 +42,15 @@ services:
       - "traefik.http.routers.public-api_nginx.rule=Host(`api.salvatoreemilio.it`) || Host(`www.api.salvatoreemilio.it`)"
       - "traefik.http.routers.public-api_nginx.tls.certresolver=myresolver"
       - "traefik.http.routers.public-api_nginx.entrypoints=websecure"
+      - "traefik.docker.network=se-default"
 
 networks:
   default:
     external: true
-    name: se_default
+    name: se-default
+  api:
+    external: true
+    name: se-api
+  api-proxy:
+    external: true
+    name: se-api-proxy
