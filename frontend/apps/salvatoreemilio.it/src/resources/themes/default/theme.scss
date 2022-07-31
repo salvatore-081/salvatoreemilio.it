@@ -1920,7 +1920,7 @@ p-treeselect.ng-invalid.ng-dirty > .p-treeselect {
 .p-button:focus {
   outline: 0 none;
   outline-offset: 0;
-  box-shadow: 0 0 0 0.2rem #bfdbfe;
+  // box-shadow: 0 0 0 0.2rem #bfdbfe;
 }
 .p-button .p-button-icon-left {
   margin-right: 0.5rem;
@@ -6749,7 +6749,7 @@ p-treeselect.ng-invalid.ng-dirty > .p-treeselect {
 }
 
 .p-button:focus {
-  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #9dc1fb, 0 1px 2px 0 black;
+  // box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #9dc1fb, 0 1px 2px 0 black;
 }
 .p-button.p-button-secondary:enabled:focus {
   box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #b0b9c6, 0 1px 2px 0 black;

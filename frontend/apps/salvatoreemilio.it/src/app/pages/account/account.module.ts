@@ -10,6 +10,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
 import { FileUploadModule } from 'primeng/fileupload';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
 
 const PRIMENG_MODULES = [
   SkeletonModule,
@@ -18,6 +19,7 @@ const PRIMENG_MODULES = [
   FileUploadModule,
   ButtonModule,
   ToastModule,
+  DynamicDialogModule,
 ];
 
 @NgModule({

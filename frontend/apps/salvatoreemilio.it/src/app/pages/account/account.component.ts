@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { DialogService } from 'primeng/dynamicdialog';
 import { FileUpload } from 'primeng/fileupload';
 import { Observable, tap } from 'rxjs';
 import { Project } from '../../models';
 import { AccountStore } from './account.store';
+import { AddProjectDialogComponent } from './dialogs/add-project-dialog/add-project-dialog.component';
 
 @Component({
   selector: 'account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss'],
-  providers: [AccountStore],
+  providers: [AccountStore, DialogService],
 })
 export class AccountComponent implements OnInit {
   profilePictureMaxFileSize: number = 1;
@@ -77,9 +79,15 @@ export class AccountComponent implements OnInit {
 
   projects: Observable<Project[]> = this.accountStore.projects$;
 
-  constructor(private accountStore: AccountStore) {}
+  constructor(
+    private accountStore: AccountStore,
+    private dialogService: DialogService
+  ) {}
 
   ngOnInit(): void {
+    this.dialogService.open(AddProjectDialogComponent, {
+      styleClass: 'dynamic-test',
+    });
     this.name$.subscribe((v) => this.nameFormControl.patchValue(v));
     this.surname$.subscribe((v) => this.surnameFormControl.patchValue(v));
     this.phoneNumber$.subscribe((v) =>
