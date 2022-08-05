@@ -8,9 +8,10 @@ services:
     restart: unless-stopped
     volumes:
       - ./loki-config.yaml:/etc/loki/loki-config.yaml
-      - loki_data:/data/loki
+      - se-loki:/data/loki
     networks:
-      - default
+      - loki
+      - grafana
     logging:
       driver: "json-file"
       options:
@@ -30,7 +31,7 @@ services:
       - /var/log/auth.log:/var/log/auth_host.log
       - ./promtail-config.yaml:/etc/promtail/promtail-config.yaml
     networks:
-      - default
+      - loki
     logging:
       driver: "json-file"
       options:
@@ -39,10 +40,13 @@ services:
         tag: "{{.Name}}"
 
 volumes:
-  loki_data:
+  se-loki:
     external: true
 
 networks:
-  default:
+  loki:
     external: true
-    name: se_default
+    name: se-loki
+  grafana:
+    external: true
+    name: se-grafana
