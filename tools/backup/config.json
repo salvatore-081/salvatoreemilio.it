@@ -1,0 +1,6 @@
+{
+  "logLevel": "debug",
+  "max_retention": 14,
+  "time": "06:36",
+  "mb_size_warning": 100000
+}

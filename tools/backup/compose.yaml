@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  backup-tool:
+    # image: salvatoreemilio/salvatoreemilio.it_backup-tool:latest
+    build: .
+    container_name: backup-tool
+    restart: unless-stopped
+    network_mode: none
+    volumes:
+      - se-api-rethinkdb:/app/volumes/api-rethinkdb
+      - se-grafana:/app/volumes/grafana
+      - se-keycloak-postgres:/app/volumes/keycloak-postgres
+      - se-loki:/app/volumes/loki
+      - se-nextcloud:/app/volumes/nextcloud
+      - se-nextcloud-mariadb:/app/volumes/nextcloud-mariadb
+      - se-portainer:/app/volumes/portainer
+      - se-traefik-letsencrypt:/app/volumes/traefik-letsencrypt
+      - /backup:/app/backup
+      - ./config.json:/app/config.json
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
+        max-file: "3"
+        tag: "{{.Name}}"
+volumes:
+  se-api-rethinkdb:
+    external: true
+  se-grafana:
+    external: true
+  se-keycloak-postgres:
+    external: true
+  se-loki:
+    external: true
+  se-nextcloud:
+    external: true
+  se-nextcloud-mariadb:
+    external: true
+  se-portainer:
+    external: true
+  se-traefik-letsencrypt:
+    external: true
