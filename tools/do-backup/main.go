@@ -228,7 +228,6 @@ func printSize(f string, max int32) {
 	if e != nil {
 		return
 	}
-	size := fi.Size()
 
 	mb_size := math.Pow(float64(fi.Size()), float64(1)/6)
 
