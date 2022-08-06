@@ -3,7 +3,7 @@ version: "3.8"
 services:
   backup-tool:
     image: salvatoreemilio/salvatoreemilio.it_do-backup:latest
-    container_name: backup-tool
+    container_name: do-backup
     restart: unless-stopped
     network_mode: none
     volumes:
