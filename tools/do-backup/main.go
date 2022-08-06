@@ -210,7 +210,7 @@ func main() {
 
 			}(scheduled_time.Format(time.RFC3339))
 
-			scheduled_time = scheduled_time.Add(30 * time.Second)
+			scheduled_time = scheduled_time.Add(24 * time.Hour)
 			schedule_timer.Reset(time.Until(scheduled_time))
 
 		case <-stop:
@@ -230,11 +230,11 @@ func printSize(f string, max int32) {
 	}
 	size := fi.Size()
 
-	max_bytes := math.Pow(float64(max), 6)
+	mb_size := math.Pow(float64(fi.Size()), float64(1)/6)
 
-	label := fmt.Sprintf("[BACKUP] %s - %0.fmb", f[28:], math.Pow(float64(size), float64(1)/6))
+	label := fmt.Sprintf("[BACKUP] %s - %0.fmb", f[28:], mb_size)
 
-	if size > int64(max_bytes) {
+	if mb_size > float64(max) {
 		log.Warn().Msg(label)
 	} else {
 

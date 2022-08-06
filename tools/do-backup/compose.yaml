@@ -2,8 +2,7 @@ version: "3.8"
 
 services:
   backup-tool:
-    # image: salvatoreemilio/salvatoreemilio.it_backup-tool:latest
-    build: .
+    image: salvatoreemilio/salvatoreemilio.it_do-backup:latest
     container_name: backup-tool
     restart: unless-stopped
     network_mode: none
@@ -16,7 +15,7 @@ services:
       - se-nextcloud-mariadb:/app/volumes/nextcloud-mariadb
       - se-portainer:/app/volumes/portainer
       - se-traefik-letsencrypt:/app/volumes/traefik-letsencrypt
-      - /backup:/app/backup
+      - ./data:/app/data/
       - ./config.json:/app/config.json
     logging:
       driver: "json-file"

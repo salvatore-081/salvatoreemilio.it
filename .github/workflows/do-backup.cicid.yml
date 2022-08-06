@@ -4,7 +4,7 @@ on:
   push:
     branches: [dev]
     paths:
-      - "api/public/**"
+      - "tools/do-backup/**"
 
 jobs:
   build:
@@ -31,7 +31,7 @@ jobs:
           context: api/public
           file: api/public/Dockerfile
           push: true
-          tags: salvatoreemilio/salvatoreemilio.it_public-api:latest,salvatoreemilio/salvatoreemilio.it_public-api:0.0.24
+          tags: salvatoreemilio/salvatoreemilio.it_do-backup:latest,salvatoreemilio/salvatoreemilio.it_do-backup:0.0.1
   deploy:
     needs: [build]
     runs-on: ubuntu-latest
@@ -48,7 +48,7 @@ jobs:
           ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
             cd dev/salvatoreemilio.it/;
             git pull;
-            cd api/public/;
+            cd tools/do-backup/;
             docker-compose pull;
             docker-compose down;
             docker-compose up -d;
