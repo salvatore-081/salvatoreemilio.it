@@ -1,4 +1,4 @@
-name: CI/CD public-api
+name: CI/CD do-backup
 
 on:
   push:
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: api/public
+        working-directory: tools/do-backup
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -28,10 +28,10 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: api/public
-          file: api/public/Dockerfile
+          context: tools/do-backup
+          file: tools/do-backup/Dockerfile
           push: true
-          tags: salvatoreemilio/salvatoreemilio.it_do-backup:latest,salvatoreemilio/salvatoreemilio.it_do-backup:0.0.2
+          tags: salvatoreemilio/salvatoreemilio.it_do-backup:latest,salvatoreemilio/salvatoreemilio.it_do-backup:0.0.1
   deploy:
     needs: [build]
     runs-on: ubuntu-latest
