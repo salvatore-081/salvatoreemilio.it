@@ -31,7 +31,7 @@ jobs:
           context: tools/do-backup
           file: tools/do-backup/Dockerfile
           push: true
-          tags: salvatoreemilio/salvatoreemilio.it_do-backup:latest,salvatoreemilio/salvatoreemilio.it_do-backup:0.0.1
+          tags: salvatoreemilio/salvatoreemilio.it_do-backup:latest,salvatoreemilio/salvatoreemilio.it_do-backup:0.0.2
   deploy:
     needs: [build]
     runs-on: ubuntu-latest
