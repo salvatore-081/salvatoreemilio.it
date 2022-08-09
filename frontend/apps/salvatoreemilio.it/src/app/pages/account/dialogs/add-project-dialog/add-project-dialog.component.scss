@@ -1,0 +1,157 @@
+.add-project-container {
+  @media screen and (max-width: 768.9px) {
+    padding: 16px 0;
+  }
+  @media not screen and (max-width: 768.9px) {
+    padding: 32px 16px;
+  }
+}
+.add-project-container .add-project-form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.add-project-container .add-project-form .input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.add-project-container .add-project-form .input-container .input-label {
+  padding: 0 0 0 12px;
+}
+.add-project-container .add-project-form .input-container .invalid-input-label {
+  margin-top: -8px;
+  padding: 0 0 0 12px;
+}
+.add-project-container
+  .add-project-form
+  .input-image-container
+  .image-container {
+  position: relative;
+}
+.add-project-container
+  .add-project-form
+  .input-image-container
+  .image-container
+  .image {
+  width: 100%;
+}
+.add-project-container
+  .add-project-form
+  .input-image-container
+  .image-container
+  .file-upload {
+  position: absolute;
+  bottom: 5%;
+  right: 2%;
+}
+.add-project-container .add-project-form .row-container {
+  display: flex;
+  gap: 32px;
+  @media screen and (max-width: 768.9px) {
+    flex-direction: column;
+  }
+  @media not screen and (max-width: 768.9px) {
+    flex-direction: row;
+  }
+}
+.add-project-container .add-project-form .row-container .input-container {
+  @media not screen and (max-width: 768.9px) {
+    flex-basis: 50%;
+  }
+}
+.add-project-container .add-project-form .input-container .table-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.add-project-container .add-project-form .input-container .table-container {
+  padding: 24px 0 0 0;
+}
+.add-project-container
+  .add-project-form
+  .input-container
+  .table-container
+  .add-link-container {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  @media screen and (max-width: 768.9px) {
+    padding: 0 0 8px;
+  }
+}
+.add-project-container
+  .add-project-form
+  .input-container
+  .table-container
+  .add-link-container
+  .add-link-inputs-container {
+  display: flex;
+  flex: 0.9;
+  @media screen and (max-width: 768.9px) {
+    flex-direction: column;
+    gap: 32px;
+  }
+  @media not screen and (max-width: 768.9px) {
+    flex-direction: row;
+    gap: 24px;
+  }
+}
+.add-project-container
+  .add-project-form
+  .input-container
+  .table-container
+  .add-link-container
+  .add-link-button-container {
+  flex: 0.1;
+  text-align: right;
+}
+.add-project-container
+  .add-project-form
+  .input-container
+  .table-container
+  .table
+  .url-label-container,
+.add-project-container
+  .add-project-form
+  .input-container
+  .table-container
+  .table
+  .name-label-container {
+  text-align: center;
+}
+.add-project-container
+  .add-project-form
+  .input-container
+  .table-container
+  .table
+  .button-container {
+  text-align: right;
+}
+.add-project-container
+  .add-project-form
+  .input-container
+  .table-container
+  .table
+  .button-container
+  .delete-button {
+  color: #b30000;
+}
+.add-project-container
+  .add-project-form
+  .input-container
+  .table-container
+  .table
+  .first-td {
+  padding: 1rem 1rem 1rem 0;
+}
+.add-project-container
+  .add-project-form
+  .input-container
+  .table-container
+  .table
+  .last-td {
+  padding: 1rem 0 1rem 1rem;
+}

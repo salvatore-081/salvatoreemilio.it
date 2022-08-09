@@ -85,9 +85,6 @@ export class AccountComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.dialogService.open(AddProjectDialogComponent, {
-      styleClass: 'dynamic-test',
-    });
     this.name$.subscribe((v) => this.nameFormControl.patchValue(v));
     this.surname$.subscribe((v) => this.surnameFormControl.patchValue(v));
     this.phoneNumber$.subscribe((v) =>
@@ -124,5 +121,12 @@ export class AccountComponent implements OnInit {
       $event.files[0]?.objectURL?.changingThisBreaksApplicationSecurity
     );
     fileUpload.clear();
+  }
+
+  openAddProjectDialog(): void {
+    this.dialogService.open(AddProjectDialogComponent, {
+      styleClass: 'add-project-dialog',
+      header: 'Add project',
+    });
   }
 }

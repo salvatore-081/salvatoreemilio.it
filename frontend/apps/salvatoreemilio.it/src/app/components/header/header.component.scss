@@ -1,14 +1,14 @@
-.header__container {
+.header-container {
   display: flex;
   flex-direction: column;
-  .toolbar__container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 36px 16px 16px;
-    .avatar {
-      cursor: pointer;
-    }
-  }
+}
+.header-container .toolbar-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 36px 16px 16px;
+}
+.header-container .toolbar-container .avatar {
+  cursor: pointer;
 }

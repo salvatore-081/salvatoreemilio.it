@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { Store } from '@ngrx/store';
-import { first, Observable, Subject, switchMap, take } from 'rxjs';
+import { first, Observable, switchMap, take } from 'rxjs';
 import { Project, User } from '../../models';
 import { GraphqlService } from '../../services/graphql.service';
 import { SELECT_USER } from '../../app.state';
 import { MessageService } from 'primeng/api';
-import { HttpClient } from '@angular/common/http';
+import { UtilsService } from '../../services/utils.service';
 
 export interface AccountState extends User {
   emailLoading: boolean;
@@ -24,7 +24,7 @@ export class AccountStore extends ComponentStore<AccountState> {
     private graphqlService: GraphqlService,
     private store: Store,
     private messageService: MessageService,
-    private httpClient: HttpClient
+    private utilsService: UtilsService
   ) {
     super({
       email: '',
@@ -100,7 +100,8 @@ export class AccountStore extends ComponentStore<AccountState> {
   });
 
   readonly updateProfilePicture = this.updater((state, url: string) => {
-    this.readBlob(url)
+    this.utilsService
+      .readBlob(url)
       .pipe(
         switchMap((blob: string) =>
           this.graphqlService.updateUserProfilePicture(state.email, blob)
@@ -126,21 +127,6 @@ export class AccountStore extends ComponentStore<AccountState> {
       profilePictureLoading: true,
     };
   });
-
-  private readBlob(url: string): Observable<string> {
-    let readerSubject = new Subject<string>();
-    return this.httpClient.get(url, { responseType: 'blob' }).pipe(
-      switchMap((blob: Blob) => {
-        const fileReader: FileReader = new FileReader();
-        fileReader.readAsDataURL(blob);
-        fileReader.onload = (ev: ProgressEvent<FileReader>) => {
-          readerSubject.next((ev.target?.result as string)?.split(',', 2)[1]);
-          readerSubject.complete();
-        };
-        return readerSubject.asObservable();
-      })
-    );
-  }
 
   private updateProfilePictureHandleError = this.updater((state) => {
     return {

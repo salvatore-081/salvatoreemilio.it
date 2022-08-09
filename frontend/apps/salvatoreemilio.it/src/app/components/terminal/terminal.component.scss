@@ -1,16 +1,16 @@
-.terminal__container {
+.terminal-container {
   display: flex;
   flex-direction: column;
-
-  .header__container {
-    height: 40px;
-    width: 100%;
-    background-color: var(--surface-card);
-    border-radius: 6px 6px 0 0;
-    color: var(--text-color);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-  }
+}
+.terminal-container .header-container {
+  height: 40px;
+  width: 100%;
+  background-color: var(--surface-card);
+  border-radius: 6px 6px 0 0;
+  color: var(--text-color);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
 }
