@@ -130,7 +130,7 @@ def newMutation(appState: AppState) -> MutationType:
                 return graphql_exceptions.BadRequest("invalid Authorization")
             if not 'id' in input or len(input['id']) < 1:
                 return graphql_exceptions.InvalidArgument('id')
-            if not 'payload' in input or all(v == None or len(v) < 1 for v in input['payload'].values()):
+            if not 'payload' in input or all(v == None for v in input['payload'].values()):
                 return graphql_exceptions.InvalidArgument('payload')
 
             access_token = auth[7:]
