@@ -1,6 +1,7 @@
 from ariadne import MutationType
 from grpc import RpcError, StatusCode
 from models.user import UpdateUserInputPayload
+from models.project import UpdateProjectInputPayload
 from exceptions import graphql as graphql_exceptions, base as base_exceptions
 from models.auth import LogoutResponse
 from state.appState import AppState
@@ -140,7 +141,7 @@ def newMutation(appState: AppState) -> MutationType:
             project = await appState.gRPCClient.get_project(input['id'])
             appState.keycloak.check_manage_users(introspection, project.email)
 
-            r = await appState.gRPCClient.update_project(input['id'], input['payload'])
+            r = await appState.gRPCClient.update_project(input['id'], UpdateProjectInputPayload(**input['payload']))
             return r
         except base_exceptions.BadRequest:
             return graphql_exceptions.BadRequest("bad request")
