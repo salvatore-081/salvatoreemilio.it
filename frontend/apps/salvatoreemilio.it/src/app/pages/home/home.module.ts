@@ -6,8 +6,12 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { TerminalComponent } from '../../components/terminal/terminal.component';
 import { TerminalModule } from 'primeng/terminal';
 import { SkeletonModule } from 'primeng/skeleton';
+import { ProjectCardModule } from '../../components/project-card/project-card.module';
 
 const PRIMENG_MODULES = [TerminalModule, SkeletonModule];
+
+const MODULES = [ProjectCardModule];
+
 @NgModule({
   declarations: [HomeComponent, TerminalComponent],
   imports: [
@@ -15,6 +19,7 @@ const PRIMENG_MODULES = [TerminalModule, SkeletonModule];
     HomeRoutingModule,
     ReactiveComponentModule,
     ...PRIMENG_MODULES,
+    ...MODULES,
   ],
 })
 export class HomeModule {}

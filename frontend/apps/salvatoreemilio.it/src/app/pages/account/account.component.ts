@@ -1,15 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
 import { FileUpload } from 'primeng/fileupload';
-import { Observable, tap } from 'rxjs';
+import { EMPTY, finalize, first, Observable, switchMap, take, tap } from 'rxjs';
 import { Project } from '../../models';
+import { GraphqlService } from '../../services/graphql.service';
 import { AccountStore } from './account.store';
+import { AddProjectDialogComponent } from './dialogs/add-project-dialog/add-project-dialog.component';
+import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss'],
-  providers: [AccountStore],
+  providers: [AccountStore, DialogService],
 })
 export class AccountComponent implements OnInit {
   profilePictureMaxFileSize: number = 1;
@@ -75,9 +80,17 @@ export class AccountComponent implements OnInit {
       )
     );
 
-  projects: Observable<Project[]> = this.accountStore.projects$;
+  projects$: Observable<Project[]> = this.accountStore.selectProjects$;
+  projectsInit$: Observable<boolean> = this.accountStore.selectProjectsInit$;
 
-  constructor(private accountStore: AccountStore) {}
+  projectTableBlockedUI: boolean = false;
+
+  constructor(
+    private accountStore: AccountStore,
+    private dialogService: DialogService,
+    private graphqlService: GraphqlService,
+    private messageService: MessageService
+  ) {}
 
   ngOnInit(): void {
     this.name$.subscribe((v) => this.nameFormControl.patchValue(v));
@@ -116,5 +129,78 @@ export class AccountComponent implements OnInit {
       $event.files[0]?.objectURL?.changingThisBreaksApplicationSecurity
     );
     fileUpload.clear();
+  }
+
+  openAddProjectDialog(): void {
+    this.dialogService.open(AddProjectDialogComponent, {
+      styleClass: 'add-project-dialog',
+      header: 'Add project',
+    });
+  }
+
+  deleteProject(id: string): void {
+    this.dialogService
+      .open(ConfirmDialogComponent, {
+        header: 'Confirm deletion',
+        styleClass: 'confirm-dialog',
+        data: {
+          label:
+            'You are about to delete this project.\nThis action cannot be undone.\nAre you sure?',
+        },
+      })
+      .onClose.pipe(
+        switchMap((v) => {
+          if (!v) {
+            return EMPTY;
+          }
+          this.projectTableBlockedUI = true;
+          return this.graphqlService.deleteProject(id);
+        }),
+        take(1),
+        finalize(() => (this.projectTableBlockedUI = false))
+      )
+      .subscribe({
+        next: (_) =>
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Project deleted!',
+          }),
+        error: (_) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Ops... qualcosa è andato storto!',
+          });
+        },
+      });
+  }
+
+  onProjectsReorder($event: { dragIndex: number; dropIndex: number }): void {
+    this.projectTableBlockedUI = true;
+
+    this.projects$
+      .pipe(
+        take(1),
+        switchMap((projects: Project[]) =>
+          this.graphqlService.updateProjectIndex(
+            projects[$event.dragIndex].id,
+            projects[$event.dropIndex].index
+          )
+        ),
+        first(),
+        finalize(() => (this.projectTableBlockedUI = false))
+      )
+      .subscribe({
+        next: (_) =>
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Project updated!',
+          }),
+        error: (_) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Ops... qualcosa è andato storto!',
+          });
+        },
+      });
   }
 }

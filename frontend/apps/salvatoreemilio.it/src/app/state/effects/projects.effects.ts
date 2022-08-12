@@ -30,7 +30,7 @@ export class ProjectsEffects {
           this.store.dispatch(LOADER_OFF({ key: 'LOAD PROJECTS' }));
         }
         this.store.dispatch(LOADER_ON({ key: `PROJECTS FEED` }));
-        return of(PROJECTS_FEED({ feed: pair[1]?.data?.projectFeed }));
+        return of(PROJECTS_FEED({ feed: pair[1]?.data?.watchProjects }));
       })
     );
   });

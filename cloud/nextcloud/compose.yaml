@@ -8,8 +8,10 @@ services:
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
       --skip-innodb-read-only-compressed=OFF
     volumes:
-      - mariadb_data:/var/lib/mysql
+      - se-nextcloud-mariadb:/var/lib/mysql
     environment:
+      - MARIADB_AUTO_UPGRADE=1
+      - MARIADB_INITDB_SKIP_TZINFO=1
       - MYSQL_TCP_PORT=13030
       - MYSQL_UNIX_PORT=13031
       - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=true
@@ -17,7 +19,7 @@ services:
       - MYSQL_PASSWORD=qwerty
       - MYSQL_DATABASE=nextcloud
     networks:
-      - default
+      - nextcloud
     logging:
       driver: "json-file"
       options:
@@ -30,7 +32,7 @@ services:
     container_name: nextcloud
     restart: always
     volumes:
-      - nextcloud_data:/var/www/html
+      - se-nextcloud:/var/www/html
       - ./php-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
     environment:
@@ -42,7 +44,7 @@ services:
     depends_on:
       - mariadb
     networks:
-      - default
+      - nextcloud
     logging:
       driver: "json-file"
       options:
@@ -60,6 +62,7 @@ services:
       - nextcloud
     networks:
       - default
+      - nextcloud
     depends_on:
       - nextcloud
     logging:
@@ -75,18 +78,19 @@ services:
         it`) || Host(`www.cloud.salvatoreemilio.it`)"
       - "traefik.http.routers.nextcloud_nginx.tls.certresolver=myresolver"
       - "traefik.http.routers.nextcloud_nginx.entrypoints=websecure"
+      - "traefik.docker.network=se-default"
 
   nextcloud_cron:
     image: nextcloud:fpm-alpine
     container_name: nextcloud_cron
     restart: always
     volumes:
-      - nextcloud_data:/var/www/html
+      - se-nextcloud:/var/www/html
     entrypoint: /cron.sh
     depends_on:
       - mariadb
     networks:
-      - default
+      - nextcloud
     logging:
       driver: "json-file"
       options:
@@ -95,12 +99,15 @@ services:
         tag: "{{.Name}}"
 
 volumes:
-  mariadb_data:
+  se-nextcloud-mariadb:
     external: true
-  nextcloud_data:
+  se-nextcloud:
     external: true
 
 networks:
   default:
     external: true
-    name: se_default
+    name: se-default
+  nextcloud:
+    external: true
+    name: se-nextcloud

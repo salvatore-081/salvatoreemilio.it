@@ -8,7 +8,7 @@ services:
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+      - se-portainer:/data
     networks:
       - default
     logging:
@@ -25,9 +25,9 @@ services:
       - "traefik.http.routers.portainer.tls.certresolver=myresolver"
       - "traefik.http.routers.portainer.entrypoints=websecure"
 volumes:
-  portainer_data:
+  se-portainer:
     external: true
 networks:
   default:
     external: true
-    name: se_default
+    name: se-default

@@ -22,3 +22,12 @@ export interface ProjectFeed {
   new_val?: Project;
   old_val?: Project;
 }
+
+export interface AddProjectInput {
+  email: string;
+  title: string;
+  description?: string;
+  image?: string;
+  tags?: string[];
+  links?: Link[];
+}

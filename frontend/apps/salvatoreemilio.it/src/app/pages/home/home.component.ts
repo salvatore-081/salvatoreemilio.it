@@ -11,7 +11,7 @@ import {
   takeUntil,
   tap,
 } from 'rxjs';
-import { User } from '../../models';
+import { Project, User } from '../../models';
 import { HomeStore } from './home.store';
 
 @Component({
@@ -23,6 +23,8 @@ import { HomeStore } from './home.store';
 export class HomeComponent implements OnInit, OnDestroy {
   destroy$: Subject<void> = new Subject<void>();
   user$: Observable<User | undefined> = this.homeStore.selectUser$;
+  projects$: Observable<Project[] | undefined> = this.homeStore.selectProjects$;
+  projectsInit$: Observable<boolean> = this.homeStore.selectProjectsInit$;
   fullName$: Observable<string> = this.homeStore.selectFullName$;
   fullName: string = '';
 

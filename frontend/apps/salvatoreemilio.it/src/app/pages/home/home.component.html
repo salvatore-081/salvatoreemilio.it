@@ -1,6 +1,24 @@
-<div class="home__container">
-  <div class="full-name__container">
+<div class="home-container">
+  <div class="full-name-container">
     {{ fullName }}
   </div>
-  <terminal></terminal>
+  <terminal class="terminal-container"></terminal>
+  <div class="projects-container">
+    <div class="projects-container-title">Portfolio</div>
+    <ng-container *ngrxLet="projectsInit$ as init">
+      <ng-container *ngIf="!init">
+        <p-skeleton
+          *ngFor="let _ of [0, 0]"
+          width="100%"
+          height="120px"
+        ></p-skeleton>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngrxLet="projects$ as projects">
+      <project-card
+        *ngFor="let project of projects"
+        [project]="project"
+      ></project-card>
+    </ng-container>
+  </div>
 </div>

@@ -6,7 +6,8 @@ import {
   ProjectsState,
   PROJECTS_REDUCER,
 } from './state/reducers/projects.reducer';
-import { GET_LOADER_LOADING } from './state/selectors';
+import { GET_LOADER_LOADING, selectProjectsInit } from './state/selectors';
+import { selectAllProjects } from './state/selectors';
 
 export const APP_REDUCERS = {
   user: USER_REDUCER,
@@ -31,7 +32,22 @@ export const SELECT_USER_PROFILE_PICTURE = createSelector(
   (user: User) => user?.profilePicture
 );
 
+export const SELECT_USER_EMAIL = createSelector(
+  SELECT_USER,
+  (user: User) => user.email
+);
+
 export const SELECT_LOADER_LOADING = createSelector(
   SELECT_LOADER_FEATURE,
   GET_LOADER_LOADING
+);
+
+export const SELECT_PROJECTS = createSelector(
+  SELECT_PROJECTS_FEATURE,
+  selectAllProjects
+);
+
+export const SELECT_PROJECTS_INIT = createSelector(
+  SELECT_PROJECTS_FEATURE,
+  selectProjectsInit
 );

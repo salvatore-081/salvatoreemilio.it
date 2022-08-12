@@ -1,0 +1,36 @@
+.confirm-dialog-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 32px 0 0;
+  height: 100%;
+}
+.confirm-dialog-container .warning-icon-container {
+  text-align: center;
+  color: var(--danger-color);
+}
+.confirm-dialog-container .warning-icon-container i {
+  font-size: 44px;
+}
+.confirm-dialog-container .message {
+  white-space: break-spaces;
+  font-size: 18px;
+  font-weight: bold;
+}
+.confirm-dialog-container .buttons-container {
+  margin-top: auto;
+  display: flex;
+  gap: 24px;
+  @media screen and (max-width: 768.9px) {
+    flex-direction: column;
+  }
+  @media not screen and (max-width: 768.9px) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+.confirm-dialog-container .buttons-container p-button button {
+  @media screen and (max-width: 768.9px) {
+    width: 100%;
+  }
+}

@@ -1,9 +1,9 @@
 <p-toast></p-toast>
-<div class="switch-account__container">
-  <div class="container__title">Scegli un account</div>
+<div class="switch-account-container">
+  <div class="container-title">Scegli un account</div>
   <p-card>
     <div
-      class="user-list__container__loading"
+      class="user-list-container-loading"
       *ngIf="loading$ | async; else CONTENT"
     >
       <ng-container>
@@ -12,7 +12,7 @@
       </ng-container>
     </div>
     <ng-template #CONTENT>
-      <div class="user-list__container">
+      <div class="user-list-container">
         <div *ngFor="let user of userList$ | async; let i = index">
           <p-divider *ngIf="i > 0"></p-divider>
           <account-card

@@ -8,14 +8,14 @@ import { LOAD_USER } from './state/actions/user.actions';
 @Component({
   selector: 'root',
   template: `
-    <header class="header__component"></header>
-    <div class="router-outlet__container">
+    <header class="header-component"></header>
+    <div class="router-outlet-container">
       <router-outlet></router-outlet>
     </div>
   `,
   styles: [
     `
-      .router-outlet__container {
+      .router-outlet-container {
         height: calc(100vh - 78px);
         overflow-y: scroll;
         overflow-x: hidden;

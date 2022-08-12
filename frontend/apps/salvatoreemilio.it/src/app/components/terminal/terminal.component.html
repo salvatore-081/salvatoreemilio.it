@@ -6,9 +6,9 @@
       height="calc(18rem + 40px)"
     ></p-skeleton>
     <ng-template #TERMINAL>
-      <div class="terminal__container" *ngrxLet="user$ as user">
-        <div class="header__container">
-          <div class="header__label">{{ ip }}@salvatoreemilio.it:~</div>
+      <div class="terminal-container" *ngrxLet="user$ as user">
+        <div class="header-container">
+          <div class="header-label">{{ ip }}@salvatoreemilio.it:~</div>
         </div>
         <p-terminal
           welcomeMessage="type 'help' to list available commands"

@@ -8,7 +8,8 @@ services:
     volumes:
       - ./config.json:/app/config.json
     networks:
-      - default
+      - api
+      - api-db
     logging:
       driver: "json-file"
       options:
@@ -17,6 +18,9 @@ services:
         tag: "{{.Name}}"
 
 networks:
-  default:
+  api:
     external: true
-    name: se_default
+    name: se-api
+  api-db:
+    external: true
+    name: se-api-db

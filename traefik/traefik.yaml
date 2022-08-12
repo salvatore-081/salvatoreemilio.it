@@ -1,5 +1,5 @@
 log:
-  level: DEBUG
+  level: INFO
 
 certificatesResolvers:
   myresolver:
@@ -21,7 +21,7 @@ http:
         domains:
           - main: "salvatoreemilio.it"
             sans:
-              - "auth.salvatoreemilio.it"
+              - "login.salvatoreemilio.it"
               - "grafana.salvatoreemilio.it"
               - "portainer.salvatoreemilio.it"
               - "api.salvatoreemilio.it"

@@ -1,26 +1,42 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { Store } from '@ngrx/store';
-import { first, Observable, Subject, switchMap, take, tap } from 'rxjs';
-import { User } from '../../models';
-import { GraphqlService } from '../../services/graphql.service';
-import { SELECT_USER } from '../../app.state';
-import { MessageService } from 'primeng/api';
-import { HttpClient } from '@angular/common/http';
+import { Observable, switchMap } from 'rxjs';
+import { Project, User } from '../../models';
+import {
+  SELECT_PROJECTS,
+  SELECT_PROJECTS_INIT,
+  SELECT_USER,
+} from '../../app.state';
 
 export interface HomeState {
   user: User | undefined;
   fullName: string;
+  projects: Project[];
+  projectsInit: boolean;
 }
 
 @Injectable()
 export class HomeStore extends ComponentStore<HomeState> {
   constructor(private store: Store) {
-    super({ user: undefined, fullName: '' });
+    super({
+      user: undefined,
+      fullName: '',
+      projects: [],
+      projectsInit: false,
+    });
   }
 
   readonly selectUser$: Observable<User | undefined> = this.select(
     (s) => s.user
+  );
+
+  readonly selectProjects$: Observable<Project[] | undefined> = this.select(
+    (s) => s.projects
+  );
+
+  readonly selectProjectsInit$: Observable<boolean> = this.select(
+    (s) => s.projectsInit
   );
 
   readonly selectFullName$: Observable<string> = this.select((s) => s.fullName);
@@ -29,6 +45,22 @@ export class HomeStore extends ComponentStore<HomeState> {
     return {
       ...state,
       user: user,
+    };
+  });
+
+  private readonly updateProjects = this.updater(
+    (state, projects: Project[]) => {
+      return {
+        ...state,
+        projects: projects,
+      };
+    }
+  );
+
+  private readonly updateProjectsInit = this.updater((state, init: boolean) => {
+    return {
+      ...state,
+      projectsInit: init,
     };
   });
 
@@ -52,6 +84,18 @@ export class HomeStore extends ComponentStore<HomeState> {
           ),
         ])
       )
+  );
+
+  private readonly projectsFeed$ = this.effect(() =>
+    this.store
+      .select(SELECT_PROJECTS)
+      .pipe(switchMap((projects) => [this.updateProjects(projects)]))
+  );
+
+  private readonly projectsInit$ = this.effect(() =>
+    this.store
+      .select(SELECT_PROJECTS_INIT)
+      .pipe(switchMap((init) => [this.updateProjectsInit(init)]))
   );
 
   private getFullName(email: string, name?: string, surname?: string): string {

@@ -1,70 +1,140 @@
-.account__container {
+.account-container {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   gap: 64px;
   margin: 0px 16px 64px;
   border-radius: 16px;
-  .email__container {
-    padding: 0 16px;
-    font-weight: bold;
-    font-size: 42px;
-    text-align: center;
-    max-width: calc(100vw - 32px);
-    @media screen and (max-width: 768.9px) {
-      font-size: 7vw;
-    }
+}
+.account-container .email-container {
+  padding: 0 16px;
+  font-weight: bold;
+  font-size: 42px;
+  text-align: center;
+  max-width: calc(100vw - 32px);
+  @media screen and (max-width: 768.9px) {
+    font-size: 7vw;
   }
-  .profile-picture__container {
-    margin-top: -32px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    align-items: center;
+}
+.account-container .profile-picture-container {
+  margin-top: -32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+.account-container .section-container {
+  padding: 44px 32px;
+  background: var(--surface-section);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.account-container .section-container .section-title {
+  font-size: 32px;
+  font-weight: bold;
+  flex: 100%;
+}
+.account-container .info-section {
+  column-gap: 32px;
+  row-gap: 16px;
+}
+.account-container .info-section > div {
+  @media screen and (max-width: 768.9px) {
+    flex: 100%;
   }
-  .section__container {
-    padding: 44px 32px;
-    background: var(--surface-section);
-    border-radius: 6px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    & .section__title {
-      font-size: 32px;
-      font-weight: bold;
-      flex: 100%;
-    }
+  @media not screen and (max-width: 768.9px) {
+    flex: calc(50% - (64px));
   }
-  .info__section {
-    column-gap: 32px;
-    row-gap: 16px;
-    & > div {
-      @media screen and (max-width: 768.9px) {
-        flex: 100%;
-      }
-      @media not screen and (max-width: 768.9px) {
-        flex: calc(50% - (64px));
-      }
-    }
-    .form__container {
-      display: flex;
-      flex-direction: column;
-      .form__label {
-        padding: 0 0 0 12px;
-        font-weight: bold;
-        font-size: 18px;
-      }
-      .formControl-invalid {
-        margin: 0 0 6px 12px;
-      }
-    }
+}
+.account-container .info-section .form-container {
+  display: flex;
+  flex-direction: column;
+}
+.account-container .info-section .form-container .form-label {
+  padding: 0 0 0 12px;
+  font-weight: bold;
+  font-size: 18px;
+}
+.account-container .info-section .form-container .form-label-invalid {
+  margin: 0 0 6px 12px;
+}
+.account-container .projects-section .section-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+}
+.account-container .projects-section .projects-container {
+  padding: 16px 0 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.account-container .projects-section .projects-container .table .table-row {
+  background-color: unset;
+  color: unset;
+}
+.account-container
+  .projects-section
+  .projects-container
+  .table
+  .table-row
+  .project-card-td
+  .project-card {
+  @media screen and (max-width: 768.9px) {
+    zoom: 0.31;
   }
-  .projects__section {
-    & .section__title {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-content: center;
-    }
+  @media not screen and (max-width: 768.9px) {
+    zoom: 0.5;
   }
+  pointer-events: none;
+}
+.account-container
+  .projects-section
+  .projects-container
+  .table
+  .table-row
+  .project-card-td {
+  padding: 1rem 0 1rem 0.5rem;
+}
+.account-container
+  .projects-section
+  .projects-container
+  .table
+  .table-row
+  .bars-td {
+  padding: 1rem 0.5rem 1rem 0.1rem;
+}
+.account-container
+  .projects-section
+  .projects-container
+  .table
+  .table-row
+  .button-td {
+  padding: 1rem 0;
+  text-align: right;
+}
+.account-container
+  .projects-section
+  .projects-container
+  .table
+  .table-row
+  .button-td
+  .delete-button {
+  color: var(--danger-color);
+}
+.account-container .projects-section .projects-container .table .table-th {
+  padding: 0;
+  border: 1px solid var(--primary-color-text);
+  border-width: 0 0 1px 0;
+}
+.account-container
+  .projects-section
+  .projects-container
+  .table
+  .project-card-th {
+  width: 85%;
 }

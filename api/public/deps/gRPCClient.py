@@ -79,7 +79,7 @@ class GRPCClient():
         except Exception as e:
             raise e
     
-    async def update_project(self, id: str, payload: project_models.UpdateProjectInputPayload):
+    async def update_project(self, id: str, payload: UpdateProjectInputPayload):
         try:
             async with insecure_channel(self.url) as ch:
                 st = InternalStub(ch)

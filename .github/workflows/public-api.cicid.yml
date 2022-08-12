@@ -31,7 +31,7 @@ jobs:
           context: api/public
           file: api/public/Dockerfile
           push: true
-          tags: salvatoreemilio/salvatoreemilio.it_public-api:latest,salvatoreemilio/salvatoreemilio.it_public-api:0.0.23
+          tags: salvatoreemilio/salvatoreemilio.it_public-api:latest,salvatoreemilio/salvatoreemilio.it_public-api:0.0.26
   deploy:
     needs: [build]
     runs-on: ubuntu-latest
@@ -46,12 +46,12 @@ jobs:
       - name: Deploy
         run: |
           ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
-            cd salvatoreemilio.it/;
+            cd dev/salvatoreemilio.it/;
             git pull;
             cd api/public/;
-            docker-compose pull;
-            docker-compose down;
-            docker-compose up -d;
+            docker compose pull;
+            docker compose down;
+            docker compose up -d;
             docker image prune -a -f;
           "
       - name: Cleanup

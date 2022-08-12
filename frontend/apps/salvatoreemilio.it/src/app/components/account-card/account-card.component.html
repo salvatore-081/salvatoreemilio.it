@@ -1,4 +1,4 @@
-<div class="user__container" (click)="selectUser()">
+<div class="user-container" (click)="selectUser()">
   <p-avatar
     size="xlarge"
     image="{{
@@ -8,9 +8,9 @@
     }}"
     shape="circle"
   ></p-avatar>
-  <div class="user__info__container">
-    <p class="user__name">{{ user?.name }} {{ user.surname }}</p>
-    <p class="user__email">{{ user.email }}</p>
+  <div class="user-info-container">
+    <p class="user-name">{{ user?.name }} {{ user.surname }}</p>
+    <p class="user-email">{{ user.email }}</p>
     <ng-container *ngIf="user.selected">
       <p-divider></p-divider>
       <button
@@ -19,7 +19,7 @@
         label="{{
           user.current ? 'Gestisci l\'account' : 'Utilizza questo account'
         }}"
-        class="p-button-sm p-button-text user__cta__button"
+        class="p-button-sm p-button-text user-cta-button"
         (click)="user?.current ? navigateToAccount() : switchAccount()"
       ></button>
     </ng-container>

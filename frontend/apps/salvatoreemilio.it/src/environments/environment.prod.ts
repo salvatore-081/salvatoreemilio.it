@@ -8,7 +8,7 @@ export const environment = {
     url: `https://api.salvatoreemilio.it`,
   },
   auth: {
-    url: `https://login.salvatoreemilio.it/auth`,
+    url: `https://login.salvatoreemilio.it`,
     realm: 'se',
     clientId: 'frontend-auth',
   },

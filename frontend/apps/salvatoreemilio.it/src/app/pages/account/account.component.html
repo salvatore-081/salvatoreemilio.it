@@ -1,7 +1,8 @@
 <p-toast></p-toast>
-<div class="account__container">
+
+<div class="account-container">
   <ng-container *ngrxLet="emailLoading$ as emailLoading">
-    <div class="email__container">
+    <div class="email-container">
       <p-skeleton
         *ngIf="emailLoading; else EMAIL"
         width="65%"
@@ -9,7 +10,7 @@
       ></p-skeleton>
       <ng-template #EMAIL> {{ email$ | async }} </ng-template>
     </div>
-    <div class="profile-picture__container">
+    <div class="profile-picture-container">
       <ng-container *ngrxLet="profilePictureLoading$ as profilePictureLoading">
         <p-skeleton
           *ngIf="emailLoading || profilePictureLoading; else PROFILE_PICTURE"
@@ -46,10 +47,10 @@
         ></p-fileUpload>
       </ng-container>
     </div>
-    <div class="section__container info__section">
-      <span class="section__title">Info</span>
-      <div class="form__container">
-        <p class="form__label">Name</p>
+    <div class="section-container info-section">
+      <span class="section-title">Info</span>
+      <div class="form-container">
+        <p class="form-label">Name</p>
         <p-skeleton
           *ngIf="emailLoading; else NAME"
           width="100%"
@@ -92,8 +93,8 @@
           </ng-container>
         </ng-template>
       </div>
-      <div class="form__container">
-        <p class="form__label">Surname</p>
+      <div class="form-container">
+        <p class="form-label">Surname</p>
         <p-skeleton
           *ngIf="emailLoading; else SURNAME"
           width="100%"
@@ -136,8 +137,8 @@
           </ng-container>
         </ng-template>
       </div>
-      <div class="form__container">
-        <p class="form__label">Phone number</p>
+      <div class="form-container">
+        <p class="form-label">Phone number</p>
         <p-skeleton
           *ngIf="emailLoading; else PHONE_NUMBER"
           width="100%"
@@ -184,8 +185,8 @@
           </ng-container>
         </ng-template>
       </div>
-      <div class="form__container">
-        <p class="form__label">Location</p>
+      <div class="form-container">
+        <p class="form-label">Location</p>
         <p-skeleton
           *ngIf="emailLoading; else LOCATION"
           width="100%"
@@ -229,17 +230,82 @@
         </ng-template>
       </div>
     </div>
-    <div class="section__container projects__section">
-      <div class="section__title">
+    <div class="section-container projects-section">
+      <div class="section-title">
         <span>Projects</span>
-        <div class="buttons__container">
+        <div>
           <button
             pButton
             class="p-button-rounded p-button-text"
             type="button"
             icon="pi pi-plus-circle"
+            (click)="openAddProjectDialog()"
           ></button>
         </div>
+      </div>
+      <div class="projects-container">
+        <ng-container *ngrxLet="projectsInit$ as init">
+          <ng-container *ngIf="!init">
+            <p-skeleton
+              *ngFor="let _ of [0, 0]"
+              width="100%"
+              height="120px"
+            ></p-skeleton>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngrxLet="projects$ as projects">
+          <p-blockUI [blocked]="projectTableBlockedUI"></p-blockUI>
+          <p-table
+            (onRowReorder)="onProjectsReorder($event)"
+            class="table"
+            [value]="projects"
+            [reorderableColumns]="true"
+            responsiveLayout="scroll"
+          >
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th class="table-th"></th>
+                <th class="table-th project-card-th"></th>
+                <th class="table-th"></th>
+                <th class="table-th"></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-index="rowIndex">
+              <tr [pReorderableRow]="index" class="table-row">
+                <td class="bars-td">
+                  <span
+                    class="pi pi-bars"
+                    [pReorderableRowHandle]="index"
+                  ></span>
+                </td>
+                <td class="project-card-td">
+                  <project-card
+                    class="project-card"
+                    [project]="rowData"
+                  ></project-card>
+                </td>
+                <td class="button-td">
+                  <button
+                    pButton
+                    class="p-button-rounded p-button-text"
+                    type="button"
+                    icon="pi pi-pencil"
+                    [disabled]="true"
+                  ></button>
+                </td>
+                <td class="button-td">
+                  <button
+                    pButton
+                    class="p-button-rounded p-button-text delete-button"
+                    type="button"
+                    icon="pi pi-times-circle"
+                    (click)="deleteProject(rowData.id)"
+                  ></button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </ng-container>
       </div>
     </div>
   </ng-container>
