@@ -4,7 +4,7 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:latest
     container_name: keycloak
-    entrypoint: ["/opt/keycloak/bin/kc.sh", "start", "--hostname-strict-https=false"]
+    entrypoint: ["/opt/keycloak/bin/kc.sh", "start", "--hostname-strict-https=false", "--spi-login-protocol-openid-connect-legacy-logout-redirect-uri=true"]
     restart: unless-stopped
     environment:
       # KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
