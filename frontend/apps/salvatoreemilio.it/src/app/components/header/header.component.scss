@@ -2,6 +2,9 @@
   display: flex;
   flex-direction: column;
 }
+.header-container .progress-bar {
+  z-index: 1;
+}
 .header-container .toolbar-container {
   display: flex;
   flex-direction: row;

@@ -1,0 +1,20 @@
+<div class="confirm-dialog-container">
+  <div class="warning-icon-container">
+    <i class="pi pi-exclamation-circle"></i>
+  </div>
+  <div class="message">{{ label }}</div>
+  <div class="buttons-container">
+    <p-button
+      styleClass="full-width-max-width-768px"
+      label="Cancel"
+      icon="pi pi-times"
+      (onClick)="closeDialog(false)"
+    ></p-button>
+    <p-button
+      (onClick)="closeDialog(true)"
+      styleClass="full-width-max-width-768px"
+      label="Confirm"
+      icon="pi pi-check"
+    ></p-button>
+  </div>
+</div>

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApolloQueryResult, FetchResult } from '@apollo/client/core';
 import { Apollo, gql, MutationResult } from 'apollo-angular';
 import { Observable } from 'rxjs';
-import { ProjectFeed } from '../models';
+import { AddProjectInput, Project, ProjectFeed } from '../models';
 import { User, UserListItem } from '../models/user';
 
 const GET_USER_LIST = gql<
@@ -90,7 +90,7 @@ const UPDATE_USER_PROFILE_PICTURE = gql<
   }
 `;
 
-const WATCH_PROJECTS = gql<{ projectFeed: any }, { email: string }>`
+const WATCH_PROJECTS = gql<{ watchProjects: ProjectFeed }, { email: string }>`
   subscription WatchProjects($email: String!) {
     watchProjects(email: $email) {
       old_val {
@@ -119,6 +119,56 @@ const WATCH_PROJECTS = gql<{ projectFeed: any }, { email: string }>`
         }
         index
       }
+    }
+  }
+`;
+
+const ADD_PROJECT = gql<
+  { project: Project },
+  { addProjectInput: AddProjectInput }
+>`
+  mutation addProject($addProjectInput: AddProjectInput!) {
+    addProject(input: $addProjectInput) {
+      id
+      email
+      title
+      description
+      image
+      tags
+      links {
+        name
+        url
+      }
+      index
+    }
+  }
+`;
+
+const DELETE_PROJECT = gql<{ id: string }, { id: string }>`
+  mutation deleteProject($id: String!) {
+    deleteProject(id: $id) {
+      id
+    }
+  }
+`;
+
+const UPDATE_PROJECT_INDEX = gql<
+  { project: Project },
+  { id: string; index: number }
+>`
+  mutation updateProjectIndex($id: String!, $index: Int!) {
+    updateProject(input: { id: $id, payload: { index: $index } }) {
+      id
+      email
+      title
+      description
+      image
+      tags
+      links {
+        name
+        url
+      }
+      index
     }
   }
 `;
@@ -222,11 +272,44 @@ export class GraphqlService {
 
   watchProjects(
     email: string
-  ): Observable<FetchResult<{ projectFeed?: ProjectFeed | undefined }>> {
+  ): Observable<FetchResult<{ watchProjects?: ProjectFeed | undefined }>> {
     return this.apollo.subscribe({
       query: WATCH_PROJECTS,
       variables: {
         email: email,
+      },
+    });
+  }
+
+  addProject(
+    addProjectInput: AddProjectInput
+  ): Observable<MutationResult<{ project: Project }>> {
+    return this.apollo.mutate({
+      mutation: ADD_PROJECT,
+      variables: {
+        addProjectInput: addProjectInput,
+      },
+    });
+  }
+
+  deleteProject(id: string): Observable<MutationResult<{ id: string }>> {
+    return this.apollo.mutate({
+      mutation: DELETE_PROJECT,
+      variables: {
+        id: id,
+      },
+    });
+  }
+
+  updateProjectIndex(
+    id: string,
+    index: number
+  ): Observable<MutationResult<{ project: Project }>> {
+    return this.apollo.mutate({
+      mutation: UPDATE_PROJECT_INDEX,
+      variables: {
+        id: id,
+        index: index,
       },
     });
   }

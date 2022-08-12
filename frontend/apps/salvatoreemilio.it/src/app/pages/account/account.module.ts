@@ -15,6 +15,12 @@ import { AddProjectDialogComponent } from './dialogs/add-project-dialog/add-proj
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ChipsModule } from 'primeng/chips';
 import { TableModule } from 'primeng/table';
+import { ProjectCardModule } from '../../components/project-card/project-card.module';
+import { BlockUIModule } from 'primeng/blockui';
+import { PanelModule } from 'primeng/panel';
+import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
+
+const MODULES = [ProjectCardModule];
 
 const PRIMENG_MODULES = [
   TableModule,
@@ -28,16 +34,23 @@ const PRIMENG_MODULES = [
   DynamicDialogModule,
   ChipsModule,
   TableModule,
+  BlockUIModule,
+  PanelModule,
 ];
 
 @NgModule({
-  declarations: [AccountComponent, AddProjectDialogComponent],
+  declarations: [
+    AccountComponent,
+    AddProjectDialogComponent,
+    ConfirmDialogComponent,
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     AccountRoutingModule,
     ReactiveComponentModule,
-    PRIMENG_MODULES,
+    ...PRIMENG_MODULES,
+    ...MODULES,
   ],
 })
 export class AccountModule {}

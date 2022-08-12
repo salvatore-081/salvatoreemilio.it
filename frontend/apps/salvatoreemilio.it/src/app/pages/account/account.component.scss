@@ -66,3 +66,75 @@
   justify-content: space-between;
   align-content: center;
 }
+.account-container .projects-section .projects-container {
+  padding: 16px 0 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.account-container .projects-section .projects-container .table .table-row {
+  background-color: unset;
+  color: unset;
+}
+.account-container
+  .projects-section
+  .projects-container
+  .table
+  .table-row
+  .project-card-td
+  .project-card {
+  @media screen and (max-width: 768.9px) {
+    zoom: 0.31;
+  }
+  @media not screen and (max-width: 768.9px) {
+    zoom: 0.5;
+  }
+  pointer-events: none;
+}
+.account-container
+  .projects-section
+  .projects-container
+  .table
+  .table-row
+  .project-card-td {
+  padding: 1rem 0 1rem 0.5rem;
+}
+.account-container
+  .projects-section
+  .projects-container
+  .table
+  .table-row
+  .bars-td {
+  padding: 1rem 0.5rem 1rem 0.1rem;
+}
+.account-container
+  .projects-section
+  .projects-container
+  .table
+  .table-row
+  .button-td {
+  padding: 1rem 0;
+  text-align: right;
+}
+.account-container
+  .projects-section
+  .projects-container
+  .table
+  .table-row
+  .button-td
+  .delete-button {
+  color: var(--danger-color);
+}
+.account-container .projects-section .projects-container .table .table-th {
+  padding: 0;
+  border: 1px solid var(--primary-color-text);
+  border-width: 0 0 1px 0;
+}
+.account-container
+  .projects-section
+  .projects-container
+  .table
+  .project-card-th {
+  width: 85%;
+}

@@ -137,7 +137,7 @@
   .table
   .button-container
   .delete-button {
-  color: #b30000;
+  color: var(--danger-color);
 }
 .add-project-container
   .add-project-form
@@ -154,4 +154,8 @@
   .table
   .last-td {
   padding: 1rem 0 1rem 1rem;
+}
+.add-project-container .add-project-form .submit-button-container {
+  margin-top: 54px;
+  text-align: right;
 }

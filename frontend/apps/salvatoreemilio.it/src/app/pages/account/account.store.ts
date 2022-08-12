@@ -4,7 +4,11 @@ import { Store } from '@ngrx/store';
 import { first, Observable, switchMap, take } from 'rxjs';
 import { Project, User } from '../../models';
 import { GraphqlService } from '../../services/graphql.service';
-import { SELECT_USER } from '../../app.state';
+import {
+  SELECT_PROJECTS,
+  SELECT_PROJECTS_INIT,
+  SELECT_USER,
+} from '../../app.state';
 import { MessageService } from 'primeng/api';
 import { UtilsService } from '../../services/utils.service';
 
@@ -16,6 +20,7 @@ export interface AccountState extends User {
   locationLoading: boolean;
   profilePictureLoading: boolean;
   projects: Project[];
+  projectsInit: boolean;
 }
 
 @Injectable()
@@ -35,6 +40,7 @@ export class AccountStore extends ComponentStore<AccountState> {
       locationLoading: false,
       profilePictureLoading: true,
       projects: [],
+      projectsInit: false,
     });
   }
 
@@ -82,7 +88,29 @@ export class AccountStore extends ComponentStore<AccountState> {
     (s) => s.profilePictureLoading
   );
 
-  readonly projects$: Observable<Project[]> = this.select((s) => s.projects);
+  readonly selectProjects$: Observable<Project[]> = this.select(
+    (s) => s.projects
+  );
+
+  readonly selectProjectsInit$: Observable<boolean> = this.select(
+    (s) => s.projectsInit
+  );
+
+  private readonly updateProjects = this.updater(
+    (state, projects: Project[]) => {
+      return {
+        ...state,
+        projects: projects,
+      };
+    }
+  );
+
+  private readonly updateProjectsInit = this.updater((state, init: boolean) => {
+    return {
+      ...state,
+      projectsInit: init,
+    };
+  });
 
   private readonly updateUser = this.updater((state, user: User) => {
     let s: Partial<AccountState> = {};
@@ -267,5 +295,17 @@ export class AccountStore extends ComponentStore<AccountState> {
     this.store
       .select(SELECT_USER)
       .pipe(switchMap((user) => [this.updateUser(user)]))
+  );
+
+  private readonly projectsFeed$ = this.effect(() =>
+    this.store
+      .select(SELECT_PROJECTS)
+      .pipe(switchMap((projects) => [this.updateProjects(projects)]))
+  );
+
+  private readonly projectsInit$ = this.effect(() =>
+    this.store
+      .select(SELECT_PROJECTS_INIT)
+      .pipe(switchMap((init) => [this.updateProjectsInit(init)]))
   );
 }

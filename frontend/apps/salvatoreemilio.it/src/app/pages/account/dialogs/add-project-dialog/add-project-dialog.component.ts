@@ -1,46 +1,72 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Link } from 'apps/salvatoreemilio.it/src/app/models';
+import { Store } from '@ngrx/store';
+import { SELECT_USER_EMAIL } from 'apps/salvatoreemilio.it/src/app/app.state';
+import { GraphqlService } from 'apps/salvatoreemilio.it/src/app/services/graphql.service';
 import { UtilsService } from 'apps/salvatoreemilio.it/src/app/services/utils.service';
-import { DialogService } from 'primeng/dynamicdialog';
+import { MessageService } from 'primeng/api';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FileUpload } from 'primeng/fileupload';
+import { first, switchMap, take } from 'rxjs';
 
 @Component({
   templateUrl: './add-project-dialog.component.html',
   styleUrls: ['./add-project-dialog.component.scss'],
-  providers: [DialogService],
 })
 export class AddProjectDialogComponent {
-  links: Link[] = [
-    {
-      name: 'name',
-      url: 'url',
-    },
-    {
-      name: 'nam2e',
-      url: 'ur2l',
-    },
-  ];
-
   projectFormGroup: FormGroup = new FormGroup({
     title: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    description: new FormControl('', [
-      Validators.required,
-      Validators.minLength(3),
-    ]),
+    description: new FormControl(''),
     image: new FormControl(''),
     tags: new FormControl([]),
+    links: new FormControl([]),
     newLinkName: new FormControl(''),
     newLinkURL: new FormControl(''),
   });
+  submitButtonDisabled: boolean = false;
   constructor(
-    public dialogService: DialogService,
-    private utilsService: UtilsService
+    public ref: DynamicDialogRef,
+    private utilsService: UtilsService,
+    private messageService: MessageService,
+    private graphqlService: GraphqlService,
+    private store: Store
   ) {}
 
   addProject(): void {
-    console.log('AddProjectDialogComponent addProject()');
-    console.log(this.projectFormGroup.value);
+    this.submitButtonDisabled = true;
+    this.store
+      .select(SELECT_USER_EMAIL)
+      .pipe(
+        take(1),
+        switchMap((email: string) =>
+          this.graphqlService.addProject({
+            email: email,
+            title: this.projectFormGroup.controls['title'].value,
+            description: this.projectFormGroup.controls['description'].value,
+            image: this.projectFormGroup.controls['image'].value,
+            tags: this.projectFormGroup.controls['tags'].value,
+            links: this.projectFormGroup.controls['links'].value,
+          })
+        ),
+        first()
+      )
+      .subscribe({
+        next: (next) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Project added!',
+          });
+          this.ref.close();
+        },
+        error: (error) => {
+          console.error('addProject error', error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Ops... qualcosa è andato storto!',
+          });
+          this.submitButtonDisabled = false;
+        },
+      });
   }
 
   addImage($event: any, fileUpload: FileUpload): void {
@@ -55,15 +81,18 @@ export class AddProjectDialogComponent {
   }
 
   addLink(): void {
-    this.links.push({
-      name: this.projectFormGroup.controls['newLinkName'].value,
-      url: this.projectFormGroup.controls['newLinkURL'].value,
-    });
+    this.projectFormGroup.controls['links'].patchValue([
+      ...this.projectFormGroup.controls['links'].value,
+      {
+        name: this.projectFormGroup.controls['newLinkName'].value,
+        url: this.projectFormGroup.controls['newLinkURL'].value,
+      },
+    ]);
     this.projectFormGroup.controls['newLinkName'].reset();
     this.projectFormGroup.controls['newLinkURL'].reset();
   }
 
   deleteLink(index: number): void {
-    this.links.splice(index, 1);
+    this.projectFormGroup.controls['links'].value.splice(index, 1);
   }
 }

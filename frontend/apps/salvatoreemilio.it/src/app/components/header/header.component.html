@@ -1,5 +1,6 @@
 <div class="header-container">
   <p-progressBar
+    class="progress-bar"
     [ngStyle]="{ visibility: (loader$ | async) ? 'visible' : 'hidden' }"
     mode="indeterminate"
   >

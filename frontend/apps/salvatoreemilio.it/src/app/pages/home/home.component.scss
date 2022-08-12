@@ -31,3 +31,13 @@
     display: none;
   }
 }
+.home-container .projects-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.home-container .projects-container .projects-container-title {
+  font-size: 2.5em;
+  font-weight: bold;
+}

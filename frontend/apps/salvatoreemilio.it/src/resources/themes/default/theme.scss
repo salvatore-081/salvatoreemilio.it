@@ -9,6 +9,7 @@
   --text-color-secondary: #202124;
   --primary-color: #202124;
   --primary-color-text: #ffffffe6;
+  --danger-color: #b30000;
   // --font-family:-apple-system, "Lato", sans-serif, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
   --surface-0: #ffffff;
   --surface-50: #fafafa;
@@ -6284,7 +6285,9 @@ p-treeselect.ng-invalid.ng-dirty > .p-treeselect {
 }
 
 .p-toast {
-  opacity: 0.9;
+  @media screen and (max-width: 768.9px) {
+    width: calc(100% - 40px) !important;
+  }
 }
 .p-toast .p-toast-message {
   margin: 0 0 1rem 0;
@@ -6815,7 +6818,30 @@ p-treeselect.ng-invalid.ng-dirty > .p-treeselect {
     height: 100vh;
   }
   @media not screen and (max-width: 768.9px) {
-    width: 65vw;
-    max-width: 80vw;
+    width: 70vw;
+  }
+}
+.add-project-dialog .p-dialog-header {
+  @media screen and (max-width: 768.9px) {
+    padding: 3rem 1.5rem 1.5rem;
+  }
+}
+.confirm-dialog {
+  @media screen and (max-width: 768.9px) {
+    width: 100vw;
+    height: 100vh;
+  }
+  @media not screen and (max-width: 768.9px) {
+    width: 36vw;
+  }
+}
+.confirm-dialog .p-dialog-header {
+  @media screen and (max-width: 768.9px) {
+    padding: 3rem 1.5rem 1.5rem;
+  }
+}
+.full-width-max-width-768px {
+  @media screen and (max-width: 768.9px) {
+    width: 100%;
   }
 }
