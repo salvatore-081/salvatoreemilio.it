@@ -93,8 +93,7 @@ export class AuthGuard extends KeycloakAuthGuard implements CanActivate {
             return from(
               this.keycloakAngular.login({
                 redirectUri: `${window.location.origin}/account`,
-                loginHint:
-                  user.email === environment.email ? user.email : 'demo',
+                loginHint: user.email,
               })
             ).pipe(
               map(() => true),
