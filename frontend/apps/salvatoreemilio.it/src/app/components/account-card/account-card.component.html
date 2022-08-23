@@ -9,7 +9,7 @@
     shape="circle"
   ></p-avatar>
   <div class="user-info-container">
-    <p class="user-name">{{ user?.name }} {{ user.surname }}</p>
+    <p class="user-name">{{ user.name }} {{ user.surname }}</p>
     <p class="user-email">{{ user.email }}</p>
     <ng-container *ngIf="user.selected">
       <p-divider></p-divider>
@@ -20,7 +20,7 @@
           user.current ? 'Gestisci l\'account' : 'Utilizza questo account'
         }}"
         class="p-button-sm p-button-text user-cta-button"
-        (click)="user?.current ? navigateToAccount() : switchAccount()"
+        (click)="user.current ? navigateToAccount() : switchAccount()"
       ></button>
     </ng-container>
   </div>

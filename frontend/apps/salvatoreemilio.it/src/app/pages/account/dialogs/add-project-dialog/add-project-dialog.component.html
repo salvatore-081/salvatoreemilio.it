@@ -107,8 +107,8 @@
             <button
               pButton
               [disabled]="
-                projectFormGroup.controls['newLinkName']?.value?.length < 1 ||
-                projectFormGroup.controls['newLinkURL']?.value?.length < 5
+                projectFormGroup.controls['newLinkName'].value?.length < 1 ||
+                projectFormGroup.controls['newLinkURL'].value?.length < 5
               "
               class="p-button-rounded p-button-text"
               type="button"

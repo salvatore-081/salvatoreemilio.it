@@ -1,6 +1,6 @@
 {
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "root": "apps/salvatoreemilio.it",
   "sourceRoot": "apps/salvatoreemilio.it/src",
   "prefix": "frontend",
   "targets": {
@@ -24,7 +24,12 @@
           "apps/salvatoreemilio.it/src/resources/themes/default/theme.scss",
           "node_modules/primeng/resources/primeng.min.css"
         ],
-        "scripts": []
+        "scripts": [],
+        "allowedCommonJsDependencies": [
+          "js-sha256",
+          "base64-js",
+          "subscriptions-transport-ws"
+        ]
       },
       "configurations": {
         "production": {
@@ -90,7 +95,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/salvatoreemilio.it"],
       "options": {
-        "jestConfig": "apps/salvatoreemilio.it/jest.config.js",
+        "jestConfig": "apps/salvatoreemilio.it/jest.config.ts",
         "passWithNoTests": true
       }
     }
