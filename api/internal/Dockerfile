@@ -1,12 +1,17 @@
-FROM golang:latest
+FROM golang:latest AS builder
 
 WORKDIR /app
 
-COPY . ./
+COPY . .
 
 RUN go mod download
 
-RUN go build -o /internal-api
+RUN CGO_ENABLED=0 go build -o /internal-api
 
-CMD ["/internal-api"]
+FROM scratch
 
+COPY --from=builder /internal-api /app/internal-api
+
+WORKDIR /app
+
+ENTRYPOINT ["/app/internal-api"]
