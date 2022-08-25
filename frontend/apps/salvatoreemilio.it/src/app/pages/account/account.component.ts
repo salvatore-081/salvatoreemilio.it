@@ -7,7 +7,7 @@ import { EMPTY, finalize, first, Observable, switchMap, take, tap } from 'rxjs';
 import { Project } from '../../models';
 import { GraphqlService } from '../../services/graphql.service';
 import { AccountStore } from './account.store';
-import { AddProjectDialogComponent } from './dialogs/add-project-dialog/add-project-dialog.component';
+import { ProjectDialogComponent } from './dialogs/project-dialog/project-dialog.component';
 import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
 
 @Component({
@@ -132,9 +132,19 @@ export class AccountComponent implements OnInit {
   }
 
   openAddProjectDialog(): void {
-    this.dialogService.open(AddProjectDialogComponent, {
-      styleClass: 'add-project-dialog',
+    this.dialogService.open(ProjectDialogComponent, {
+      styleClass: 'project-dialog',
       header: 'Add project',
+    });
+  }
+
+  editProject(project: Project): void {
+    this.dialogService.open(ProjectDialogComponent, {
+      styleClass: 'project-dialog',
+      header: 'Edit project',
+      data: {
+        project: project,
+      },
     });
   }
 

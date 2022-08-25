@@ -1,0 +1,164 @@
+<div class="project-container">
+  <form
+    [formGroup]="projectFormGroup"
+    (ngSubmit)="update ? updateProject() : addProject()"
+    class="project-form"
+  >
+    <div class="input-container input-title-container">
+      <label for="title" class="input-label input-title-label">Title</label>
+      <input formControlName="title" id="title" type="text" pInputText />
+      <small
+        [ngStyle]="{
+          visibility:
+            projectFormGroup.controls['title'].invalid &&
+            projectFormGroup.controls['title'].dirty
+              ? 'visible'
+              : 'hidden'
+        }"
+        class="invalid-input-label p-error block"
+        >Min length: 3</small
+      >
+    </div>
+    <div class="input-container input-description-container">
+      <label for="description" class="input-label input-description-label"
+        >Description</label
+      >
+      <textarea
+        formControlName="description"
+        id="description"
+        rows="2"
+        cols="30"
+        pInputTextarea
+        [autoResize]="true"
+      ></textarea>
+      <small
+        [ngStyle]="{
+          visibility:
+            projectFormGroup.controls['description'].invalid &&
+            projectFormGroup.controls['description'].dirty
+              ? 'visible'
+              : 'hidden'
+        }"
+        class="invalid-input-label p-error block"
+        >Min length: 3</small
+      >
+    </div>
+    <div class="row-container">
+      <div class="input-container input-image-container">
+        <label for="image" class="input-label">Image</label>
+        <div class="image-container">
+          <img
+            id="image"
+            class="image"
+            src="{{
+              projectFormGroup.controls['image'].value!.length > 0
+                ? 'data:image/png;base64,' +
+                  projectFormGroup.controls['image'].value
+                : 'assets/placeholder.png'
+            }}"
+          />
+          <p-fileUpload
+            class="file-upload"
+            #fileUpload
+            [customUpload]="true"
+            (uploadHandler)="addImage($event, fileUpload)"
+            name="myfile[]"
+            [auto]="true"
+            [disabled]="false"
+            mode="basic"
+            accept="image/*"
+            [maxFileSize]="2500000"
+            chooseLabel=""
+            [fileLimit]="1"
+            [chooseIcon]="'pi pi-upload'"
+          ></p-fileUpload>
+        </div>
+      </div>
+      <div class="input-container">
+        <label for="tags" class="input-label">Tags</label>
+        <p-chips formControlName="tags" separator=","></p-chips>
+      </div>
+    </div>
+    <div class="input-container input-links-container">
+      <label class="input-label input-links-label">Links</label>
+      <div class="table-container">
+        <div class="add-link-container">
+          <div class="add-link-inputs-container">
+            <span class="p-float-label">
+              <input
+                formControlName="newLinkName"
+                type="text"
+                id="link-name"
+                pInputText
+              />
+              <label for="link-name">Name</label>
+            </span>
+            <span class="p-float-label">
+              <input
+                type="text"
+                formControlName="newLinkURL"
+                id="link-url"
+                pInputText
+              />
+              <label for="link-url">URL</label>
+            </span>
+          </div>
+          <div class="add-link-button-container">
+            <button
+              pButton
+              [disabled]="
+                projectFormGroup.controls['newLinkName'].value?.length < 1 ||
+                projectFormGroup.controls['newLinkURL'].value?.length < 5
+              "
+              class="p-button-rounded p-button-text"
+              type="button"
+              icon="pi pi-plus-circle"
+              (click)="addLink()"
+            ></button>
+          </div>
+        </div>
+        <p-table
+          class="table"
+          [value]="projectFormGroup.controls['links'].value"
+          [reorderableColumns]="true"
+          responsiveLayout="scroll"
+        >
+          <ng-template pTemplate="body" let-rowData let-index="rowIndex">
+            <tr [pReorderableRow]="index">
+              <td class="first-td">
+                <span class="pi pi-bars" [pReorderableRowHandle]="index"></span>
+              </td>
+              <td class="url-label-container">
+                {{ rowData['url'] }}
+              </td>
+              <td class="name-label-container">
+                {{ rowData['name'] }}
+              </td>
+              <td class="button-container last-td">
+                <button
+                  pButton
+                  class="p-button-rounded p-button-text delete-button"
+                  type="button"
+                  icon="pi pi-times-circle"
+                  (click)="deleteLink(index)"
+                ></button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+    <div class="submit-button-container">
+      <p-button
+        styleClass="full-width-max-width-768px"
+        [disabled]="
+          projectFormGroup.pristine ||
+          projectFormGroup.invalid ||
+          submitButtonDisabled
+        "
+        type="submit"
+        label="Submit"
+      ></p-button>
+    </div>
+  </form>
+</div>
