@@ -24,7 +24,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { ButtonModule } from 'primeng/button';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule } from '@ngrx/component';
 import { MessageService } from 'primeng/api';
 import { SkeletonModule } from 'primeng/skeleton';
 import { ProjectsEffects } from './state/effects/projects.effects';
@@ -62,7 +62,7 @@ const PRIMENG_MODULES = [
     AppRoutingModule,
     BrowserAnimationsModule,
     KeycloakAngularModule,
-    ReactiveComponentModule,
+    LetModule,
     ApolloModule,
     HttpClientModule,
     StoreModule.forRoot(APP_REDUCERS),

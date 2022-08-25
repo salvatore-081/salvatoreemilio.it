@@ -31,3 +31,16 @@ export interface AddProjectInput {
   tags?: string[];
   links?: Link[];
 }
+
+export interface UpdateProjectInputPayload {
+  title?: string;
+  description?: string;
+  image?: string;
+  tags?: string[];
+  links?: Link[];
+}
+
+export interface UpdateProjectInput {
+  id: string;
+  payload: UpdateProjectInputPayload;
+}

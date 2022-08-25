@@ -1,8 +1,8 @@
-<div class="add-project-container">
+<div class="project-container">
   <form
     [formGroup]="projectFormGroup"
-    (ngSubmit)="addProject()"
-    class="add-project-form"
+    (ngSubmit)="update ? updateProject() : addProject()"
+    class="project-form"
   >
     <div class="input-container input-title-container">
       <label for="title" class="input-label input-title-label">Title</label>

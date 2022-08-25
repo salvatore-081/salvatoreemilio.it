@@ -1,20 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { SELECT_USER_EMAIL } from 'apps/salvatoreemilio.it/src/app/app.state';
 import { GraphqlService } from 'apps/salvatoreemilio.it/src/app/services/graphql.service';
 import { UtilsService } from 'apps/salvatoreemilio.it/src/app/services/utils.service';
 import { MessageService } from 'primeng/api';
-import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FileUpload } from 'primeng/fileupload';
 import { first, switchMap, take } from 'rxjs';
 
 @Component({
-  templateUrl: './add-project-dialog.component.html',
-  styleUrls: ['./add-project-dialog.component.scss'],
+  templateUrl: './project-dialog.component.html',
+  styleUrls: ['./project-dialog.component.scss'],
 })
-export class AddProjectDialogComponent {
+export class ProjectDialogComponent implements OnInit {
+  update: boolean = false;
+
   projectFormGroup: FormGroup = new FormGroup({
+    id: new FormControl(''),
     title: new FormControl('', [Validators.required, Validators.minLength(3)]),
     description: new FormControl(''),
     image: new FormControl(''),
@@ -29,8 +32,66 @@ export class AddProjectDialogComponent {
     private utilsService: UtilsService,
     private messageService: MessageService,
     private graphqlService: GraphqlService,
-    private store: Store
+    private store: Store,
+    public config: DynamicDialogConfig
   ) {}
+
+  ngOnInit(): void {
+    if (this.config?.data?.project) {
+      this.update = true;
+      this.projectFormGroup.patchValue({
+        id: this.config.data.project.id,
+        title: this.config.data.project.title,
+        description: this.config.data.project?.description ?? '',
+        image: this.config.data.project?.image ?? '',
+        tags: this.config.data.project?.tags ?? [],
+        links: this.config.data.project?.links ?? [],
+      });
+    }
+  }
+
+  updateProject(): void {
+    this.submitButtonDisabled = true;
+    this.graphqlService
+      .updateProject({
+        id: this.projectFormGroup.controls['id'].value,
+        payload: {
+          ...(this.projectFormGroup.controls['description'].dirty
+            ? {
+                description:
+                  this.projectFormGroup.controls['description'].value,
+              }
+            : {}),
+          ...(this.projectFormGroup.controls['image'].dirty
+            ? { image: this.projectFormGroup.controls['image'].value }
+            : {}),
+          ...(this.projectFormGroup.controls['tags'].dirty
+            ? { tags: this.projectFormGroup.controls['tags'].value }
+            : {}),
+          ...(this.projectFormGroup.controls['links'].dirty
+            ? { links: this.projectFormGroup.controls['links'].value }
+            : {}),
+        },
+      })
+      .pipe(first())
+      .subscribe({
+        next: (next) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Project updated!',
+          });
+          this.ref.close();
+        },
+        error: (error) => {
+          console.error('updateProject error', error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Ops... qualcosa è andato storto!',
+          });
+          this.submitButtonDisabled = false;
+        },
+      });
+  }
 
   addProject(): void {
     this.submitButtonDisabled = true;

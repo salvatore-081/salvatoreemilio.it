@@ -2,7 +2,12 @@ import { Injectable } from '@angular/core';
 import { ApolloQueryResult, FetchResult } from '@apollo/client/core';
 import { Apollo, gql, MutationResult } from 'apollo-angular';
 import { Observable } from 'rxjs';
-import { AddProjectInput, Project, ProjectFeed } from '../models';
+import {
+  AddProjectInput,
+  Project,
+  ProjectFeed,
+  UpdateProjectInput,
+} from '../models';
 import { User, UserListItem } from '../models/user';
 
 const GET_USER_LIST = gql<
@@ -119,6 +124,24 @@ const WATCH_PROJECTS = gql<{ watchProjects: ProjectFeed }, { email: string }>`
         }
         index
       }
+    }
+  }
+`;
+
+const UPDATE_PROJECT = gql<{ project: Project }, { input: UpdateProjectInput }>`
+  mutation updateProject($input: UpdateProjectInput!) {
+    updateProject(input: $input) {
+      id
+      email
+      title
+      description
+      image
+      tags
+      links {
+        name
+        url
+      }
+      index
     }
   }
 `;
@@ -277,6 +300,17 @@ export class GraphqlService {
       query: WATCH_PROJECTS,
       variables: {
         email: email,
+      },
+    });
+  }
+
+  updateProject(
+    input: UpdateProjectInput
+  ): Observable<MutationResult<{ project: Project }>> {
+    return this.apollo.mutate({
+      mutation: UPDATE_PROJECT,
+      variables: {
+        input: input,
       },
     });
   }

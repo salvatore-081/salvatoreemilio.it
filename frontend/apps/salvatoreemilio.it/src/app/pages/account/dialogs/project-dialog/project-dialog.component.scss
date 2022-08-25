@@ -1,4 +1,4 @@
-.add-project-container {
+.project-container {
   @media screen and (max-width: 768.9px) {
     padding: 16px 0;
   }
@@ -6,38 +6,35 @@
     padding: 32px 16px;
   }
 }
-.add-project-container .add-project-form {
+.project-container .project-form {
   display: flex;
   flex-direction: column;
   gap: 32px;
 }
-.add-project-container .add-project-form .input-container {
+.project-container .project-form .input-container {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
-.add-project-container .add-project-form .input-container .input-label {
+.project-container .project-form .input-container .input-label {
   padding: 0 0 0 12px;
 }
-.add-project-container .add-project-form .input-container .invalid-input-label {
+.project-container .project-form .input-container .invalid-input-label {
   margin-top: -8px;
   padding: 0 0 0 12px;
 }
-.add-project-container
-  .add-project-form
-  .input-image-container
-  .image-container {
+.project-container .project-form .input-image-container .image-container {
   position: relative;
 }
-.add-project-container
-  .add-project-form
+.project-container
+  .project-form
   .input-image-container
   .image-container
   .image {
   width: 100%;
 }
-.add-project-container
-  .add-project-form
+.project-container
+  .project-form
   .input-image-container
   .image-container
   .file-upload {
@@ -45,7 +42,7 @@
   bottom: 5%;
   right: 2%;
 }
-.add-project-container .add-project-form .row-container {
+.project-container .project-form .row-container {
   display: flex;
   gap: 32px;
   @media screen and (max-width: 768.9px) {
@@ -55,21 +52,21 @@
     flex-direction: row;
   }
 }
-.add-project-container .add-project-form .row-container .input-container {
+.project-container .project-form .row-container .input-container {
   @media not screen and (max-width: 768.9px) {
     flex-basis: 50%;
   }
 }
-.add-project-container .add-project-form .input-container .table-container {
+.project-container .project-form .input-container .table-container {
   display: flex;
   flex-direction: column;
   gap: 0;
 }
-.add-project-container .add-project-form .input-container .table-container {
+.project-container .project-form .input-container .table-container {
   padding: 24px 0 0 0;
 }
-.add-project-container
-  .add-project-form
+.project-container
+  .project-form
   .input-container
   .table-container
   .add-link-container {
@@ -82,8 +79,8 @@
     padding: 0 0 8px;
   }
 }
-.add-project-container
-  .add-project-form
+.project-container
+  .project-form
   .input-container
   .table-container
   .add-link-container
@@ -99,8 +96,8 @@
     gap: 24px;
   }
 }
-.add-project-container
-  .add-project-form
+.project-container
+  .project-form
   .input-container
   .table-container
   .add-link-container
@@ -108,30 +105,30 @@
   flex: 0.1;
   text-align: right;
 }
-.add-project-container
-  .add-project-form
+.project-container
+  .project-form
   .input-container
   .table-container
   .table
   .url-label-container,
-.add-project-container
-  .add-project-form
+.project-container
+  .project-form
   .input-container
   .table-container
   .table
   .name-label-container {
   text-align: center;
 }
-.add-project-container
-  .add-project-form
+.project-container
+  .project-form
   .input-container
   .table-container
   .table
   .button-container {
   text-align: right;
 }
-.add-project-container
-  .add-project-form
+.project-container
+  .project-form
   .input-container
   .table-container
   .table
@@ -139,23 +136,23 @@
   .delete-button {
   color: var(--danger-color);
 }
-.add-project-container
-  .add-project-form
+.project-container
+  .project-form
   .input-container
   .table-container
   .table
   .first-td {
   padding: 1rem 1rem 1rem 0;
 }
-.add-project-container
-  .add-project-form
+.project-container
+  .project-form
   .input-container
   .table-container
   .table
   .last-td {
   padding: 1rem 0 1rem 1rem;
 }
-.add-project-container .add-project-form .submit-button-container {
+.project-container .project-form .submit-button-container {
   margin-top: 54px;
   text-align: right;
 }

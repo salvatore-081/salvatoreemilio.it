@@ -6,12 +6,12 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule } from '@ngrx/component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
 import { FileUploadModule } from 'primeng/fileupload';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
-import { AddProjectDialogComponent } from './dialogs/add-project-dialog/add-project-dialog.component';
+import { ProjectDialogComponent } from './dialogs/project-dialog/project-dialog.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ChipsModule } from 'primeng/chips';
 import { TableModule } from 'primeng/table';
@@ -41,14 +41,14 @@ const PRIMENG_MODULES = [
 @NgModule({
   declarations: [
     AccountComponent,
-    AddProjectDialogComponent,
+    ProjectDialogComponent,
     ConfirmDialogComponent,
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     AccountRoutingModule,
-    ReactiveComponentModule,
+    LetModule,
     ...PRIMENG_MODULES,
     ...MODULES,
   ],

@@ -6812,7 +6812,7 @@ p-treeselect.ng-invalid.ng-dirty > .p-treeselect {
   box-shadow: inset 0 -2px 0 0 #3b82f6;
 }
 
-.add-project-dialog {
+.project-dialog {
   @media screen and (max-width: 768.9px) {
     width: 100vw;
     height: 100vh;
@@ -6821,7 +6821,7 @@ p-treeselect.ng-invalid.ng-dirty > .p-treeselect {
     width: 70vw;
   }
 }
-.add-project-dialog .p-dialog-header {
+.project-dialog .p-dialog-header {
   @media screen and (max-width: 768.9px) {
     padding: 3rem 1.5rem 1.5rem;
   }
