@@ -1,9 +1,26 @@
 version: "3.8"
 
 services:
-  rethinkdb:
+  private-api:
+    image: salvatoreemilio/salvatoreemilio.it_private-api:latest
+    container_name: private-api
+    restart: unless-stopped
+    volumes:
+      - ./config.json:/app/config.json
+    networks:
+      - api
+      - api-db
+    depends_on:
+      - rethinkdb
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
+        max-file: "3"
+        tag: "{{.Name}}"
+  private-api-rethinkdb:
     image: rethinkdb:latest
-    container_name: rethinkdb
+    container_name: private-api-rethinkdb
     restart: unless-stopped
     volumes:
       - ./rethinkdb.conf:/etc/rethinkdb/default.conf
@@ -23,6 +40,9 @@ volumes:
     external: true
 
 networks:
+  api:
+    external: true
+    name: se-api
   api-db:
     external: true
     name: se-api-db

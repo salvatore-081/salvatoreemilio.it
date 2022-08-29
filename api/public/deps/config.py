@@ -40,7 +40,7 @@ class Config():
                 config = load(c)
                 self.logLevel = config["logLevel"].upper() if self.checkLogLevel(config["logLevel"]) else "DEBUG"
                 self.workers = config["workers"] if (config["workers"] is not None and config["workers"].isnumeric() and int(config["workers"]) > 0) else ((cpu_count() * 2) + 1)
-                self.bind = f"0.0.0.0:{config['port'] if config['port'].isnumeric() else '14021'}"
+                self.bind = f"0.0.0.0:{config['port'] if config['port'].isnumeric() else '14300'}"
                 self.gRPCServer = GRPCServerConfig(config["gRPCServer"])
                 self.gunicorn = GunicornConfig(config["gunicorn"])
                 self.keycloak = KeycloakConfig(config["keycloak"])

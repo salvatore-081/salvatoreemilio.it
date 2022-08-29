@@ -38,7 +38,7 @@ services:
         tag: "{{.Name}}"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.services.public-api_nginx.loadbalancer.server.port=14020"
+      - "traefik.http.services.public-api_nginx.loadbalancer.server.port=14100"
       - "traefik.http.routers.public-api_nginx.rule=Host(`api.salvatoreemilio.it`) || Host(`www.api.salvatoreemilio.it`)"
       - "traefik.http.routers.public-api_nginx.tls.certresolver=myresolver"
       - "traefik.http.routers.public-api_nginx.entrypoints=websecure"

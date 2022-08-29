@@ -1,0 +1,76 @@
+version: "3.8"
+
+services:
+  vaultwarden:
+    image: "vaultwarden/server:1.25.2-alpine"
+    container_name: "vaultwarden"
+    restart: unless-stopped
+    environment:
+      - WEBSOCKET_ENABLED=false
+      - DATABASE_URL=postgresql://vaultwarden:${POSTGRES_PASSWORD}@vaultwarden-postgres:16200/vaultwarden
+      # - ADMIN_TOKEN=${ADMIN_TOKEN}
+      - ROCKET_PORT=16000
+      - WEBSOCKET_PORT=16100
+      - DOMAIN=${DOMAIN}
+      - INVITATION_ORG_NAME=${INVITATION_ORG_NAME}
+      - SIGNUPS_ALLOWED=false
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_FROM=${SMTP_FROM}
+      - SMTP_FROM_NAME=${SMTP_FROM_NAME}
+      - SMTP_SECURITY=force_tls
+      - SMTP_PORT=465
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+    networks:
+      - default
+      - vaultwarden
+    volumes:
+      - se-vaultwarden:/data
+    depends_on:
+      - postgres
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
+        max-file: "3"
+        tag: "{{.Name}}"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.vaultwarden.rule=Host(`secure.salvatoreemilio.it`) || Host(`www.secure.salvatoreemilio.it`)"
+      - "traefik.http.services.vaultwarden.loadbalancer.server.port=16000"
+      - "traefik.http.routers.vaultwarden.tls.certresolver=myresolver"
+      - "traefik.http.routers.vaultwarden.entrypoints=websecure"
+      - "traefik.docker.network=se-default"
+
+  postgres:
+    image: postgres:latest
+    container_name: vaultwarden-postgres
+    command: [ "-p 16200" ]
+    restart: unless-stopped
+    volumes:
+      - se-vaultwarden-postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: vaultwarden
+      POSTGRES_USER: vaultwarden
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - vaultwarden
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
+        max-file: "3"
+        tag: "{{.Name}}"
+
+volumes:
+  se-vaultwarden:
+    external: true
+  se-vaultwarden-postgres:
+    external: true
+networks:
+  default:
+    external: true
+    name: se-default
+  vaultwarden:
+    external: true
+    name: se-vaultwarden
