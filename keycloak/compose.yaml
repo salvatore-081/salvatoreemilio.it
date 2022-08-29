@@ -4,13 +4,7 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:latest
     container_name: keycloak
-    entrypoint:
-      [
-        "/opt/keycloak/bin/kc.sh",
-        "start",
-        "--hostname-strict-https=false",
-        "--spi-login-protocol-openid-connect-legacy-logout-redirect-uri=true",
-      ]
+    entrypoint: ["/opt/keycloak/bin/kc.sh", "start", "--hostname-strict-https=false", "--spi-login-protocol-openid-connect-legacy-logout-redirect-uri=true"]
     restart: unless-stopped
     environment:
       # KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
@@ -49,7 +43,7 @@ services:
   postgres:
     image: postgres:latest
     container_name: postgres
-    command: ["-p 12100"]
+    command: [ "-p 13010" ]
     restart: unless-stopped
     volumes:
       - se-keycloak-postgres:/var/lib/postgresql/data
