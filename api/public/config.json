@@ -1,13 +1,10 @@
 {
   "logLevel": "DEBUG",
   "workers": "auto",
-  "port": "14300",
+  "port": "14200",
   "gRPCServer": {
     "host": "private-api",
-    "port": "14400"
-  },
-  "gunicorn": {
-    "port": "14200"
+    "port": "14300"
   },
   "keycloak": {
     "realm": "se",
