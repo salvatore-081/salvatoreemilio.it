@@ -4,4 +4,4 @@
 __pycache__/
 *.py[cod]
 *$py.class
-tools/do-backup/data/**
+backup/do/data/**

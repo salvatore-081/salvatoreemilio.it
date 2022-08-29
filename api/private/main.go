@@ -63,8 +63,8 @@ func main() {
 	// PORT
 	port := config.Port
 	if len(port) == 0 {
-		log.Info().Msg("port is not set, defaulting to 14010")
-		port = "14010"
+		log.Info().Msg("port is not set, defaulting to 14300")
+		port = "14300"
 	}
 
 	// DEPENDECIES

@@ -26,6 +26,8 @@ http:
               - "portainer.salvatoreemilio.it"
               - "api.salvatoreemilio.it"
               - "dev.salvatoreemilio.it"
+              - "secure.salvatoreemilio.it"
+              - "office.salvatoreemilio.it"
 
 entryPoints:
   web:

@@ -1,9 +1,9 @@
 {
-  "port": "14010",
+  "port": "14300",
   "logLevel": "DEBUG",
   "rethinkDB": {
-    "host": "rethinkdb",
-    "port": "13020",
+    "host": "private-api-rethinkdb",
+    "port": "14400",
     "database": {
       "name": "salvatoreemilio",
       "tables": {

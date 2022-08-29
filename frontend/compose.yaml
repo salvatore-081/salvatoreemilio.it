@@ -18,7 +18,7 @@ services:
         tag: "{{.Name}}"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.services.nginx.loadbalancer.server.port=15000"
+      - "traefik.http.services.nginx.loadbalancer.server.port=17000"
       - "traefik.http.routers.nginx.rule=Host(`salvatoreemilio.it`) || Host(`www.salvatoreemilio.it`)"
       - "traefik.http.routers.nginx.tls.certresolver=myresolver"
       - "traefik.http.routers.nginx.entrypoints=websecure"

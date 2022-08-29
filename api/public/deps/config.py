@@ -9,13 +9,6 @@ class GRPCServerConfig():
         for k in gRPCServerConfig:
             self.__setattr__(k, gRPCServerConfig[k])
 
-class GunicornConfig():
-    port: str
-
-    def __init__(self, gunicornConfig: dict[str, str]) -> None:
-        for k in gunicornConfig:
-            self.__setattr__(k, gunicornConfig[k])
-
 class KeycloakConfig():
     realm: str
     url: str
@@ -31,7 +24,6 @@ class Config():
     workers: int
     bind: str
     gRPCServer: GRPCServerConfig
-    gunicorn: GunicornConfig
     keycloak: KeycloakConfig
 
     def __init__(self, path: str) -> None:
@@ -40,9 +32,8 @@ class Config():
                 config = load(c)
                 self.logLevel = config["logLevel"].upper() if self.checkLogLevel(config["logLevel"]) else "DEBUG"
                 self.workers = config["workers"] if (config["workers"] is not None and config["workers"].isnumeric() and int(config["workers"]) > 0) else ((cpu_count() * 2) + 1)
-                self.bind = f"0.0.0.0:{config['port'] if config['port'].isnumeric() else '14021'}"
+                self.bind = f"0.0.0.0:{config['port'] if config['port'].isnumeric() else '14200'}"
                 self.gRPCServer = GRPCServerConfig(config["gRPCServer"])
-                self.gunicorn = GunicornConfig(config["gunicorn"])
                 self.keycloak = KeycloakConfig(config["keycloak"])
         except Exception as e:
             raise e

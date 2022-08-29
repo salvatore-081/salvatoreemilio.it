@@ -1,17 +1,17 @@
-name: CI/CD internal-api
+name: CI/CD private-api
 
 on:
   push:
     branches: [dev]
     paths:
-      - "api/internal/**"
+      - "api/private/**"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: api/internal
+        working-directory: api/private
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -28,10 +28,10 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: api/internal
-          file: api/internal/Dockerfile
+          context: api/private
+          file: api/private/Dockerfile
           push: true
-          tags: salvatoreemilio/salvatoreemilio.it_internal-api:latest,salvatoreemilio/salvatoreemilio.it_internal-api:0.0.20
+          tags: salvatoreemilio/salvatoreemilio.it_private-api:latest,salvatoreemilio/salvatoreemilio.it_private-api:0.0.22
   deploy:
     needs: [build]
     runs-on: ubuntu-latest
@@ -48,7 +48,7 @@ jobs:
           ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
             cd dev/salvatoreemilio.it/;
             git pull;
-            cd api/internal/;
+            cd api/private/;
             docker compose pull;
             docker compose down;
             docker compose up -d;
