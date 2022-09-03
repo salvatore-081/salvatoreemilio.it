@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Project } from '../../models';
+import { Project, ProjectTag } from '../../models';
+import { UtilsService } from '../../services/utils.service';
 
 @Component({
   selector: 'project-card',
@@ -8,7 +9,16 @@ import { Project } from '../../models';
 })
 export class ProjectCardComponent implements OnInit {
   @Input() project: Project | undefined = undefined;
-  constructor() {}
+
+  constructor(private utils: UtilsService) {}
 
   ngOnInit(): void {}
+
+  getProjectTagInfo(key: string, size: string): ProjectTag | undefined {
+    return this.utils.getProjectTagInfo(key, size);
+  }
+
+  goToUrl(url: string): void {
+    window.open(url, '_blank');
+  }
 }

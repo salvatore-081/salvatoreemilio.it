@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, switchMap } from 'rxjs';
+import * as CONSTANTS from '../app.constants';
+import { ProjectTag } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -21,5 +23,17 @@ export class UtilsService {
         return readerSubject.asObservable();
       })
     );
+  }
+
+  getProjectTagInfo(key: string, size: string): ProjectTag | undefined {
+    let info: ProjectTag | undefined = CONSTANTS.PROJECT_TAGS.get(
+      key.toLowerCase().replace(/\./g, '-')
+    );
+
+    if (!info) {
+      return undefined;
+    }
+
+    return { ...info, iconClass: `custom-icon ${size} ${info.iconClass}` };
   }
 }

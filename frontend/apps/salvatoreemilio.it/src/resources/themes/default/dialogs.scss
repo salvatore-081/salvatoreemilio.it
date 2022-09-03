@@ -1,0 +1,28 @@
+.project-dialog {
+  @media screen and (max-width: 768.9px) {
+    width: 100vw;
+    height: 100vh;
+  }
+  @media not screen and (max-width: 768.9px) {
+    width: 70vw;
+  }
+}
+.project-dialog .p-dialog-header {
+  @media screen and (max-width: 768.9px) {
+    padding: 3rem 1.5rem 1.5rem;
+  }
+}
+.confirm-dialog {
+  @media screen and (max-width: 768.9px) {
+    width: 100vw;
+    height: 100vh;
+  }
+  @media not screen and (max-width: 768.9px) {
+    width: 36vw;
+  }
+}
+.confirm-dialog .p-dialog-header {
+  @media screen and (max-width: 768.9px) {
+    padding: 3rem 1.5rem 1.5rem;
+  }
+}

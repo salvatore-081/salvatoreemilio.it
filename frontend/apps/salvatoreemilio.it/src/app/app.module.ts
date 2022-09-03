@@ -113,7 +113,7 @@ const PRIMENG_MODULES = [
         );
 
         return {
-          cache: new InMemoryCache(),
+          cache: new InMemoryCache({ addTypename: false }),
           link: LINK,
         };
       },

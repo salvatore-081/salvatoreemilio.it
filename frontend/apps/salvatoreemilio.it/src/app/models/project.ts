@@ -44,3 +44,8 @@ export interface UpdateProjectInput {
   id: string;
   payload: UpdateProjectInputPayload;
 }
+
+export interface ProjectTag {
+  iconClass: string;
+  url: string;
+}

@@ -86,7 +86,7 @@
           <div class="add-link-inputs-container">
             <span class="p-float-label">
               <input
-                formControlName="newLinkName"
+                [formControl]="$any(linkFormGroup.controls['name'])"
                 type="text"
                 id="link-name"
                 pInputText
@@ -96,7 +96,7 @@
             <span class="p-float-label">
               <input
                 type="text"
-                formControlName="newLinkURL"
+                [formControl]="$any(linkFormGroup.controls['url'])"
                 id="link-url"
                 pInputText
               />
@@ -106,10 +106,7 @@
           <div class="add-link-button-container">
             <button
               pButton
-              [disabled]="
-                projectFormGroup.controls['newLinkName'].value?.length < 1 ||
-                projectFormGroup.controls['newLinkURL'].value?.length < 5
-              "
+              [disabled]="linkFormGroup.pristine || linkFormGroup.invalid"
               class="p-button-rounded p-button-text"
               type="button"
               icon="pi pi-plus-circle"
@@ -123,16 +120,16 @@
           [reorderableColumns]="true"
           responsiveLayout="scroll"
         >
-          <ng-template pTemplate="body" let-rowData let-index="rowIndex">
+          <ng-template pTemplate="body" let-row let-index="rowIndex">
             <tr [pReorderableRow]="index">
               <td class="first-td">
                 <span class="pi pi-bars" [pReorderableRowHandle]="index"></span>
               </td>
               <td class="url-label-container">
-                {{ rowData['url'] }}
+                {{ row['url'] }}
               </td>
               <td class="name-label-container">
-                {{ rowData['name'] }}
+                {{ row['name'] }}
               </td>
               <td class="button-container last-td">
                 <button
