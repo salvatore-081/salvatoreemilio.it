@@ -24,6 +24,8 @@ services:
         `) || Host(`www.portainer.salvatoreemilio.it`)"
       - "traefik.http.routers.portainer.tls.certresolver=myresolver"
       - "traefik.http.routers.portainer.entrypoints=websecure"
+      - "traefik.http.routers.portainer.middlewares=error-middleware"
+
 volumes:
   se-portainer:
     external: true

@@ -1,5 +1,5 @@
 log:
-  level: DEBUG
+  level: INFO
 
 certificatesResolvers:
   myresolver:
@@ -28,6 +28,7 @@ http:
               - "dev.salvatoreemilio.it"
               - "secure.salvatoreemilio.it"
               - "office.salvatoreemilio.it"
+              - 'error.salvatoreemilio.it'
 
 entryPoints:
   web:

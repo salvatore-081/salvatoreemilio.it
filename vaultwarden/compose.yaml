@@ -41,6 +41,8 @@ services:
       - "traefik.http.routers.vaultwarden.tls.certresolver=myresolver"
       - "traefik.http.routers.vaultwarden.entrypoints=websecure"
       - "traefik.docker.network=se-default"
+      - "traefik.http.routers.vaultwarden.middlewares=error-middleware"
+
 
   postgres:
     image: postgres:latest
