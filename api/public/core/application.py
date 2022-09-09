@@ -101,7 +101,7 @@ class Application():
                 )
 
             graphqlApp = GraphQL(make_executable_schema(
-                SCHEMA, newQuery(self.appState), newMutation(self.appState), newSubscription(self.appState), newBase64Scalar()), keepalive=None)
+                SCHEMA, newQuery(self.appState), newMutation(self.appState), newSubscription(self.appState), newBase64Scalar()))
 
             app.mount("/graphql", graphqlApp)
             return app
