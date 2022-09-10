@@ -65,6 +65,11 @@ export class ProjectDialogComponent implements OnInit {
       .updateProject({
         id: this.projectFormGroup.controls['id'].value,
         payload: {
+          ...(this.projectFormGroup.controls['title'].dirty
+            ? {
+                title: this.projectFormGroup.controls['title'].value,
+              }
+            : {}),
           ...(this.projectFormGroup.controls['description'].dirty
             ? {
                 description:
