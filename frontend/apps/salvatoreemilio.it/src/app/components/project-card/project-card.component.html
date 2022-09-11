@@ -17,19 +17,33 @@
       *ngIf="project?.tags?.length && project!.tags!.length > 0"
       class="project-tags-container"
     >
-      <div class="project-tag" *ngFor="let tag of project!.tags">{{ tag }}</div>
+      <ng-container *ngFor="let tag of project!.tags">
+        <i
+          [pTooltip]="tag"
+          tooltipPosition="top"
+          *ngIf="getProjectTagInfo(tag, 'm') as tagInfo; else NO_ICON"
+          class="project-tag-icon pi"
+          [ngClass]="tagInfo.iconClass"
+          (click)="goToUrl(tagInfo.url)"
+        ></i>
+        <ng-template #NO_ICON>
+          <div class="project-tag">{{ tag }}</div>
+        </ng-template>
+      </ng-container>
     </div>
     <div
       *ngIf="project?.links?.length && project!.links!.length > 0"
       class="project-links-container"
     >
-      <a
-        class="project-link"
+      <button
         *ngFor="let link of project!.links"
-        target="_blank"
-        href="{{ link.url }}"
-        >{{ link.name }}</a
-      >
+        pButton
+        type="button"
+        [icon]="getProjectTagInfo(link.name, 's')?.iconClass ?? ''"
+        iconPos="left"
+        [label]="link!.name"
+        (click)="goToUrl(link.url)"
+      ></button>
     </div>
   </div>
 </div>

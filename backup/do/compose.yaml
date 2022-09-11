@@ -16,7 +16,7 @@ services:
       - se-portainer:/app/volumes/portainer
       - se-traefik-letsencrypt:/app/volumes/traefik-letsencrypt
       - se-vaultwarden:/app/volumes/vaultwarden
-      - se-vaultwarden-postgres:/app/volumes/vaultwarden
+      - se-vaultwarden-postgres:/app/volumes/vaultwarden-postgres
       - ./data:/app/data/
       - ./config.json:/app/config.json
     logging:

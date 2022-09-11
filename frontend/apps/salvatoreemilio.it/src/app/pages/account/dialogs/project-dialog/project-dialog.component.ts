@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { SELECT_USER_EMAIL } from 'apps/salvatoreemilio.it/src/app/app.state';
 import { GraphqlService } from 'apps/salvatoreemilio.it/src/app/services/graphql.service';
@@ -23,9 +23,18 @@ export class ProjectDialogComponent implements OnInit {
     image: new FormControl(''),
     tags: new FormControl([]),
     links: new FormControl([]),
-    newLinkName: new FormControl(''),
-    newLinkURL: new FormControl(''),
   });
+
+  linkFormGroup: FormGroup = new FormGroup({
+    name: new FormControl('', [Validators.required, Validators.minLength(1)]),
+    url: new FormControl('', [
+      Validators.required,
+      Validators.pattern(
+        /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/
+      ),
+    ]),
+  });
+
   submitButtonDisabled: boolean = false;
   constructor(
     public ref: DynamicDialogRef,
@@ -45,7 +54,7 @@ export class ProjectDialogComponent implements OnInit {
         description: this.config.data.project?.description ?? '',
         image: this.config.data.project?.image ?? '',
         tags: this.config.data.project?.tags ?? [],
-        links: this.config.data.project?.links ?? [],
+        links: [...this.config.data.project?.links] ?? [],
       });
     }
   }
@@ -56,6 +65,11 @@ export class ProjectDialogComponent implements OnInit {
       .updateProject({
         id: this.projectFormGroup.controls['id'].value,
         payload: {
+          ...(this.projectFormGroup.controls['title'].dirty
+            ? {
+                title: this.projectFormGroup.controls['title'].value,
+              }
+            : {}),
           ...(this.projectFormGroup.controls['description'].dirty
             ? {
                 description:
@@ -145,15 +159,17 @@ export class ProjectDialogComponent implements OnInit {
     this.projectFormGroup.controls['links'].patchValue([
       ...this.projectFormGroup.controls['links'].value,
       {
-        name: this.projectFormGroup.controls['newLinkName'].value,
-        url: this.projectFormGroup.controls['newLinkURL'].value,
+        name: this.linkFormGroup.controls['name'].value,
+        url: this.linkFormGroup.controls['url'].value,
       },
     ]);
-    this.projectFormGroup.controls['newLinkName'].reset();
-    this.projectFormGroup.controls['newLinkURL'].reset();
+    this.projectFormGroup.controls['links'].markAsDirty();
+    this.linkFormGroup.controls['name'].reset();
+    this.linkFormGroup.controls['url'].reset();
   }
 
   deleteLink(index: number): void {
     this.projectFormGroup.controls['links'].value.splice(index, 1);
+    this.projectFormGroup.controls['links'].markAsDirty();
   }
 }

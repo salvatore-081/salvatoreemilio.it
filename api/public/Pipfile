@@ -3,23 +3,20 @@ url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
+[requires]
+python_version = "3.10"
+
 [pipenv]
 allow_prereleases = true
 
 [packages]
-fastapi = "~=0.75"
-python-keycloak = "~=0.27.0"
-grpcio = "~=1.44.0"
-protobuf = "~=3.19.4"
-ariadne = "~=0.14.1"
+fastapi = "==0.82.0"
+python-keycloak = "==2.5.0"
+grpcio = "==1.48.1"
+protobuf = "==3.20.1"
+ariadne = "==0.16.0"
 loguru = "~=0.6.0"
 gunicorn = "~=20.1.0"
+uvicorn = {version = "==0.18.3", extras = ["standard"]}
 
 [dev-packages]
-
-[requires]
-python_version = "3.9"
-
-[packages.uvicorn]
-extras = [ "standard",]
-version = "~=0.17.6"

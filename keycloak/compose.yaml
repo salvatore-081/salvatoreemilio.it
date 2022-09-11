@@ -39,6 +39,7 @@ services:
       - "traefik.http.routers.keycloak.tls.certresolver=myresolver"
       - "traefik.http.routers.keycloak.entrypoints=websecure"
       - "traefik.docker.network=se-default"
+      - "traefik.http.routers.keycloak.middlewares=error-middleware"
 
   postgres:
     image: postgres:latest

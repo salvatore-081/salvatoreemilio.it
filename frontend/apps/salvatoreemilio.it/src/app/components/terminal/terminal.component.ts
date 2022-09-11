@@ -19,17 +19,17 @@ export class TerminalComponent implements OnInit, OnDestroy {
     new Map<string, { value: Function; description: string }>([
       ['HELP', { value: () => this.commandHelp(), description: '' }],
       [
-        'USER.NAME',
+        'NAME',
         {
           value: () => this.commandUserName(),
-          description: 'display user name',
+          description: 'display name',
         },
       ],
       [
-        'USER.EMAIL',
+        'EMAIL',
         {
           value: () => this.commandUserEmail(),
-          description: 'display user email',
+          description: 'display email',
         },
       ],
     ]);

@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: error
+    restart: unless-stopped
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx.default.conf:/etc/nginx/conf.d/default.conf
+      - ./html:/usr/share/nginx/html
+    networks:
+      - default
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
+        max-file: "3"
+        tag: "{{.Name}}"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.error.loadbalancer.server.port=18000"
+      - "traefik.http.routers.error.rule=Host(`error.salvatoreemilio.it`) || Host(`www.error.salvatoreemilio.it`) || HostRegexp(`{host:.+}`)"
+      - "traefik.http.routers.error.priority=1"
+      - "traefik.http.routers.error.tls.certresolver=myresolver"
+      - "traefik.http.routers.error.entrypoints=websecure"
+      - "traefik.http.routers.error.middlewares=error-middleware"
+      - "traefik.http.middlewares.error-middleware.errors.status=400-599"
+      - "traefik.http.middlewares.error-middleware.errors.service=error"
+      - "traefik.http.middlewares.error-middleware.errors.query=/index.html"
+
+networks:
+  default:
+    external: true
+    name: se-default

@@ -1,0 +1,78 @@
+.custom-icon {
+  background-size: contain !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  &.s {
+    width: 16px;
+    height: 16px;
+  }
+  &.m {
+    width: 24px;
+    height: 24px;
+  }
+  &.l {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.angular-icon {
+  background: url('/assets/icons/angular-icon.webp');
+}
+.ariadne-icon {
+  background: url('/assets/icons/ariadne-icon.png');
+}
+.fastapi-icon {
+  background: url('/assets/icons/fastapi-icon.svg');
+}
+.github-icon {
+  background: url('/assets/icons/github-icon.webp');
+}
+.go-icon {
+  background: url('/assets/icons/go-icon.svg');
+}
+.javascript-icon {
+  background: url('/assets/icons/javascript-icon.webp');
+}
+.graphql-icon {
+  background: url('/assets/icons/graphql-icon.webp');
+}
+.mongodb-icon {
+  background: url('/assets/icons/mongodb-icon.webp');
+}
+.rxjs-icon {
+  background: url('/assets/icons/rxjs-icon.png');
+}
+.docker-icon {
+  background: url('/assets/icons/docker-icon.png');
+}
+.ngrx-icon {
+  background: url('/assets/icons/ngrx-icon.svg');
+}
+.node-js-icon {
+  background: url('/assets/icons/nodejs-icon.webp');
+}
+.python-icon {
+  background: url('/assets/icons/python-icon.webp');
+}
+.react-icon {
+  background: url('/assets/icons/react-icon.webp');
+}
+.react-icon {
+  background: url('/assets/icons/react-icon.webp');
+}
+.redux-icon {
+  background: url('/assets/icons/redux-icon.svg');
+}
+.rest-api-icon {
+  background: url('/assets/icons/rest-api-icon.png');
+}
+.typescript-icon {
+  background: url('/assets/icons/typescript-icon.svg');
+}
+.html5-icon {
+  background: url('/assets/icons/html5-icon.webp');
+}
+.css3-icon {
+  background: url('/assets/icons/css3-icon.png');
+}

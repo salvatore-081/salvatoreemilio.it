@@ -22,6 +22,9 @@
           "apps/salvatoreemilio.it/src/styles.scss",
           "node_modules/primeicons/primeicons.css",
           "apps/salvatoreemilio.it/src/resources/themes/default/theme.scss",
+          "apps/salvatoreemilio.it/src/resources/themes/default/dialogs.scss",
+          "apps/salvatoreemilio.it/src/resources/themes/default/utils.scss",
+          "apps/salvatoreemilio.it/src/resources/themes/default/icons.scss",
           "node_modules/primeng/resources/primeng.min.css"
         ],
         "scripts": [],
