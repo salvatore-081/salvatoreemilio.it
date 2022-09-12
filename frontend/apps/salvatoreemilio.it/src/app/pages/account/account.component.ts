@@ -178,7 +178,7 @@ export class AccountComponent implements OnInit {
         error: (_) => {
           this.messageService.add({
             severity: 'error',
-            summary: 'Ops... qualcosa è andato storto!',
+            summary: 'Ops... something went wrong!',
           });
         },
       });
@@ -208,7 +208,7 @@ export class AccountComponent implements OnInit {
         error: (_) => {
           this.messageService.add({
             severity: 'error',
-            summary: 'Ops... qualcosa è andato storto!',
+            summary: 'Ops... something went wrong!',
           });
         },
       });

@@ -100,7 +100,7 @@ export class ProjectDialogComponent implements OnInit {
           console.error('updateProject error', error);
           this.messageService.add({
             severity: 'error',
-            summary: 'Ops... qualcosa è andato storto!',
+            summary: 'Ops... something went wrong!',
           });
           this.submitButtonDisabled = false;
         },
@@ -137,7 +137,7 @@ export class ProjectDialogComponent implements OnInit {
           console.error('addProject error', error);
           this.messageService.add({
             severity: 'error',
-            summary: 'Ops... qualcosa è andato storto!',
+            summary: 'Ops... something went wrong!',
           });
           this.submitButtonDisabled = false;
         },

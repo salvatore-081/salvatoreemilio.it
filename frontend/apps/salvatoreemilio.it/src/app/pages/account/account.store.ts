@@ -140,12 +140,12 @@ export class AccountStore extends ComponentStore<AccountState> {
         next: (_) =>
           this.messageService.add({
             severity: 'success',
-            summary: 'Profile picture modificata!',
+            summary: 'Profile picture updated!',
           }),
         error: (_) => {
           this.messageService.add({
             severity: 'error',
-            summary: 'Ops... qualcosa è andato storto!',
+            summary: 'Ops... something went wrong!',
           });
           this.updateProfilePictureHandleError();
         },
@@ -171,12 +171,12 @@ export class AccountStore extends ComponentStore<AccountState> {
         next: (_) =>
           this.messageService.add({
             severity: 'success',
-            summary: 'Name modificato!',
+            summary: 'Name updated!',
           }),
         error: (_) => {
           this.messageService.add({
             severity: 'error',
-            summary: 'Ops... qualcosa è andato storto!',
+            summary: 'Ops... something went wrong!',
           });
           this.updateNameHandleError();
         },
@@ -203,12 +203,12 @@ export class AccountStore extends ComponentStore<AccountState> {
         next: (_) =>
           this.messageService.add({
             severity: 'success',
-            summary: 'Surname modificato!',
+            summary: 'Surname updated!',
           }),
         error: (_) => {
           this.messageService.add({
             severity: 'error',
-            summary: 'Ops... qualcosa è andato storto!',
+            summary: 'Ops... something went wrong!',
           });
           this.updateSurnameHandleError();
         },
@@ -235,12 +235,12 @@ export class AccountStore extends ComponentStore<AccountState> {
         next: (_) =>
           this.messageService.add({
             severity: 'success',
-            summary: 'Phone number modificato!',
+            summary: 'Phone number updated!',
           }),
         error: (_) => {
           this.messageService.add({
             severity: 'error',
-            summary: 'Ops... qualcosa è andato storto!',
+            summary: 'Ops... something went wrong!',
           });
           this.updatePhoneNumberHandleError();
         },
@@ -267,12 +267,12 @@ export class AccountStore extends ComponentStore<AccountState> {
         next: (_) =>
           this.messageService.add({
             severity: 'success',
-            summary: 'Location modificata!',
+            summary: 'Location updated!',
           }),
         error: (_) => {
           this.messageService.add({
             severity: 'error',
-            summary: 'Ops... qualcosa è andato storto!',
+            summary: 'Ops... something went wrong!',
           });
           this.updateLocationHandleError();
         },
