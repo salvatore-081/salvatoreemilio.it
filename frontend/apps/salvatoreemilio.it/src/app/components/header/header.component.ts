@@ -18,12 +18,12 @@ export class HeaderComponent implements OnInit {
 
   items: MenuItem[] = [
     {
-      label: 'Gestisci Account',
+      label: 'Manage account',
       icon: 'pi pi-user-edit',
       command: () => this.router.navigate(['/account']),
     },
     {
-      label: 'Cambia Account',
+      label: 'Switch account',
       icon: 'pi pi-users',
       command: () => {
         this.router.navigate(['/accounts']);

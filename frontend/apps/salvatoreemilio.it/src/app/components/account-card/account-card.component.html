@@ -16,9 +16,7 @@
       <button
         pButton
         type="button"
-        label="{{
-          user.current ? 'Gestisci l\'account' : 'Utilizza questo account'
-        }}"
+        label="{{ user.current ? 'Manage account' : 'Switch to this account' }}"
         class="p-button-sm p-button-text user-cta-button"
         (click)="user.current ? navigateToAccount() : switchAccount()"
       ></button>

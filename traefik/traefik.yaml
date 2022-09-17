@@ -29,6 +29,7 @@ http:
               - "secure.salvatoreemilio.it"
               - "office.salvatoreemilio.it"
               - 'error.salvatoreemilio.it'
+              - 'curt.salvatoreemilio.it'
 
 entryPoints:
   web:
