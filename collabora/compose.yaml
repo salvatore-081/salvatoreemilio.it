@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   collabora:
-    image: "collabora/code:22.05.5.4.1"
+    image: "collabora/code:22.05.7.2.1"
     container_name: "collabora"
     restart: unless-stopped
     environment:

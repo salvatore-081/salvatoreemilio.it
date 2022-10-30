@@ -2,9 +2,9 @@ version: "3.8"
 
 services:
   keycloak:
-    image: quay.io/keycloak/keycloak:latest
+    image: quay.io/keycloak/keycloak:19.0.3
     container_name: keycloak
-    entrypoint: ["/opt/keycloak/bin/kc.sh", "start", "--hostname-strict-https=false", "--spi-login-protocol-openid-connect-legacy-logout-redirect-uri=true"]
+    entrypoint: ["/opt/keycloak/bin/kc.sh", "start", "--hostname-strict-https=false"]
     restart: unless-stopped
     environment:
       # KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
@@ -42,7 +42,7 @@ services:
       - "traefik.http.routers.keycloak.middlewares=error-middleware"
 
   postgres:
-    image: postgres:latest
+    image: postgres:14.5
     container_name: postgres
     command: [ "-p 12100" ]
     restart: unless-stopped
