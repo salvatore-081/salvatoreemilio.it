@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   nginx:
-    image: nginx:alpine
+    image: nginx:1.23.2
     container_name: error
     restart: unless-stopped
     volumes:

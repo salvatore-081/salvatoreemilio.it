@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   vaultwarden:
-    image: "vaultwarden/server:1.25.2-alpine"
+    image: "vaultwarden/server:1.26.0-alpine"
     container_name: "vaultwarden"
     restart: unless-stopped
     environment:
@@ -43,7 +43,7 @@ services:
       - "traefik.docker.network=se-default"
 
   postgres:
-    image: postgres:latest
+    image: postgres:14.5
     container_name: vaultwarden-postgres
     command: [ "-p 16200" ]
     restart: unless-stopped
