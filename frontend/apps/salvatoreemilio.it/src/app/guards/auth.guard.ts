@@ -100,7 +100,6 @@ export class AuthGuard extends KeycloakAuthGuard implements CanActivate {
               catchError(() => of(false))
             );
           }
-
           return from(this.keycloakAngular.getToken()).pipe(
             map(
               (token) =>
@@ -111,10 +110,13 @@ export class AuthGuard extends KeycloakAuthGuard implements CanActivate {
               if (value) {
                 return of(value);
               }
-              this.keycloakAngular.clearToken();
               return of(
                 this.keycloakAngular.logout(
-                  `${window.location.origin}/account?email=${user.email}`
+                  `${window.location.origin}/account?email=${
+                    user.email
+                  }&id_token_hint=${
+                    this.keycloakAngular.getKeycloakInstance()?.idToken
+                  }`
                 )
               ).pipe(map(() => false));
             }),
