@@ -7,7 +7,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { ApolloLink, InMemoryCache } from '@apollo/client/core';
 import { HttpLink, HttpLinkHandler } from 'apollo-angular/http';
-import { WebSocketLink } from '@apollo/client/link/ws';
 import { split } from '@apollo/client/core';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { StoreModule } from '@ngrx/store';
@@ -28,6 +27,8 @@ import { LetModule } from '@ngrx/component';
 import { MessageService } from 'primeng/api';
 import { SkeletonModule } from 'primeng/skeleton';
 import { ProjectsEffects } from './state/effects/projects.effects';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { createClient } from 'graphql-ws';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -93,19 +94,18 @@ const PRIMENG_MODULES = [
           uri: environment.graphql.httpLink,
         });
 
-        const WS: WebSocketLink = new WebSocketLink({
-          uri: environment.graphql.wsLink,
-          options: {
-            reconnect: true,
-          },
-        });
+        const WS: GraphQLWsLink = new GraphQLWsLink(
+          createClient({
+            url: environment.graphql.wsLink,
+          })
+        );
 
         const LINK: ApolloLink = split(
           ({ query }) => {
-            const { kind, operation }: { kind: string; operation?: string } =
-              getMainDefinition(query);
+            const call = getMainDefinition(query);
             return (
-              kind === 'OperationDefinition' && operation === 'subscription'
+              call.kind === 'OperationDefinition' &&
+              call.operation === 'subscription'
             );
           },
           WS,
@@ -113,8 +113,8 @@ const PRIMENG_MODULES = [
         );
 
         return {
-          cache: new InMemoryCache({ addTypename: false }),
           link: LINK,
+          cache: new InMemoryCache({ addTypename: false }),
         };
       },
       deps: [HttpLink],
