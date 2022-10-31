@@ -21,6 +21,7 @@ from loguru import logger
 from graphql import GraphQLError
 from gunicorn.glogging import Logger
 from sys import stdout
+from ariadne.asgi.handlers import GraphQLTransportWSHandler
 
 CONFIG_PATH: str = "config.json"
 
@@ -101,7 +102,7 @@ class Application():
                 )
 
             graphqlApp = GraphQL(make_executable_schema(
-                SCHEMA, newQuery(self.appState), newMutation(self.appState), newSubscription(self.appState), newBase64Scalar()))
+                SCHEMA, newQuery(self.appState), newMutation(self.appState), newSubscription(self.appState), newBase64Scalar()), websocket_handler=GraphQLTransportWSHandler())
 
             app.mount("/graphql", graphqlApp)
             return app
