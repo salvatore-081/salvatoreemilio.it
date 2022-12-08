@@ -43,7 +43,7 @@ services:
       - "traefik.docker.network=se-default"
 
   postgres:
-    image: postgres:15.0
+    image: postgres:15.1
     container_name: vaultwarden-postgres
     command: [ "-p 16200" ]
     restart: unless-stopped
