@@ -28,7 +28,7 @@ services:
         tag: "{{.Name}}"
 
   nextcloud:
-    image: nextcloud:25.0.1-fpm-alpine
+    image: nextcloud:25.0.2-fpm-alpine
     container_name: nextcloud
     restart: always
     volumes:
@@ -81,7 +81,7 @@ services:
       - "traefik.docker.network=se-default"
 
   nextcloud-cron:
-    image: nextcloud:25.0.1-fpm-alpine
+    image: nextcloud:25.0.2-fpm-alpine
     container_name: nextcloud-cron
     restart: always
     volumes:
