@@ -15,20 +15,14 @@ import { APP_REDUCERS } from './app.state';
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from './state/effects';
 import { AppRoutingModule } from './app-routing.module';
-import { HeaderComponent } from './components/header/header.component';
 import { ComponentStore } from '@ngrx/component-store';
-import { AvatarModule } from 'primeng/avatar';
-import { MenuModule } from 'primeng/menu';
-import { ProgressBarModule } from 'primeng/progressbar';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
-import { ButtonModule } from 'primeng/button';
-import { LetModule } from '@ngrx/component';
 import { MessageService } from 'primeng/api';
-import { SkeletonModule } from 'primeng/skeleton';
 import { ProjectsEffects } from './state/effects/projects.effects';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
+import { HeaderComponent } from './components/header/header.component';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -48,22 +42,15 @@ function initializeKeycloak(keycloak: KeycloakService) {
     });
 }
 
-const PRIMENG_MODULES = [
-  AvatarModule,
-  MenuModule,
-  ProgressBarModule,
-  ButtonModule,
-  SkeletonModule,
-];
+const STANDALONE_COMPONENTS = [HeaderComponent];
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     KeycloakAngularModule,
-    LetModule,
     ApolloModule,
     HttpClientModule,
     StoreModule.forRoot(APP_REDUCERS),
@@ -73,7 +60,7 @@ const PRIMENG_MODULES = [
       logOnly: environment.production,
       autoPause: true,
     }),
-    PRIMENG_MODULES,
+    ...STANDALONE_COMPONENTS,
   ],
   providers: [
     {

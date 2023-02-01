@@ -1,7 +1,0 @@
-{
-  "version": 2,
-  "projects": {
-    "salvatoreemilio.it": "apps/salvatoreemilio.it",
-    "salvatoreemilio.it-e2e": "apps/salvatoreemilio.it-e2e"
-  }
-}

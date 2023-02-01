@@ -11,25 +11,20 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
 import { FileUploadModule } from 'primeng/fileupload';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
-import { ProjectDialogComponent } from './dialogs/project-dialog/project-dialog.component';
-import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ChipsModule } from 'primeng/chips';
 import { TableModule } from 'primeng/table';
-import { ProjectCardModule } from '../../components/project-card/project-card.module';
 import { BlockUIModule } from 'primeng/blockui';
 import { PanelModule } from 'primeng/panel';
 import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
-
-const MODULES = [ProjectCardModule];
+import { ProjectCardComponent } from '../../components/project-card/project-card.component';
+import { ProjectDialogComponent } from './dialogs/project-dialog/project-dialog.component';
 
 const PRIMENG_MODULES = [
-  TableModule,
   SkeletonModule,
   InputTextModule,
-  InputTextareaModule,
   AvatarModule,
-  FileUploadModule,
   ButtonModule,
+  FileUploadModule,
   ToastModule,
   DynamicDialogModule,
   ChipsModule,
@@ -38,19 +33,21 @@ const PRIMENG_MODULES = [
   PanelModule,
 ];
 
+const STANDALONE_COMPONENTS = [
+  ProjectCardComponent,
+  ConfirmDialogComponent,
+  ProjectDialogComponent,
+];
+
 @NgModule({
-  declarations: [
-    AccountComponent,
-    ProjectDialogComponent,
-    ConfirmDialogComponent,
-  ],
+  declarations: [AccountComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     AccountRoutingModule,
     LetModule,
     ...PRIMENG_MODULES,
-    ...MODULES,
+    ...STANDALONE_COMPONENTS,
   ],
 })
 export class AccountModule {}
