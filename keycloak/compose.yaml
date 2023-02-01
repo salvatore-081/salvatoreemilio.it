@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   keycloak:
-    image: quay.io/keycloak/keycloak:20.0.2
+    image: quay.io/keycloak/keycloak:20.0.3
     container_name: keycloak
     entrypoint: ["/opt/keycloak/bin/kc.sh", "start", "--hostname-strict-https=false"]
     restart: unless-stopped
