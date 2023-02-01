@@ -12,12 +12,14 @@ import { AvatarModule } from 'primeng/avatar';
 import { MenuModule } from 'primeng/menu';
 import { CommonModule } from '@angular/common';
 import { LetModule } from '@ngrx/component';
+import { ButtonModule } from 'primeng/button';
 
 const NG_MODULES = [
   ProgressBarModule,
   SkeletonModule,
   AvatarModule,
   MenuModule,
+  ButtonModule,
 ];
 
 @Component({
