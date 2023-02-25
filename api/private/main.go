@@ -7,9 +7,7 @@ import (
 	"strings"
 
 	grpczerolog "github.com/grpc-ecosystem/go-grpc-middleware/providers/zerolog/v2"
-	middleware "github.com/grpc-ecosystem/go-grpc-middleware/v2"
 	"github.com/grpc-ecosystem/go-grpc-middleware/v2/interceptors/logging"
-	"github.com/grpc-ecosystem/go-grpc-middleware/v2/interceptors/tags"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/salvatore.081/salvatoreemilio-it/models"
@@ -80,12 +78,10 @@ func main() {
 	}
 
 	s := grpc.NewServer(
-		middleware.WithUnaryServerChain(
-			tags.UnaryServerInterceptor(),
+		grpc.ChainUnaryInterceptor(
 			logging.UnaryServerInterceptor(grpczerolog.InterceptorLogger(log.Logger)),
 		),
-		middleware.WithStreamServerChain(
-			tags.StreamServerInterceptor(),
+		grpc.ChainStreamInterceptor(
 			logging.StreamServerInterceptor(grpczerolog.InterceptorLogger(log.Logger)),
 		))
 
