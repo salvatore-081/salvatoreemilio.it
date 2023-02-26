@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   nextcloud-mariadb:
-    image: mariadb:10.10.2
+    image: mariadb:10.11.2
     container_name: nextcloud-mariadb
     restart: always
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
@@ -28,7 +28,7 @@ services:
         tag: "{{.Name}}"
 
   nextcloud:
-    image: nextcloud:25.0.3-fpm-alpine
+    image: nextcloud:25.0.4-fpm-alpine
     container_name: nextcloud
     restart: always
     volumes:
@@ -53,7 +53,7 @@ services:
         tag: "{{.Name}}"
 
   nextcloud-nginx:
-    image: nginx:1.23.2
+    image: nginx:1.23.3
     container_name: nextcloud-nginx
     restart: always
     volumes:
@@ -81,7 +81,7 @@ services:
       - "traefik.docker.network=se-default"
 
   nextcloud-cron:
-    image: nextcloud:25.0.3-fpm-alpine
+    image: nextcloud:25.0.4-fpm-alpine
     container_name: nextcloud-cron
     restart: always
     volumes:
