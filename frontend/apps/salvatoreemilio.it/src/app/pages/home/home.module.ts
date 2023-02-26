@@ -4,22 +4,21 @@ import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { LetModule } from '@ngrx/component';
 import { TerminalComponent } from '../../components/terminal/terminal.component';
-import { TerminalModule } from 'primeng/terminal';
 import { SkeletonModule } from 'primeng/skeleton';
-import { ProjectCardModule } from '../../components/project-card/project-card.module';
+import { ProjectCardComponent } from '../../components/project-card/project-card.component';
 
-const PRIMENG_MODULES = [TerminalModule, SkeletonModule];
+const PRIMENG_MODULES = [SkeletonModule];
 
-const MODULES = [ProjectCardModule];
+const STANDALONE_COMPONENTS = [ProjectCardComponent, TerminalComponent];
 
 @NgModule({
-  declarations: [HomeComponent, TerminalComponent],
+  declarations: [HomeComponent],
   imports: [
     CommonModule,
     HomeRoutingModule,
     LetModule,
     ...PRIMENG_MODULES,
-    ...MODULES,
+    ...STANDALONE_COMPONENTS,
   ],
 })
 export class HomeModule {}

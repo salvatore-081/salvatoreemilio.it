@@ -1,17 +1,29 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { SELECT_USER_EMAIL } from 'apps/salvatoreemilio.it/src/app/app.state';
 import { GraphqlService } from 'apps/salvatoreemilio.it/src/app/services/graphql.service';
 import { UtilsService } from 'apps/salvatoreemilio.it/src/app/services/utils.service';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { FileUpload } from 'primeng/fileupload';
+import { FileUpload, FileUploadModule } from 'primeng/fileupload';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TableModule } from 'primeng/table';
 import { first, switchMap, take } from 'rxjs';
+
+const PRIMENG_MODULES = [InputTextareaModule, FileUploadModule, TableModule];
 
 @Component({
   templateUrl: './project-dialog.component.html',
   styleUrls: ['./project-dialog.component.scss'],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, ...PRIMENG_MODULES],
 })
 export class ProjectDialogComponent implements OnInit {
   update: boolean = false;

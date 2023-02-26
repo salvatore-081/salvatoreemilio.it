@@ -5,10 +5,10 @@ import { AccountsRoutingModule } from './accounts-routing.module';
 import { CardModule } from 'primeng/card';
 import { SkeletonModule } from 'primeng/skeleton';
 import { AvatarModule } from 'primeng/avatar';
-import { AccountCardComponent } from '../../components/account-card/account-card.component';
 import { DividerModule } from 'primeng/divider';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
+import { AccountCardComponent } from '../../components/account-card/account-card.component';
 
 const PRIMENG_MODULES = [
   CardModule,
@@ -19,8 +19,15 @@ const PRIMENG_MODULES = [
   ToastModule,
 ];
 
+const STANDALONE_COMPONENTS = [AccountCardComponent];
+
 @NgModule({
-  declarations: [AccountsComponent, AccountCardComponent],
-  imports: [CommonModule, AccountsRoutingModule, PRIMENG_MODULES],
+  declarations: [AccountsComponent],
+  imports: [
+    CommonModule,
+    AccountsRoutingModule,
+    ...PRIMENG_MODULES,
+    ...STANDALONE_COMPONENTS,
+  ],
 })
 export class AccountsModule {}

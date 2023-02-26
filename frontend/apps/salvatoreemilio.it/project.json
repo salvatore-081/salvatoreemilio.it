@@ -96,12 +96,13 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/salvatoreemilio.it"],
+      "outputs": ["{workspaceRoot}/coverage/apps/salvatoreemilio.it"],
       "options": {
         "jestConfig": "apps/salvatoreemilio.it/jest.config.ts",
         "passWithNoTests": true
       }
     }
   },
-  "tags": []
+  "tags": [],
+  "name": "salvatoreemilio.it"
 }

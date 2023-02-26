@@ -4,19 +4,19 @@ verify_ssl = true
 name = "pypi"
 
 [requires]
-python_version = "3.10"
+python_version = "3.11.0"
 
 [pipenv]
 allow_prereleases = true
 
 [packages]
-fastapi = "==0.82.0"
-python-keycloak = "==2.5.0"
-grpcio = "==1.48.1"
-protobuf = "==3.20.1"
-ariadne = "==0.16.0"
+fastapi = "==0.88.0"
+python-keycloak = "==2.8.0"
+grpcio = "==1.50.0"
+protobuf = "==4.21.9"
+ariadne = "==0.17.0"
 loguru = "~=0.6.0"
 gunicorn = "~=20.1.0"
-uvicorn = {version = "==0.18.3", extras = ["standard"]}
+uvicorn = {version = "==0.20.0", extras = ["standard"]}
 
 [dev-packages]

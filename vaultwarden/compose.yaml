@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   vaultwarden:
-    image: "vaultwarden/server:1.26.0-alpine"
+    image: "vaultwarden/server:1.27.0-alpine"
     container_name: "vaultwarden"
     restart: unless-stopped
     environment:
@@ -43,12 +43,12 @@ services:
       - "traefik.docker.network=se-default"
 
   postgres:
-    image: postgres:14.5
+    image: postgres:15.1
     container_name: vaultwarden-postgres
     command: [ "-p 16200" ]
     restart: unless-stopped
     volumes:
-      - se-vaultwarden-postgres:/var/lib/postgresql/data
+      - se-vaultwarden-postgres-15:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: vaultwarden
       POSTGRES_USER: vaultwarden
@@ -65,7 +65,7 @@ services:
 volumes:
   se-vaultwarden:
     external: true
-  se-vaultwarden-postgres:
+  se-vaultwarden-postgres-15:
     external: true
 networks:
   default:

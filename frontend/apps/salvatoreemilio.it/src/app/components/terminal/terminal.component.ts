@@ -1,15 +1,21 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { TerminalService } from 'primeng/terminal';
+import { LetModule } from '@ngrx/component';
+import { SkeletonModule } from 'primeng/skeleton';
+import { TerminalModule, TerminalService } from 'primeng/terminal';
 import { first, map, Observable, Subject, takeUntil } from 'rxjs';
 import { User } from '../../models';
 import { RestService } from '../../services/rest.service';
 import { TerminalStore } from './terminal.store';
 
+const PRIMENG_MODULES = [SkeletonModule, TerminalModule];
 @Component({
   selector: 'terminal',
   templateUrl: './terminal.component.html',
   styleUrls: ['./terminal.component.scss'],
   providers: [TerminalService, TerminalStore],
+  standalone: true,
+  imports: [CommonModule, LetModule, ...PRIMENG_MODULES],
 })
 export class TerminalComponent implements OnInit, OnDestroy {
   destroy$: Subject<void> = new Subject<void>();

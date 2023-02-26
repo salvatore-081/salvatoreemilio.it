@@ -11,7 +11,7 @@ services:
       - api
       - api-db
     depends_on:
-      - rethinkdb
+      - private-api-rethinkdb
     logging:
       driver: "json-file"
       options:

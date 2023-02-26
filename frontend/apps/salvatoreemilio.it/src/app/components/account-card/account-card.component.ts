@@ -1,11 +1,18 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { AvatarModule } from 'primeng/avatar';
+import { ButtonModule } from 'primeng/button';
+import { DividerModule } from 'primeng/divider';
 import { AccountsUser } from '../../pages/accounts/accounts.store';
 
+const PRIMENG_MODULES = [AvatarModule, DividerModule, ButtonModule];
 @Component({
   selector: 'account-card',
   templateUrl: './account-card.component.html',
   styleUrls: ['./account-card.component.scss'],
+  standalone: true,
+  imports: [CommonModule, ...PRIMENG_MODULES],
 })
 export class AccountCardComponent implements OnInit {
   @Input() user: AccountsUser = {
