@@ -20,7 +20,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.curtnativeandroidclient-privacy.loadbalancer.server.port=19900"
-      - "traefik.http.routers.curtnativeandroidclient-privacy.rule=Host(`error.salvatoreemilio.it`) || Host(`www.error.salvatoreemilio.it`)"
+      - "traefik.http.routers.curtnativeandroidclient-privacy.rule=Host(`curtnativeandroidclient.privacy.salvatoreemilio.it`) || Host(`www.curtnativeandroidclient.privacy.salvatoreemilio.it`)"
       - "traefik.http.routers.curtnativeandroidclient-privacy.tls.certresolver=myresolver"
       - "traefik.http.routers.curtnativeandroidclient-privacy.entrypoints=websecure"
       - "traefik.docker.network=se-default"
