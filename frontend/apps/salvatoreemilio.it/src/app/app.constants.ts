@@ -131,6 +131,34 @@ export const PROJECT_TAGS: Map<string, ProjectTag> = new Map<
     },
   ],
   [
+    'android',
+    {
+      iconClass: 'android-icon',
+      url: 'https://www.android.com',
+    },
+  ],
+  [
+    'jetpack compose',
+    {
+      iconClass: 'jetpack-compose-icon',
+      url: 'https://developer.android.com/jetpack/compose',
+    },
+  ],
+  [
+    'kotlin',
+    {
+      iconClass: 'kotlin-icon',
+      url: 'https://kotlinlang.org',
+    },
+  ],
+  [
+    'google play',
+    {
+      iconClass: 'google-play-icon',
+      url: '',
+    },
+  ],
+  [
     'css3',
     {
       iconClass: 'css3-icon',

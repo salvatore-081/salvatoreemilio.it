@@ -16,8 +16,14 @@ import { FileUpload, FileUploadModule } from 'primeng/fileupload';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { TableModule } from 'primeng/table';
 import { first, switchMap, take } from 'rxjs';
+import { ChipsModule } from 'primeng/chips';
 
-const PRIMENG_MODULES = [InputTextareaModule, FileUploadModule, TableModule];
+const PRIMENG_MODULES = [
+  InputTextareaModule,
+  FileUploadModule,
+  TableModule,
+  ChipsModule,
+];
 
 @Component({
   templateUrl: './project-dialog.component.html',
